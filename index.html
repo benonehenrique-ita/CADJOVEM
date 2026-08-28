@@ -61,7 +61,7 @@ function processarArquivoCSV(input) {
         reader.readAsText(file, 'UTF-8');
     }
 
-    function atualizarTabelaEBusca() {
+   function atualizarTabelaEBusca() {
         const tbody = document.getElementById('tabelaRegistros');
         const datalist = document.getElementById('listaAlunos');
         tbody.innerHTML = '';
@@ -73,7 +73,7 @@ function processarArquivoCSV(input) {
             tbody.appendChild(tr);
 
             const option = document.createElement('option');
-            // Agora exibe o Código e o Nome correto na lista de busca
+            // Garante que o nome venha na frente da data/código na listagem de sugestões
             option.value = `[${aluno.codigo}] ${aluno.nome_aluno}`;
             datalist.appendChild(option);
         });
