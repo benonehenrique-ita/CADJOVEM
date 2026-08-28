@@ -760,46 +760,24 @@
             const linhas = conteudo.split(/\r\n|\n/);
             let importadosCount = 0;
 
-            // Tenta identificar o cabeçalho se houver
-            let indices = { codigo: 0, nome: 1, telefone: 2, curso: 3 };
-
             linhas.forEach((linha, index) => {
                 if (!linha.trim()) return;
-                
-                // Limpa aspas extras que o Excel exporta (ex: "TEXTO") e divide por vírgula ou ponto e vírgula
+
+                // Divide a linha considerando vírgula ou ponto e vírgula e remove aspas duplas excedentes
                 const colunas = linha.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)|;(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(col => {
                     return col.trim().replace(/^"(.*)"$/, '$1').trim();
                 });
 
-                if (index === 0) {
-                    // Verifica se a primeira linha é um cabeçalho reconhecível
-                    const cabecalhoStr = colunas.join(' ').toUpperCase();
-                    if (cabecalhoStr.includes('NOME') || cabecalhoStr.includes('CÓDIGO') || cabecalhoStr.includes('ALUNO')) {
-                        colunas.forEach((col, cIdx) => {
-                            let cUp = col.toUpperCase();
-                            if (cUp.includes('COD')) indices.codigo = cIdx;
-                            if (cUp.includes('NOME') || cUp.includes('ALUNO')) indices.nome = cIdx;
-                            if (cUp.includes('TEL') || cUp.includes('FONE')) indices.telefone = cIdx;
-                            if (cUp.includes('CURSO')) indices.curso = cIdx;
-                        });
-                        return; // Pula a linha do cabeçalho
-                    }
+                // Pula a linha se for o cabeçalho descritivo
+                if (index === 0 && (colunas[0].toUpperCase().includes('COD') || colunas[1].toUpperCase().includes('NOME'))) {
+                    return;
                 }
 
-                let codigo = colunas[indices.codigo] ? colunas[indices.codigo] : gerarProximoCodigo();
-                let nome = colunas[indices.nome] ? colunas[indices.nome] : '';
-                let telefone = colunas[indices.telefone] ? colunas[indices.telefone] : '';
-                let curso = colunas[indices.curso] ? colunas[indices.curso] : '';
-
-                // Se o nome parecer uma data ou estiver vazio, tenta achar alguma coluna que pareça um nome real
-                if (!isNaN(Date.parse(nome)) || !nome || nome.length < 3) {
-                    for (let i = 0; i < colunas.length; i++) {
-                        if (colunas[i] && colunas[i].length > 3 && isNaN(Date.parse(colunas[i])) && !colunas[i].includes('@')) {
-                            nome = colunas[i];
-                            break;
-                        }
-                    }
-                }
+                // Ordem fixa garantida: [0] Código, [1] Nome, [2] Telefone, [3] Curso
+                let codigo = colunas[0] ? colunas[0] : gerarProximoCodigo();
+                let nome = colunas[1] ? colunas[1] : '';
+                let telefone = colunas[2] ? colunas[2] : '';
+                let curso = colunas[3] ? colunas[3] : '';
 
                 if (nome && nome.toUpperCase() !== 'NOME DO ALUNO') {
                     const novoAluno = {
