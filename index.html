@@ -362,8 +362,8 @@
 <div id="loginOverlay">
     <div class="login-card">
         <h2>Acesso ao Sistema</h2>
-        <input type="text" id="loginUsuario" placeholder="Usuário" autocomplete="off" name="no-username">
-        <input type="password" id="loginSenha" placeholder="Senha" autocomplete="new-password" name="no-password">
+        <input type="text" id="loginUsuario" placeholder="Usuário" autocomplete="off" name="no-username" onkeypress="if(event.key==='Enter') realizarLogin()">
+        <input type="password" id="loginSenha" placeholder="Senha" autocomplete="new-password" name="no-password" onkeypress="if(event.key==='Enter') realizarLogin()">
         <button onclick="realizarLogin()">Entrar</button>
     </div>
 </div>
@@ -748,6 +748,56 @@
         const codigosNum = alunosSalvos.map(a => parseInt(a.codigo)).filter(n => !isNaN(n));
         if (codigosNum.length === 0) return "1001";
         return (Math.max(...codigosNum) + 1).toString();
+    }
+
+    function processarArquivoCSV(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const conteudo = e.target.result;
+            const linhas = conteudo.split(/\r\n|\n/);
+            let importadosCount = 0;
+
+            linhas.forEach((linha, index) => {
+                if (index === 0 || !linha.trim()) return; // Ignora cabeçalho ou linhas vazias
+                const colunas = linha.split(/,|;/); // Aceita vírgula ou ponto e vírgula como separador
+
+                if (colunas.length >= 2) {
+                    let codigo = colunas[0] ? colunas[0].trim() : gerarProximoCodigo();
+                    let nome = colunas[1] ? colunas[1].trim() : '';
+                    let telefone = colunas[2] ? colunas[2].trim() : '';
+                    let curso = colunas[3] ? colunas[3].trim() : '';
+
+                    if (nome) {
+                        const novoAluno = {
+                            codigo: codigo,
+                            data_inclusao: new Date().toISOString().split('T')[0],
+                            nome_aluno: nome,
+                            telefone: telefone,
+                            curso: curso,
+                            status: "MATRICULADO"
+                        };
+
+                        // Evita duplicar se o código já existir
+                        const existe = alunosSalvos.findIndex(a => a.codigo === codigo);
+                        if (existe >= 0) {
+                            alunosSalvos[existe] = {...alunosSalvos[existe], ...novoAluno};
+                        } else {
+                            alunosSalvos.push(novoAluno);
+                        }
+                        importadosCount++;
+                    }
+                }
+            });
+
+            localStorage.setItem('alunos_db', JSON.stringify(alunosSalvos));
+            atualizarTabelaEBusca();
+            alert(`${importadosCount} registros importados com sucesso!`);
+            input.value = ''; // Limpa o input file
+        };
+        reader.readAsText(file, 'UTF-8');
     }
 
     document.getElementById('formMatricula').addEventListener('submit', function(e) {
