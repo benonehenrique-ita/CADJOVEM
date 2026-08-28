@@ -358,6 +358,7 @@
 </head>
 <body>
 
+<!-- Tela de Login -->
 <div id="loginOverlay">
     <div class="login-card">
         <h2>Acesso ao Sistema</h2>
@@ -615,6 +616,7 @@
     </div>
 </div>
 
+<!-- Modal do Relatório -->
 <div id="reportModal" class="modal">
     <div class="report-content">
         <div class="report-header">
@@ -649,6 +651,7 @@
     </div>
 </div>
 
+<!-- Modal de Mudar Senha -->
 <div id="passwordModal" class="modal">
     <div class="report-content" style="max-width: 400px;">
         <div class="report-header">
@@ -675,6 +678,7 @@
     let alunosSalvos = JSON.parse(localStorage.getItem('alunos_db')) || [];
     let senhaSistema = localStorage.getItem('sistema_senha') || 'juventudes';
 
+    // Força o campo de usuário a ficar sempre minúsculo
     document.getElementById('loginUsuario').addEventListener('input', function(e) {
         this.value = this.value.toLowerCase();
     });
@@ -759,36 +763,27 @@
             linhas.forEach((linha, index) => {
                 if (!linha.trim()) return;
 
-                // Divide a linha por ponto e vírgula ou vírgula, removendo aspas duplas externas
-                const colunas = linha.split(/;(?=(?:(?:[^"]*"){2})*[^"]*$)|,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(col => {
+                // Divide a linha considerando vírgula ou ponto e vírgula e remove aspas duplas excedentes
+                const colunas = linha.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)|;(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(col => {
                     return col.trim().replace(/^"(.*)"$/, '$1').trim();
                 });
 
-                // Pula a linha de cabeçalho
-                if (index === 0 && (colunas[0].toUpperCase().includes('COD') || colunas[2].toUpperCase().includes('NOME'))) {
+                // Pula a linha se for o cabeçalho descritivo
+                if (index === 0 && (colunas[0].toUpperCase().includes('COD') || colunas[1].toUpperCase().includes('NOME'))) {
                     return;
                 }
 
-                // Mapeamento correto com base nas colunas do seu arquivo:
-                // [0] Código | [1] Data Inclusão | [2] Nome | [8] Endereço | [9] Número | [10] Bairro | [11] Cidade | [14] Telefone | [26] Curso
+                // Ordem fixa garantida: [0] Código, [1] Nome, [2] Telefone, [3] Curso
                 let codigo = colunas[0] ? colunas[0] : gerarProximoCodigo();
-                let nome = colunas[2] ? colunas[2] : '';
-                let endereco = colunas[8] ? colunas[8] : '';
-                let numero = colunas[9] ? colunas[9] : '';
-                let bairro = colunas[10] ? colunas[10] : '';
-                let cidade = colunas[11] ? colunas[11] : '';
-                let telefone = colunas[14] ? colunas[14] : '';
-                let curso = colunas[26] ? colunas[26] : '';
+                let nome = colunas[1] ? colunas[1] : '';
+                let telefone = colunas[2] ? colunas[2] : '';
+                let curso = colunas[3] ? colunas[3] : '';
 
-                if (nome && nome.toUpperCase() !== 'NOME DO ALUNO:' && nome.toUpperCase() !== 'NOME DO ALUNO') {
+                if (nome && nome.toUpperCase() !== 'NOME DO ALUNO') {
                     const novoAluno = {
                         codigo: codigo,
                         data_inclusao: new Date().toISOString().split('T')[0],
                         nome_aluno: nome,
-                        endereco: endereco,
-                        numero: numero,
-                        bairro: bairro,
-                        cidade: cidade,
                         telefone: telefone,
                         curso: curso,
                         status: "MATRICULADO"
@@ -946,10 +941,6 @@
         if (aluno) {
             document.getElementById('codigo').value = aluno.codigo;
             document.getElementById('nome_aluno').value = aluno.nome_aluno;
-            document.getElementById('endereco').value = aluno.endereco || '';
-            document.getElementById('numero').value = aluno.numero || '';
-            document.getElementById('bairro').value = aluno.bairro || '';
-            document.getElementById('cidade').value = aluno.cidade || '';
             document.getElementById('curso').value = aluno.curso || '';
             document.getElementById('telefone').value = aluno.telefone || '';
         } else {
