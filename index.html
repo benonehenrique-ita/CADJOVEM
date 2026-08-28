@@ -55,7 +55,7 @@
             border: 1px solid #cbd5e1;
             border-radius: 4px;
             font-size: 14px;
-            text-transform: none !important; /* Força o campo a não alterar para maiúsculas */
+            text-transform: none !important;
         }
 
         .login-card button {
@@ -362,8 +362,8 @@
 <div id="loginOverlay">
     <div class="login-card">
         <h2>Acesso ao Sistema</h2>
-        <input type="text" id="loginUsuario" placeholder="Usuário (cadjovem)" autocomplete="off">
-        <input type="password" id="loginSenha" placeholder="Senha (juventudes)" autocomplete="off">
+        <input type="text" id="loginUsuario" placeholder="Usuário" autocomplete="off" name="no-username">
+        <input type="password" id="loginSenha" placeholder="Senha" autocomplete="new-password" name="no-password">
         <button onclick="realizarLogin()">Entrar</button>
     </div>
 </div>
@@ -678,7 +678,7 @@
     let alunosSalvos = JSON.parse(localStorage.getItem('alunos_db')) || [];
     let senhaSistema = localStorage.getItem('sistema_senha') || 'juventudes';
 
-    // Força o campo de usuário a ficar sempre minúsculo, mesmo se o navegador tentar colar em maiúsculo
+    // Força o campo de usuário a ficar sempre minúsculo
     document.getElementById('loginUsuario').addEventListener('input', function(e) {
         this.value = this.value.toLowerCase();
     });
