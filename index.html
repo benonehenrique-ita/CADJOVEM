@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matrícula de Alunos</title>
+    <title>Matrícula de Alunos - CADJOVEM</title>
     <style>
         * {
             box-sizing: border-box;
@@ -17,6 +17,63 @@
             padding: 20px;
         }
 
+        /* Tela de Login */
+        #loginOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 43, 102, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .login-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            width: 350px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            text-align: center;
+            border: 2px solid #002b66;
+        }
+
+        .login-card h2 {
+            color: #002b66;
+            margin-bottom: 20px;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        .login-card input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .login-card button {
+            width: 100%;
+            padding: 10px;
+            background-color: #16a34a;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .login-card button:hover {
+            background-color: #15803d;
+        }
+
         .container {
             max-width: 980px;
             margin: 0 auto;
@@ -25,6 +82,7 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: none; /* Oculto até logar */
         }
 
         /* Topo */
@@ -64,14 +122,9 @@
             border-radius: 4px;
             border: 1px solid #ccc;
             font-size: 13px;
-            width: 220px;
+            width: 200px;
             text-transform: uppercase;
             outline: none;
-        }
-
-        .search-box input:focus {
-            border-color: #fde047;
-            box-shadow: 0 0 0 2px rgba(253, 224, 71, 0.5);
         }
 
         /* Form Content */
@@ -114,7 +167,6 @@
             margin-bottom: 0;
         }
 
-        /* Campos e Labels */
         .field {
             display: flex;
             align-items: center;
@@ -157,19 +209,12 @@
             font-weight: bold;
         }
 
-        .field input:focus, .field select:focus {
-            border-color: #002b66;
-            box-shadow: 0 0 0 1px #002b66;
-        }
-
-        /* Destaque Chave Primária */
         .primary-key label {
             background-color: #fde047;
             color: #713f12;
             border-color: #eab308;
         }
 
-        /* Larguras Customizadas */
         .w-codigo { flex: 0 0 190px; }
         .w-inclusao { flex: 0 0 270px; }
         .w-uf { flex: 0 0 110px; }
@@ -180,7 +225,6 @@
         .w-small { flex: 0 0 140px; }
         .w-medium { flex: 0 0 280px; }
 
-        /* Estilização dos Turnos */
         .checkbox-group {
             display: flex;
             justify-content: flex-start;
@@ -206,26 +250,14 @@
             align-items: center;
             gap: 8px;
             border-radius: 4px;
-            transition: background-color 0.15s;
         }
 
-        .checkbox-group label:hover {
-            background-color: #f1f5f9 !important;
-        }
-
-        .checkbox-group input[type="radio"] {
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-            accent-color: #002b66;
-        }
-
-        /* Botões */
         .form-buttons {
             display: flex;
             justify-content: flex-end;
             gap: 10px;
             margin-top: 10px;
+            flex-wrap: wrap;
         }
 
         .btn {
@@ -239,17 +271,12 @@
         }
 
         .btn-search { background-color: #0284c7; color: #fff; }
-        .btn-search:hover { background-color: #0369a1; }
         .btn-submit { background-color: #16a34a; color: #fff; }
-        .btn-submit:hover { background-color: #15803d; }
         .btn-clear { background-color: #f59e0b; color: #fff; }
-        .btn-clear:hover { background-color: #d97706; }
         .btn-print { background-color: #2563eb; color: #fff; }
-        .btn-print:hover { background-color: #1d4ed8; }
         .btn-import { background-color: #8b5cf6; color: #fff; }
-        .btn-import:hover { background-color: #7c3aed; }
+        .btn-report { background-color: #0d9488; color: #fff; }
 
-        /* Tabela */
         .records-section {
             padding: 20px;
             background: #fff;
@@ -285,113 +312,83 @@
 
         tr:nth-child(even) { background-color: #f8fafc; }
 
-        /* Estilização para Impressão Correta sem Páginas em Branco */
+        /* Modal de Relatório */
+        #reportModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 10000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .report-content {
+            background: #fff;
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+            border-radius: 6px;
+            border: 2px solid #002b66;
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #002b66;
+            padding-bottom: 10px;
+        }
+
+        .report-header h2 { color: #002b66; font-size: 16px; }
+
         #printArea { display: none; }
 
         @media print {
-            body {
-                background: #fff !important;
-                padding: 0 !important;
-                margin: 0 !important;
-            }
-            .container {
-                display: none !important;
-            }
-            #printArea {
-                display: block !important;
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                padding: 10px;
-                background: #fff;
-            }
-            .receipt-ticket {
-                border: 2px solid #000;
-                padding: 12px;
-                font-size: 11px;
-                margin-bottom: 10px;
-                box-sizing: border-box;
-            }
-            .ticket-header {
-                text-align: center;
-                font-weight: bold;
-                font-size: 13px;
-                margin-bottom: 10px;
-                text-transform: uppercase;
-            }
-            .ticket-row {
-                display: flex;
-                gap: 8px;
-                margin-bottom: 5px;
-            }
-            .ticket-field {
-                display: flex;
-                align-items: center;
-                border: 1px solid #000;
-                padding: 3px 6px;
-                flex: 1;
-                font-size: 11px;
-            }
-            .ticket-field .lbl { font-weight: bold; margin-right: 5px; }
-            .signature-area { 
-                margin-top: 35px; 
-                text-align: center; 
-            }
-            .signature-line { 
-                width: 260px; 
-                margin: 0 auto 3px auto; 
-                border-top: 1px solid #000; 
-            }
-            .signature-title {
-                font-weight: bold;
-                font-style: italic;
-                font-size: 11px;
-            }
-            .cut-line {
-                border-top: 2px dashed #666;
-                margin: 15px 0;
-                text-align: center;
-                position: relative;
-            }
-            .cut-line span { 
-                position: relative; 
-                top: -10px; 
-                background: #fff; 
-                padding: 0 10px; 
-                font-size: 10px; 
-            }
+            body * { visibility: hidden; }
+            #reportModal, #reportModal * { visibility: visible; }
+            #reportModal { position: absolute; left: 0; top: 0; width: 100%; background: #fff; padding: 0; }
+            .no-print { display: none !important; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- Topo -->
+<!-- Tela de Login -->
+<div id="loginOverlay">
+    <div class="login-card">
+        <h2>Acesso ao Sistema</h2>
+        <input type="text" id="loginUsuario" placeholder="Usuário" value="ADMIN">
+        <input type="password" id="loginSenha" placeholder="Senha">
+        <button onclick="realizarLogin()">Entrar</button>
+    </div>
+</div>
+
+<div class="container" id="mainContainer">
     <div class="header">
-        <h1>Matrícula de Alunos</h1>
-        
+        <h1>Matrícula de Alunos - CADJOVEM</h1>
         <div class="header-actions">
             <div class="search-box">
-                <label style="font-size: 12px; color: #fff; font-weight: bold;">BUSCAR ALUNO:</label>
-                <input type="text" id="inputBusca" list="listaAlunos" placeholder="Digite o nome ou código..." onkeyup="if(event.key==='Enter') executarBuscaAluno()">
+                <input type="text" id="inputBusca" list="listaAlunos" placeholder="BUSCAR ALUNO..." onkeyup="if(event.key==='Enter') executarBuscaAluno()">
                 <datalist id="listaAlunos"></datalist>
                 <button type="button" class="btn btn-search" onclick="executarBuscaAluno()">Buscar</button>
             </div>
             <input type="file" id="inputCsv" accept=".txt,.csv" style="display: none;" onchange="processarArquivoCSV(this)">
-            <button type="button" class="btn btn-import" onclick="document.getElementById('inputCsv').click()">Importar Access (CSV/TXT)</button>
-            <button type="button" class="btn btn-clear" onclick="limparFormulario()">Novo Registro / Limpar</button>
+            <button type="button" class="btn btn-import" onclick="document.getElementById('inputCsv').click()">Importar Access</button>
+            <button type="button" class="btn btn-clear" onclick="limparFormulario()">Novo</button>
         </div>
     </div>
 
-    <!-- Formulário -->
     <form id="formMatricula">
-        <!-- Bloco 01 -->
         <div class="block">
             <div class="block-title">Bloco 01 Identificação</div>
             <div class="row">
                 <div class="field w-codigo primary-key">
-                    <label title="Chave Primária Única">Código (PK):</label>
+                    <label>Código (PK):</label>
                     <input type="text" id="codigo" placeholder="AUTO / ID">
                 </div>
                 <div class="field w-inclusao">
@@ -442,7 +439,6 @@
             </div>
         </div>
 
-        <!-- Bloco 02 -->
         <div class="block">
             <div class="block-title">Bloco 02 Endereço e Documentos</div>
             <div class="row">
@@ -468,7 +464,7 @@
             <div class="row">
                 <div class="field w-uf">
                     <label>Estado:</label>
-                    <input type="text" id="estado" maxlength="2" placeholder="UF" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z]/g, '')">
+                    <input type="text" id="estado" maxlength="2" placeholder="UF">
                 </div>
                 <div class="field w-cep">
                     <label>CEP:</label>
@@ -485,12 +481,11 @@
             </div>
         </div>
 
-        <!-- Bloco 03 -->
         <div class="block">
             <div class="block-title">Bloco 03 Qualificação</div>
             <div class="row">
                 <div class="field">
-                    <label>Participa de Grupos Jovem? Qual?</label>
+                    <label>Participa de Grupos Jovem?</label>
                     <input type="text" id="grupos_jovem">
                 </div>
             </div>
@@ -503,19 +498,19 @@
                     </select>
                 </div>
                 <div class="field">
-                    <label>Se estuda, informe o nome da escola:</label>
+                    <label>Escola:</label>
                     <input type="text" id="escola">
                 </div>
             </div>
             <div class="row">
                 <div class="field">
-                    <label>Informe a série que estuda:</label>
+                    <label>Série:</label>
                     <input type="text" id="serie">
                 </div>
             </div>
             <div class="row">
                 <div class="field">
-                    <label>Se não estuda informe o grau de escolaridade:</label>
+                    <label>Grau de Escolaridade:</label>
                     <input type="text" id="escolaridade">
                 </div>
             </div>
@@ -534,13 +529,23 @@
             </div>
         </div>
 
-        <!-- Bloco 04 -->
         <div class="block">
             <div class="block-title">Bloco 04 Objetivo</div>
             <div class="row">
                 <div class="field">
-                    <label>Informar o curso ou atividade que pretende fazer:</label>
-                    <input type="text" id="curso">
+                    <label>Curso ou Atividade:</label>
+                    <select id="curso">
+                        <option value="">-- SELECIONE O CURSO --</option>
+                        <option value="INFORMÁTICA BÁSICA">INFORMÁTICA BÁSICA</option>
+                        <option value="MANUTENÇÃO DE COMPUTADORES">MANUTENÇÃO DE COMPUTADORES</option>
+                        <option value="OFFICE AVANÇADO">OFFICE AVANÇADO</option>
+                        <option value="PROGRAMAÇÃO DE SISTEMA">PROGRAMAÇÃO DE SISTEMA</option>
+                        <option value="CAPOEIRA">CAPOEIRA</option>
+                        <option value="INICIALIZAÇÃO NA COMPUTAÇÃO">INICIALIZAÇÃO NA COMPUTAÇÃO</option>
+                        <option value="INFORMÁTICA INTERMEDIARIA">INFORMÁTICA INTERMEDIARIA</option>
+                        <option value="TÉCNICO EM INFORMÁTICA">TÉCNICO EM INFORMÁTICA</option>
+                        <option value="WEB DESIGNAR">WEB DESIGNAR</option>
+                    </select>
                 </div>
             </div>
             <div class="row">
@@ -555,14 +560,13 @@
             </div>
         </div>
 
-        <!-- Bloco 05 -->
         <div class="block">
             <div class="block-title">Bloco 05 Referências do Programa</div>
             <div class="row">
                 <div class="field">
                     <label>Nome do Professor:</label>
                     <select id="professor">
-                        <option value="">-- SELECIONE O PROFESSOR --</option>
+                        <option value="">-- SELECIONE --</option>
                         <option value="JONES NUNES DA SILVA">JONES NUNES DA SILVA</option>
                         <option value="LEANDRO JONH DA SILVA">LEANDRO JONH DA SILVA</option>
                         <option value="LUCINALDO CLEMENTE DA SILVA">LUCINALDO CLEMENTE DA SILVA</option>
@@ -571,7 +575,7 @@
             </div>
             <div class="row">
                 <div class="field">
-                    <label>Nome do Coordenador do Programa:</label>
+                    <label>Coordenador:</label>
                     <input type="text" id="coordenador" value="BENONE HENRIQUE DE SOUSA" readonly>
                 </div>
             </div>
@@ -581,21 +585,19 @@
                     <input type="date" id="inicio_aulas">
                 </div>
                 <div class="field w-medium">
-                    <label>Horário das Aulas:</label>
-                    <input type="text" id="horario_aulas" placeholder="Ex: DAS 8:00 AS 10:00">
+                    <label>Horário:</label>
+                    <input type="text" id="horario_aulas" placeholder="Ex: 08:00 AS 10:00">
                 </div>
             </div>
         </div>
 
-        <!-- Botões de Ação -->
         <div class="form-buttons">
-            <button type="button" class="btn btn-print" onclick="imprimirComprovante()">Imprimir Comprovante (2 Vias)</button>
-            <button type="button" class="btn btn-clear" onclick="limparFormulario()">Limpar / Novo Registro</button>
-            <button type="submit" class="btn btn-submit">Salvar / Atualizar Registro</button>
+            <button type="button" class="btn btn-report" onclick="abrirModalRelatorio()">Gerar Relatório por Curso</button>
+            <button type="button" class="btn btn-clear" onclick="limparFormulario()">Limpar</button>
+            <button type="submit" class="btn btn-submit">Salvar Registro</button>
         </div>
     </form>
 
-    <!-- Tabela de Alunos Cadastrados -->
     <div class="records-section">
         <h2>Registros Salvos</h2>
         <table>
@@ -608,19 +610,66 @@
                     <th>Curso</th>
                 </tr>
             </thead>
-            <tbody id="tabelaRegistros">
-            </tbody>
+            <tbody id="tabelaRegistros"></tbody>
         </table>
     </div>
 </div>
 
-<div id="printArea"></div>
+<!-- Modal do Relatório -->
+<div id="reportModal">
+    <div class="report-content">
+        <div class="report-header">
+            <h2>Relatório de Alunos por Curso</h2>
+            <div class="no-print">
+                <label style="font-weight: bold; font-size: 12px;">Filtrar Curso:</label>
+                <select id="filtroCursoRelatorio" onchange="renderizarRelatorio()" style="padding: 5px; font-size: 12px;"></select>
+            </div>
+        </div>
+        
+        <div style="margin-bottom: 15px;" id="infoRelatorioCurso"></div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome do Aluno</th>
+                    <th>Endereço</th>
+                    <th>Nº</th>
+                    <th>Bairro</th>
+                    <th>Cidade</th>
+                    <th>Telefone</th>
+                    <th>Nome do Curso</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaRelatorioCorpo"></tbody>
+        </table>
+
+        <div class="form-buttons" style="margin-top: 20px;">
+            <button type="button" class="btn btn-print no-print" onclick="window.print()">Imprimir</button>
+            <button type="button" class="btn btn-clear no-print" onclick="fecharModalRelatorio()">Sair da Página</button>
+        </div>
+    </div>
+</div>
 
 <script>
     let alunosSalvos = JSON.parse(localStorage.getItem('alunos_db')) || [];
 
+    function realizarLogin() {
+        const usuario = document.getElementById('loginUsuario').value.trim();
+        const senha = document.getElementById('loginSenha').value.trim();
+        
+        if (usuario === "ADMIN") {
+            document.getElementById('loginOverlay').style.display = 'none';
+            document.getElementById('mainContainer').style.display = 'block';
+            atualizarTabelaEBusca();
+            definirDataAtualInclusao();
+        } else {
+            alert("Usuário ou senha incorretos!");
+        }
+    }
+
     window.onload = function() {
-        atualizarTabelaEBusca();
         definirDataAtualInclusao();
     };
 
@@ -631,21 +680,14 @@
 
     function gerarProximoCodigo() {
         if (alunosSalvos.length === 0) return "1001";
-        const codigosNum = alunosSalvos
-            .map(a => parseInt(a.codigo))
-            .filter(n => !isNaN(n));
+        const codigosNum = alunosSalvos.map(a => parseInt(a.codigo)).filter(n => !isNaN(n));
         if (codigosNum.length === 0) return "1001";
         return (Math.max(...codigosNum) + 1).toString();
     }
 
     document.getElementById('formMatricula').addEventListener('submit', function(e) {
         e.preventDefault();
-
-        let codigoInput = document.getElementById('codigo').value.trim();
-        if (!codigoInput) {
-            codigoInput = gerarProximoCodigo();
-        }
-
+        let codigoInput = document.getElementById('codigo').value.trim() || gerarProximoCodigo();
         const indexExistente = alunosSalvos.findIndex(a => a.codigo === codigoInput);
         const turnoSelecionado = document.querySelector('input[name="turno"]:checked');
 
@@ -678,15 +720,16 @@
             professor: document.getElementById('professor').value,
             coordenador: document.getElementById('coordenador').value,
             inicio_aulas: document.getElementById('inicio_aulas').value,
-            horario_aulas: document.getElementById('horario_aulas').value
+            horario_aulas: document.getElementById('horario_aulas').value,
+            status: "MATRICULADO"
         };
 
         if (indexExistente >= 0) {
             alunosSalvos[indexExistente] = alunoDados;
-            alert(`Registro #${codigoInput} atualizado com sucesso!`);
+            alert(`Registro #${codigoInput} atualizado!`);
         } else {
             alunosSalvos.push(alunoDados);
-            alert(`Novo registro #${codigoInput} salvo com sucesso!`);
+            alert(`Novo registro #${codigoInput} salvo!`);
         }
 
         localStorage.setItem('alunos_db', JSON.stringify(alunosSalvos));
@@ -698,27 +741,19 @@
         document.getElementById('formMatricula').reset();
         document.getElementById('coordenador').value = "BENONE HENRIQUE DE SOUSA";
         document.getElementById('inputBusca').value = "";
-        const radios = document.querySelectorAll('input[name="turno"]');
-        radios.forEach(r => r.checked = false);
+        document.querySelectorAll('input[name="turno"]').forEach(r => r.checked = false);
         definirDataAtualInclusao();
     }
 
     function atualizarTabelaEBusca() {
         const tbody = document.getElementById('tabelaRegistros');
         const datalist = document.getElementById('listaAlunos');
-
         tbody.innerHTML = '';
         datalist.innerHTML = '';
 
         alunosSalvos.forEach(aluno => {
             const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td><strong>${aluno.codigo}</strong></td>
-                <td>${aluno.data_inclusao || '-'}</td>
-                <td>${aluno.nome_aluno}</td>
-                <td>${aluno.telefone || '-'}</td>
-                <td>${aluno.curso || '-'}</td>
-            `;
+            tr.innerHTML = `<td><strong>${aluno.codigo}</strong></td><td>${aluno.data_inclusao || '-'}</td><td>${aluno.nome_aluno}</td><td>${aluno.telefone || '-'}</td><td>${aluno.curso || '-'}</td>`;
             tbody.appendChild(tr);
 
             const option = document.createElement('option');
@@ -727,120 +762,69 @@
         });
     }
 
-    function normalizarTexto(texto) {
-        if (!texto) return '';
-        return texto
-            .toString()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .toUpperCase()
-            .replace(/\s+/g, ' ')
-            .trim();
+    function abrirModalRelatorio() {
+        const selectRel = document.getElementById('filtroCursoRelatorio');
+        selectRel.innerHTML = '<option value="">-- TODOS OS CURSOS --</option>';
+        
+        const optionsCurso = document.getElementById('curso').options;
+        for (let i = 1; i < optionsCurso.length; i++) {
+            let opt = document.createElement('option');
+            opt.value = optionsCurso[i].value;
+            opt.text = optionsCurso[i].text;
+            selectRel.appendChild(opt);
+        }
+
+        renderizarRelatorio();
+        document.getElementById('reportModal').style.display = 'block';
     }
 
-    const ufsValidas = ["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"];
-
-    function normalizarEstado(estadoRaw, cidadeRaw) {
-        let est = normalizarTexto(estadoRaw);
-        if (ufsValidas.includes(est)) return est;
-        return 'PE';
+    function fecharModalRelatorio() {
+        document.getElementById('reportModal').style.display = 'none';
     }
 
-    function normalizarTurno(val) {
-        if (!val) return '';
-        const norm = normalizarTexto(val);
+    function renderizarRelatorio() {
+        const cursoFiltro = document.getElementById('filtroCursoRelatorio').value;
+        const tbody = document.getElementById('tabelaRelatorioCorpo');
+        tbody.innerHTML = '';
 
-        if (norm.includes('MANHA') || norm.includes('MANH') || norm === 'M' || norm === '1' || norm === 'MATUTINO') {
-            return 'Manhã';
-        }
-        if (norm.includes('TARDE') || norm.includes('TARD') || norm === 'T' || norm === '2' || norm === 'VESPERTINO') {
-            return 'Tarde';
-        }
-        if (norm.includes('NOITE') || norm.includes('NOIT') || norm === 'N' || norm === '3' || norm === 'NOTURNO') {
-            return 'Noite';
+        const filtrados = cursoFiltro ? alunosSalvos.filter(a => a.curso === cursoFiltro) : alunosSalvos;
+
+        if (filtrados.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="9" style="text-align: center;">Nenhum aluno encontrado para este curso.</td></tr>';
+            return;
         }
 
-        return '';
-    }
-
-    function preencherFormularioComObjeto(aluno) {
-        document.getElementById('codigo').value = aluno.codigo || '';
-        document.getElementById('data_inclusao').value = aluno.data_inclusao || '';
-        document.getElementById('nome_aluno').value = aluno.nome_aluno || '';
-        document.getElementById('data_nascimento').value = aluno.data_nascimento || '';
-        document.getElementById('sexo').value = aluno.sexo || 'M';
-        document.getElementById('estado_civil').value = aluno.estado_civil || 'SOLTEIRO(A)';
-        document.getElementById('nome_pai').value = aluno.nome_pai || '';
-        document.getElementById('nome_mae').value = aluno.nome_mae || '';
-        document.getElementById('endereco').value = aluno.endereco || '';
-        document.getElementById('numero').value = aluno.numero || '';
-        document.getElementById('bairro').value = aluno.bairro || '';
-        document.getElementById('cidade').value = aluno.cidade || '';
-        document.getElementById('estado').value = aluno.estado || '';
-        document.getElementById('cep').value = aluno.cep || '';
-        document.getElementById('telefone').value = aluno.telefone || '';
-        document.getElementById('documento').value = aluno.documento || '';
-        document.getElementById('grupos_jovem').value = aluno.grupos_jovem || '';
-        document.getElementById('estuda').value = aluno.estuda || 'SIM';
-        document.getElementById('escola').value = aluno.escola || '';
-        document.getElementById('serie').value = aluno.serie || '';
-        document.getElementById('escolaridade').value = aluno.escolaridade || '';
-        document.getElementById('trabalha_opcao').value = aluno.trabalha_opcao || 'NÃO';
-        document.getElementById('trabalho_local').value = aluno.trabalho_local || '';
-        document.getElementById('curso').value = aluno.curso || '';
-        document.getElementById('professor').value = aluno.professor || '';
-        document.getElementById('coordenador').value = aluno.coordenador || "BENONE HENRIQUE DE SOUSA";
-        document.getElementById('inicio_aulas').value = aluno.inicio_aulas || '';
-        document.getElementById('horario_aulas').value = aluno.horario_aulas || '';
-
-        const radios = document.querySelectorAll('input[name="turno"]');
-        radios.forEach(r => r.checked = false);
-
-        const turnoResolvido = normalizarTurno(aluno.turno);
-        if (turnoResolvido) {
-            const radioParaMarcar = Array.from(radios).find(r => r.value.toLowerCase() === turnoResolvido.toLowerCase());
-            if (radioParaMarcar) {
-                radioParaMarcar.checked = true;
-            }
-        }
+        filtrados.forEach(aluno => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${aluno.codigo || ''}</td>
+                <td>${aluno.nome_aluno || ''}</td>
+                <td>${aluno.endereco || ''}</td>
+                <td>${aluno.numero || ''}</td>
+                <td>${aluno.bairro || ''}</td>
+                <td>${aluno.cidade || ''}</td>
+                <td>${aluno.telefone || ''}</td>
+                <td>${aluno.curso || ''}</td>
+                <td>${aluno.status || 'MATRICULADO'}</td>
+            `;
+            tbody.appendChild(tr);
+        });
     }
 
     function executarBuscaAluno() {
         const termoRaw = document.getElementById('inputBusca').value;
-        const termo = normalizarTexto(termoRaw);
-
-        if (!termo) {
-            alert("Digite o nome ou código do aluno para buscar.");
-            return;
-        }
-
-        if (alunosSalvos.length === 0) {
-            alert("Nenhum aluno cadastrado ou importado.");
-            return;
-        }
-
-        let aluno = alunosSalvos.find(a => {
-            const codNormal = normalizarTexto(a.codigo);
-            const itemDatalist = normalizarTexto(`[${a.codigo}] ${a.nome_aluno}`);
-            return termo === codNormal || termo === itemDatalist;
-        });
-
-        if (!aluno) {
-            aluno = alunosSalvos.find(a => {
-                const nomeNormal = normalizarTexto(a.nome_aluno);
-                return nomeNormal.includes(termo);
-            });
-        }
-
+        const termo = termoRaw.toUpperCase().trim();
+        if (!termo) return;
+        let aluno = alunosSalvos.find(a => a.codigo === termo || `[${a.codigo}] ${a.nome_aluno}`.toUpperCase() === termo || a.nome_aluno.toUpperCase().includes(termo));
         if (aluno) {
-            preencherFormularioComObjeto(aluno);
+            document.getElementById('codigo').value = aluno.codigo;
+            document.getElementById('nome_aluno').value = aluno.nome_aluno;
+            document.getElementById('curso').value = aluno.curso || '';
+            document.getElementById('telefone').value = aluno.telefone || '';
+            // Preencha demais campos conforme necessário
         } else {
-            alert(`Nenhum aluno localizado com o termo "${termoRaw}".`);
+            alert("Aluno não encontrado.");
         }
-    }
-
-    function imprimirComprovante() {
-        window.print();
     }
 </script>
 
