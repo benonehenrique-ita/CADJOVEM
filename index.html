@@ -751,10 +751,9 @@
         }
     }
 
-    // Função auxiliar para converter formato de data "D/M/YYYY" ou "DD/MM/YYYY" para "YYYY-MM-DD" para o input date
-    function converterDataParaInput(dataStr) {
+    // Função para converter data em formato brasileiro/texto (DD/MM/AAAA) para o formato do input type="date" (AAAA-MM-DD)
+    function converterParaDataInput(dataStr) {
         if (!dataStr) return '';
-        // Remove horários se houver (ex: "26/8/1981 00:00:00" -> "26/8/1981")
         let limpa = dataStr.split(' ')[0].trim();
         let partes = limpa.split(/[\/\-]/);
         if (partes.length === 3) {
@@ -771,7 +770,7 @@
         return '';
     }
 
-    // Leitor inteligente corrigido para tratar colunas invertidas do CSV antigo e preservar data de inclusão e nascimento
+    // Leitor e importador de CSV inteligente corrigido
     function processarArquivoCSV(input) {
         const file = input.files[0];
         if (!file) return;
@@ -821,10 +820,10 @@
                 if (nomeAluno && nomeAluno.toUpperCase() !== 'NOME DO ALUNO' && !regexData.test(nomeAluno)) {
                     const novoAluno = {
                         codigo: codigo,
-                        data_inclusao: "2026-08-28", // Mantém a data correta conforme visualizado na tabela
+                        data_inclusao: "2026-08-28", // Mantém a data de inclusão correta da base
                         nome_aluno: nomeAluno.toUpperCase(),
-                        data_nascimento: dataNasc,
-                        telefone: telefone.replace(/ 00:00:00/g, ''),
+                        data_nascimento: dataNasc, // Salva corretamente a data de nascimento extraída
+                        telefone: "", // Limpa o telefone para não exibir a data de nascimento antiga por engano
                         curso: "",
                         status: "MATRICULADO"
                     };
@@ -924,12 +923,14 @@
         document.getElementById('data_inclusao').value = alunoEncontrado.data_inclusao || '';
         document.getElementById('nome_aluno').value = alunoEncontrado.nome_aluno || '';
         
-        // Converte corretamente a data de nascimento armazenada no campo 'telefone' (que guardava a data antiga) para o formato do input date
-        let dataNascFormatada = alunoEncontrado.data_nascimento;
-        if (!dataNascFormatada && alunoEncontrado.telefone) {
-            dataNascFormatada = converterDataParaInput(alunoEncontrado.telefone);
+        // Carrega a Data de Nascimento corretamente, mesmo se ela estava salva na propriedade de data de nascimento ou convertida do campo antigo
+        let dataNascFinal = alunoEncontrado.data_nascimento;
+        if (!dataNascFinal && alunoEncontrado.telefone && alunoEncontrado.telefone.includes('/')) {
+            dataNascFinal = converterParaDataInput(alunoEncontrado.telefone);
+        } else if (dataNascFinal && dataNascFinal.includes('/')) {
+            dataNascFinal = converterParaDataInput(dataNascFinal);
         }
-        document.getElementById('data_nascimento').value = dataNascFormatada || '';
+        document.getElementById('data_nascimento').value = dataNascFinal || '';
 
         document.getElementById('sexo').value = alunoEncontrado.sexo || 'M';
         document.getElementById('estado_civil').value = alunoEncontrado.estado_civil || 'SOLTEIRO(A)';
@@ -941,7 +942,14 @@
         document.getElementById('cidade').value = alunoEncontrado.cidade || '';
         document.getElementById('estado').value = alunoEncontrado.estado || '';
         document.getElementById('cep').value = alunoEncontrado.cep || '';
-        document.getElementById('telefone').value = ''; // Limpa o telefone se continha a data de nascimento antiga
+        
+        // Limpa o telefone caso o dado antigo guardasse a data de nascimento, evitando o erro visual na tela
+        let telVal = alunoEncontrado.telefone || '';
+        if (telVal.includes('/') || telVal.includes('00:00:00')) {
+            telVal = '';
+        }
+        document.getElementById('telefone').value = telVal;
+
         document.getElementById('documento').value = alunoEncontrado.documento || '';
         document.getElementById('grupos_jovem').value = alunoEncontrado.grupos_jovem || '';
         document.getElementById('estuda').value = alunoEncontrado.estuda || 'SIM';
@@ -971,11 +979,17 @@
 
         alunosSalvos.forEach(aluno => {
             const tr = document.createElement('tr');
+            // Oculta da tabela visual o lixo de data que estava aparecendo no campo telefone
+            let telExibicao = aluno.telefone || '';
+            if (telExibicao.includes('/') || telExibicao.includes('00:00:00')) {
+                telExibicao = '';
+            }
+
             tr.innerHTML = `
                 <td><strong>${aluno.codigo || ''}</strong></td>
                 <td>${aluno.data_inclusao || ''}</td>
                 <td>${aluno.nome_aluno || ''}</td>
-                <td>${aluno.telefone || ''}</td>
+                <td>${telExibicao}</td>
                 <td>${aluno.curso || ''}</td>
             `;
             tbody.appendChild(tr);
@@ -1022,6 +1036,9 @@
 
         filtrados.forEach(aluno => {
             const tr = document.createElement('tr');
+            let telExibicao = aluno.telefone || '';
+            if (telExibicao.includes('/') || telExibicao.includes('00:00:00')) telExibicao = '';
+
             tr.innerHTML = `
                 <td>${aluno.codigo || ''}</td>
                 <td>${aluno.nome_aluno || ''}</td>
@@ -1029,7 +1046,7 @@
                 <td>${aluno.numero || ''}</td>
                 <td>${aluno.bairro || ''}</td>
                 <td>${aluno.cidade || ''}</td>
-                <td>${aluno.telefone || ''}</td>
+                <td>${telExibicao}</td>
                 <td>${aluno.curso || ''}</td>
                 <td>${aluno.status || 'MATRICULADO'}</td>
             `;
