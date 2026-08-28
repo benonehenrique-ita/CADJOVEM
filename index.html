@@ -659,12 +659,12 @@
         </div>
         <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
             <div>
-                <label style="font-size: 12px; font-weight: bold;">Senha de Administrador (itapetim):</label>
-                <input type="password" id="admSenhaCheck" style="width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #cbd5e1; border-radius: 4px;">
+                <label style="font-size: 12px; font-weight: bold;">Senha de Administrador:</label>
+                <input type="password" id="admSenhaCheck" autocomplete="new-password" style="width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #cbd5e1; border-radius: 4px;">
             </div>
             <div>
                 <label style="font-size: 12px; font-weight: bold;">Nova Senha do Sistema:</label>
-                <input type="password" id="novaSenhaInput" style="width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #cbd5e1; border-radius: 4px;">
+                <input type="password" id="novaSenhaInput" autocomplete="new-password" style="width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #cbd5e1; border-radius: 4px;">
             </div>
         </div>
         <div class="form-buttons">
@@ -719,7 +719,7 @@
         const novaPass = document.getElementById('novaSenhaInput').value.trim();
 
         if (admPass !== 'itapetim') {
-            alert("Senha de Administrador (itapetim) incorreta!");
+            alert("Senha de Administrador incorreta!");
             return;
         }
 
