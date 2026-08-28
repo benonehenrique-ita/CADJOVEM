@@ -5,860 +5,210 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matrícula de Alunos - CADJOVEM</title>
     <style>
-        * {
-            box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            background-color: #eef2f7;
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
             padding: 20px;
         }
-
-        /* Tela de Login */
-        #loginOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 43, 102, 0.95);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        .login-card {
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            width: 350px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            text-align: center;
-            border: 2px solid #002b66;
-        }
-
-        .login-card h2 {
-            color: #002b66;
-            margin-bottom: 20px;
-            font-size: 18px;
-            text-transform: uppercase;
-        }
-
-        .login-card input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #cbd5e1;
-            border-radius: 4px;
-            font-size: 14px;
-            text-transform: none !important;
-        }
-
-        .login-card button {
-            width: 100%;
-            padding: 10px;
-            background-color: #16a34a;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .login-card button:hover {
-            background-color: #15803d;
-        }
-
         .container {
-            max-width: 980px;
+            max-width: 900px;
             margin: 0 auto;
-            background: #fff;
-            border: 2px solid #002b66;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            display: none; /* Oculto até logar */
-        }
-
-        /* Topo */
-        .header {
-            background-color: #002b66;
-            color: #fff;
-            padding: 15px 20px;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-        }
-
-        .header h1 {
-            font-size: 20px;
-            font-style: italic;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .search-box {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .search-box input {
-            padding: 7px 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            font-size: 13px;
-            width: 180px;
-            text-transform: uppercase;
-            outline: none;
-        }
-
-        /* Form Content */
-        form {
+            background: #ffffff;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-
-        .block {
-            border: 2px solid #002b66;
-            background-color: #002b66;
-            padding: 12px;
-            border-radius: 6px;
-        }
-
-        .block-title {
-            background-color: #d0e1f9;
-            color: #002b66;
+        h2 {
+            color: #003366;
             text-align: center;
+        }
+        .bloco {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            background: #fafafa;
+        }
+        .bloco-titulo {
+            background: #003366;
+            color: white;
+            padding: 5px 10px;
             font-weight: bold;
-            font-size: 13px;
-            padding: 4px 15px;
-            margin: -20px auto 12px auto;
-            width: fit-content;
-            border-radius: 4px;
-            border: 1px solid #002b66;
+            margin: -15px -15px 15px -15px;
+            border-radius: 4px 4px 0 0;
         }
-
-        .row {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 10px;
-            align-items: center;
-            flex-wrap: wrap;
+        .form-group {
+            margin-bottom: 15px;
         }
-
-        .row:last-child {
-            margin-bottom: 0;
-        }
-
-        .field {
-            display: flex;
-            align-items: center;
-            background: #ffffff;
-            border-radius: 4px;
-            flex: 1;
-            min-width: 0;
-            padding: 2px;
-        }
-
-        .field label {
-            background-color: #e2e8f0;
-            color: #0f172a;
-            font-size: 11px;
+        label {
+            display: block;
+            margin-bottom: 5px;
             font-weight: bold;
-            padding: 7px 8px;
-            white-space: nowrap;
-            border-radius: 3px;
-            margin-right: 4px;
-            border: 1px solid #cbd5e1;
-            text-transform: uppercase;
         }
-
-        .field input, .field select {
-            border: 1px solid #cbd5e1;
-            border-radius: 3px;
-            outline: none;
-            padding: 6px 8px;
+        input, select, textarea {
             width: 100%;
-            min-width: 0;
-            font-size: 12px;
-            text-transform: uppercase;
-            background-color: #fff;
-            color: #000;
-        }
-
-        .field input[readonly] {
-            background-color: #f1f5f9;
-            color: #475569;
-            font-weight: bold;
-        }
-
-        .primary-key label {
-            background-color: #fde047;
-            color: #713f12;
-            border-color: #eab308;
-        }
-
-        .w-codigo { flex: 0 0 190px; }
-        .w-inclusao { flex: 0 0 270px; }
-        .w-uf { flex: 0 0 110px; }
-        .w-cep { flex: 0 0 160px; }
-        .w-tel { flex: 0 0 190px; }
-        .w-sim-nao { flex: 0 0 220px; }
-        .w-trabalha-sim-nao { flex: 0 0 240px; }
-        .w-small { flex: 0 0 140px; }
-        .w-medium { flex: 0 0 280px; }
-
-        .checkbox-group {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            gap: 30px;
-            background: #ffffff;
-            padding: 8px 16px;
-            border: 1px solid #cbd5e1;
-            border-radius: 4px;
-            width: 100%;
-        }
-
-        .checkbox-group label {
-            background: none !important;
-            border: none !important;
-            margin: 0 !important;
-            padding: 4px 8px !important;
-            font-size: 12px;
-            font-weight: bold;
-            color: #002b66;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
             border-radius: 4px;
         }
-
-        .form-buttons {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 8px 12px;
-            font-weight: bold;
+        button {
+            background: #003366;
+            color: white;
+            padding: 10px 15px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 12px;
-            transition: background 0.2s;
         }
-
-        .btn-search { background-color: #0284c7; color: #fff; }
-        .btn-submit { background-color: #16a34a; color: #fff; }
-        .btn-clear { background-color: #f59e0b; color: #fff; }
-        .btn-print { background-color: #2563eb; color: #fff; }
-        .btn-import { background-color: #8b5cf6; color: #fff; }
-        .btn-report { background-color: #0d9488; color: #fff; }
-        .btn-logout { background-color: #dc2626; color: #fff; }
-        .btn-pass { background-color: #475569; color: #fff; }
-
-        .records-section {
-            padding: 20px;
-            background: #fff;
-            border-top: 2px solid #002b66;
+        button:hover {
+            background: #002244;
         }
-
-        .records-section h2 {
-            font-size: 15px;
-            color: #002b66;
-            margin-bottom: 12px;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 12px;
+            margin-top: 20px;
         }
-
-        table, th, td {
-            border: 1px solid #cbd5e1;
-        }
-
-        th {
-            background-color: #002b66;
-            color: white;
+        th, td {
+            border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
         }
-
-        td {
-            padding: 8px;
-        }
-
-        tr:nth-child(even) { background-color: #f8fafc; }
-
-        /* Modais */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 10000;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .report-content {
-            background: #fff;
-            max-width: 1000px;
-            margin: 30px auto;
-            padding: 20px;
-            border-radius: 6px;
-            border: 2px solid #002b66;
-        }
-
-        .report-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #002b66;
-            padding-bottom: 10px;
-        }
-
-        .report-header h2 { color: #002b66; font-size: 16px; }
-
-        @media print {
-            body * { visibility: hidden; }
-            #reportModal, #reportModal * { visibility: visible; }
-            #reportModal { position: absolute; left: 0; top: 0; width: 100%; background: #fff; padding: 0; }
-            .no-print { display: none !important; }
+        th {
+            background-color: #003366;
+            color: white;
         }
     </style>
 </head>
 <body>
 
-<div id="loginOverlay">
-    <div class="login-card">
-        <h2>Acesso ao Sistema</h2>
-        <input type="text" id="loginUsuario" placeholder="Usuário" autocomplete="off" name="no-username" onkeypress="if(event.key==='Enter') realizarLogin()">
-        <input type="password" id="loginSenha" placeholder="Senha" autocomplete="new-password" name="no-password" onkeypress="if(event.key==='Enter') realizarLogin()">
-        <button onclick="realizarLogin()">Entrar</button>
-    </div>
-</div>
+<div class="container">
+    <h2>MATRÍCULA DE ALUNOS - CADJOVEM</h2>
 
-<div class="container" id="mainContainer">
-    <div class="header">
-        <h1>Matrícula de Alunos - CADJOVEM</h1>
-        <div class="header-actions">
-            <div class="search-box">
-                <input type="text" id="inputBusca" list="listaAlunos" placeholder="BUSCAR ALUNO..." onkeyup="if(event.key==='Enter') executarBuscaAluno()">
-                <datalist id="listaAlunos"></datalist>
-                <button type="button" class="btn btn-search" onclick="executarBuscaAluno()">Buscar</button>
-            </div>
-            <input type="file" id="inputCsv" accept=".txt,.csv" style="display: none;" onchange="processarArquivoCSV(this)">
-            <button type="button" class="btn btn-import" onclick="document.getElementById('inputCsv').click()">Importar</button>
-            <button type="button" class="btn btn-pass" onclick="abrirModalSenha()">Mudar Senha</button>
-            <button type="button" class="btn btn-logout" onclick="realizarLogout()">Sair</button>
-        </div>
+    <div class="form-group">
+        <label for="buscaAluno">BUSCAR ALUNO:</label>
+        <input type="text" id="buscaAluno" list="listaAlunos" placeholder="Digite o nome do aluno..." oninput="buscarAlunoPorNome()">
+        <datalist id="listaAlunos"></datalist>
     </div>
 
     <form id="formMatricula">
-        <div class="block">
-            <div class="block-title">Bloco 01 Identificação</div>
-            <div class="row">
-                <div class="field w-codigo primary-key">
-                    <label>Código (PK):</label>
-                    <input type="text" id="codigo" placeholder="AUTO / ID">
-                </div>
-                <div class="field w-inclusao">
-                    <label>Data de Inclusão:</label>
-                    <input type="date" id="data_inclusao">
-                </div>
+        <!-- Bloco 01 Identificação -->
+        <div class="bloco">
+            <div class="bloco-titulo">Bloco 01 Identificação</div>
+            <div class="form-group">
+                <label for="codigo">CÓDIGO (PK):</label>
+                <input type="text" id="codigo" readonly>
             </div>
-            <div class="row">
-                <div class="field">
-                    <label>Nome do Aluno:</label>
-                    <input type="text" id="nome_aluno" required>
-                </div>
+            <div class="form-group">
+                <label for="dataInclusao">DATA DE INCLUSÃO:</label>
+                <input type="date" id="dataInclusao">
             </div>
-            <div class="row">
-                <div class="field w-medium">
-                    <label>Data de Nascimento:</label>
-                    <input type="date" id="data_nascimento">
-                </div>
-                <div class="field w-small">
-                    <label>Sexo:</label>
-                    <select id="sexo">
-                        <option value="M">M</option>
-                        <option value="F">F</option>
-                    </select>
-                </div>
-                <div class="field">
-                    <label>Estado Civil:</label>
-                    <select id="estado_civil">
-                        <option value="SOLTEIRO(A)">SOLTEIRO(A)</option>
-                        <option value="CASADO(A)">CASADO(A)</option>
-                        <option value="DIVORCIADO(A)">DIVORCIADO(A)</option>
-                        <option value="VIÚVO(A)">VIÚVO(A)</option>
-                        <option value="UNIÃO ESTÁVEL">UNIÃO ESTÁVEL</option>
-                    </select>
-                </div>
+            <div class="form-group">
+                <label for="nomeAluno">NOME DO ALUNO:</label>
+                <input type="text" id="nomeAluno" required>
             </div>
-            <div class="row">
-                <div class="field">
-                    <label>Nome do Pai:</label>
-                    <input type="text" id="nome_pai">
-                </div>
+            <div class="form-group">
+                <label for="dataNascimento">DATA DE NASCIMENTO:</label>
+                <input type="date" id="dataNascimento">
             </div>
-            <div class="row">
-                <div class="field">
-                    <label>Nome da Mãe:</label>
-                    <input type="text" id="nome_mae">
-                </div>
+            <div class="form-group">
+                <label for="sexo">SEXO:</label>
+                <select id="sexo">
+                    <option value="M">M</option>
+                    <option value="F">F</option>
+                    <option value="Outro">Outro</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="estadoCivil">ESTADO CIVIL:</label>
+                <input type="text" id="estadoCivil">
+            </div>
+            <div class="form-group">
+                <label for="nomePai">NOME DO PAI:</label>
+                <input type="text" id="nomePai">
+            </div>
+            <div class="form-group">
+                <label for="nomeMae">NOME DA MÃE:</label>
+                <input type="text" id="nomeMae">
             </div>
         </div>
 
-        <div class="block">
-            <div class="block-title">Bloco 02 Endereço e Documentos</div>
-            <div class="row">
-                <div class="field">
-                    <label>Endereço:</label>
-                    <input type="text" id="endereco">
-                </div>
-                <div class="field w-small">
-                    <label>Nº:</label>
-                    <input type="text" id="numero">
-                </div>
+        <!-- Bloco 02 Endereço e Documentos -->
+        <div class="bloco">
+            <div class="bloco-titulo">Bloco 02 Endereço e Documentos</div>
+            <div class="form-group">
+                <label for="endereco">ENDEREÇO:</label>
+                <input type="text" id="endereco">
             </div>
-            <div class="row">
-                <div class="field">
-                    <label>Bairro:</label>
-                    <input type="text" id="bairro">
-                </div>
-                <div class="field">
-                    <label>Cidade:</label>
-                    <input type="text" id="cidade">
-                </div>
+            <div class="form-group">
+                <label for="bairro">BAIRRO:</label>
+                <input type="text" id="bairro">
             </div>
-            <div class="row">
-                <div class="field w-uf">
-                    <label>Estado:</label>
-                    <input type="text" id="estado" maxlength="2" placeholder="UF">
-                </div>
-                <div class="field w-cep">
-                    <label>CEP:</label>
-                    <input type="text" id="cep" maxlength="9" placeholder="00000-000">
-                </div>
-                <div class="field w-tel">
-                    <label>Telefone:</label>
-                    <input type="text" id="telefone">
-                </div>
-                <div class="field">
-                    <label>RG ou CPF:</label>
-                    <input type="text" id="documento">
-                </div>
+            <div class="form-group">
+                <label for="cidade">CIDADE:</label>
+                <input type="text" id="cidade">
+            </div>
+            <div class="form-group">
+                <label for="estado">ESTADO:</label>
+                <input type="text" id="estado">
+            </div>
+            <div class="form-group">
+                <label for="cep">CEP:</label>
+                <input type="text" id="cep" placeholder="00000-000">
+            </div>
+            <div class="form-group">
+                <label for="telefone">TELEFONE:</label>
+                <input type="text" id="telefone">
+            </div>
+            <div class="form-group">
+                <label for="rgCpf">RG OU CPF:</label>
+                <input type="text" id="rgCpf">
             </div>
         </div>
 
-        <div class="block">
-            <div class="block-title">Bloco 03 Qualificação</div>
-            <div class="row">
-                <div class="field">
-                    <label>Participa de Grupos Jovem?</label>
-                    <input type="text" id="grupos_jovem">
-                </div>
-            </div>
-            <div class="row">
-                <div class="field w-sim-nao">
-                    <label>Estuda Atualmente?</label>
-                    <select id="estuda">
-                        <option value="SIM">SIM</option>
-                        <option value="NÃO">NÃO</option>
-                    </select>
-                </div>
-                <div class="field">
-                    <label>Escola:</label>
-                    <input type="text" id="escola">
-                </div>
-            </div>
-            <div class="row">
-                <div class="field">
-                    <label>Série:</label>
-                    <input type="text" id="serie">
-                </div>
-            </div>
-            <div class="row">
-                <div class="field">
-                    <label>Grau de Escolaridade:</label>
-                    <input type="text" id="escolaridade">
-                </div>
-            </div>
-            <div class="row">
-                <div class="field w-trabalha-sim-nao">
-                    <label>Trabalha atualmente?</label>
-                    <select id="trabalha_opcao">
-                        <option value="SIM">SIM</option>
-                        <option value="NÃO" selected>NÃO</option>
-                    </select>
-                </div>
-                <div class="field">
-                    <label>Onde trabalha?</label>
-                    <input type="text" id="trabalho_local">
-                </div>
+        <!-- Bloco 03 Qualificação -->
+        <div class="bloco">
+            <div class="bloco-titulo">Bloco 03 Qualificação</div>
+            <div class="form-group">
+                <label for="curso">CURSO / ATIVIDADE:</label>
+                <input type="text" id="curso">
             </div>
         </div>
 
-        <div class="block">
-            <div class="block-title">Bloco 04 Objetivo</div>
-            <div class="row">
-                <div class="field">
-                    <label>Curso ou Atividade:</label>
-                    <select id="curso">
-                        <option value="">-- SELECIONE O CURSO --</option>
-                        <option value="INFORMÁTICA BÁSICA">INFORMÁTICA BÁSICA</option>
-                        <option value="MANUTENÇÃO DE COMPUTADORES">MANUTENÇÃO DE COMPUTADORES</option>
-                        <option value="OFFICE AVANÇADO">OFFICE AVANÇADO</option>
-                        <option value="PROGRAMAÇÃO DE SISTEMA">PROGRAMAÇÃO DE SISTEMA</option>
-                        <option value="CAPOEIRA">CAPOEIRA</option>
-                        <option value="INICIALIZAÇÃO NA COMPUTAÇÃO">INICIALIZAÇÃO NA COMPUTAÇÃO</option>
-                        <option value="INFORMÁTICA INTERMEDIARIA">INFORMÁTICA INTERMEDIARIA</option>
-                        <option value="TÉCNICO EM INFORMÁTICA">TÉCNICO EM INFORMÁTICA</option>
-                        <option value="WEB DESIGNAR">WEB DESIGNAR</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="field">
-                    <label>Preferência por Turno:</label>
-                    <div class="checkbox-group">
-                        <label><input type="radio" name="turno" value="Manhã"> MANHÃ</label>
-                        <label><input type="radio" name="turno" value="Tarde"> TARDE</label>
-                        <label><input type="radio" name="turno" value="Noite"> NOITE</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="block">
-            <div class="block-title">Bloco 05 Referências do Programa</div>
-            <div class="row">
-                <div class="field">
-                    <label>Nome do Professor:</label>
-                    <select id="professor">
-                        <option value="">-- SELECIONE --</option>
-                        <option value="JONES NUNES DA SILVA">JONES NUNES DA SILVA</option>
-                        <option value="LEANDRO JONH DA SILVA">LEANDRO JONH DA SILVA</option>
-                        <option value="LUCINALDO CLEMENTE DA SILVA">LUCINALDO CLEMENTE DA SILVA</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="field">
-                    <label>Coordenador:</label>
-                    <input type="text" id="coordenador" value="BENONE HENRIQUE DE SOUSA" readonly>
-                </div>
-            </div>
-            <div class="row">
-                <div class="field w-medium">
-                    <label>Início das Aulas:</label>
-                    <input type="date" id="inicio_aulas">
-                </div>
-                <div class="field w-medium">
-                    <label>Horário:</label>
-                    <input type="text" id="horario_aulas" placeholder="Ex: 08:00 AS 10:00">
-                </div>
-            </div>
-        </div>
-
-        <div class="form-buttons">
-            <button type="button" class="btn btn-report" onclick="abrirModalRelatorio()">Gerar Relatório por Curso</button>
-            <button type="button" class="btn btn-clear" onclick="limparFormulario()">Limpar</button>
-            <button type="submit" class="btn btn-submit">Salvar Registro</button>
-        </div>
+        <button type="submit">Salvar Matrícula</button>
     </form>
 
-    <div class="records-section">
-        <h2>Registros Salvos</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Código (PK)</th>
-                    <th>Data Inclusão</th>
-                    <th>Nome do Aluno</th>
-                    <th>Telefone</th>
-                    <th>Curso</th>
-                </tr>
-            </thead>
-            <tbody id="tabelaRegistros"></tbody>
-        </table>
-    </div>
-</div>
-
-<div id="reportModal" class="modal">
-    <div class="report-content">
-        <div class="report-header">
-            <h2>Relatório de Alunos por Curso</h2>
-            <div class="no-print">
-                <label style="font-weight: bold; font-size: 12px;">Filtrar Curso:</label>
-                <select id="filtroCursoRelatorio" onchange="renderizarRelatorio()" style="padding: 5px; font-size: 12px;"></select>
-            </div>
-        </div>
-        
-        <table>
-            <thead>
-                <tr>
-                    <th>Código</th>
-                    <th>Nome do Aluno</th>
-                    <th>Endereço</th>
-                    <th>Nº</th>
-                    <th>Bairro</th>
-                    <th>Cidade</th>
-                    <th>Telefone</th>
-                    <th>Nome do Curso</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody id="tabelaRelatorioCorpo"></tbody>
-        </table>
-
-        <div class="form-buttons" style="margin-top: 20px;">
-            <button type="button" class="btn btn-print no-print" onclick="window.print()">Imprimir</button>
-            <button type="button" class="btn btn-clear no-print" onclick="fecharModalRelatorio()">Sair da Página</button>
-        </div>
-    </div>
-</div>
-
-<div id="passwordModal" class="modal">
-    <div class="report-content" style="max-width: 400px;">
-        <div class="report-header">
-            <h2>Alterar Senha de Acesso</h2>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
-            <div>
-                <label style="font-size: 12px; font-weight: bold;">Senha de Administrador:</label>
-                <input type="password" id="admSenhaCheck" autocomplete="new-password" style="width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #cbd5e1; border-radius: 4px;">
-            </div>
-            <div>
-                <label style="font-size: 12px; font-weight: bold;">Nova Senha do Sistema:</label>
-                <input type="password" id="novaSenhaInput" autocomplete="new-password" style="width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #cbd5e1; border-radius: 4px;">
-            </div>
-        </div>
-        <div class="form-buttons">
-            <button type="button" class="btn btn-submit" onclick="salvarNovaSenha()">Salvar Nova Senha</button>
-            <button type="button" class="btn btn-clear" onclick="fecharModalSenha()">Cancelar</button>
-        </div>
-    </div>
+    <h3 style="margin-top: 30px; color: #003366;">Alunos Cadastrados</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Data Inclusão</th>
+                <th>Nome do Aluno</th>
+                <th>Telefone</th>
+                <th>Curso</th>
+            </tr>
+        </thead>
+        <tbody id="tabelaRegistros">
+            <!-- Dados inseridos via script -->
+        </tbody>
+    </table>
 </div>
 
 <script>
-    let alunosSalvos = JSON.parse(localStorage.getItem('alunos_db')) || [];
-    let senhaSistema = localStorage.getItem('sistema_senha') || 'juventudes';
-
-    document.getElementById('loginUsuario').addEventListener('input', function(e) {
-        this.value = this.value.toLowerCase();
-    });
-
-    function realizarLogin() {
-        const usuario = document.getElementById('loginUsuario').value.trim().toLowerCase();
-        const senha = document.getElementById('loginSenha').value.trim();
-        
-        if (usuario === "cadjovem" && senha === senhaSistema) {
-            document.getElementById('loginOverlay').style.display = 'none';
-            document.getElementById('mainContainer').style.display = 'block';
-            atualizarTabelaEBusca();
-            definirDataAtualInclusao();
-        } else {
-            alert("Usuário ou senha incorretos!");
-        }
-    }
-
-    function realizarLogout() {
-        document.getElementById('loginSenha').value = '';
-        document.getElementById('loginUsuario').value = '';
-        document.getElementById('mainContainer').style.display = 'none';
-        document.getElementById('loginOverlay').style.display = 'flex';
-    }
-
-    function abrirModalSenha() {
-        document.getElementById('admSenhaCheck').value = '';
-        document.getElementById('novaSenhaInput').value = '';
-        document.getElementById('passwordModal').style.display = 'block';
-    }
-
-    function fecharModalSenha() {
-        document.getElementById('passwordModal').style.display = 'none';
-    }
-
-    function salvarNovaSenha() {
-        const admPass = document.getElementById('admSenhaCheck').value.trim();
-        const novaPass = document.getElementById('novaSenhaInput').value.trim();
-
-        if (admPass !== 'itapetim') {
-            alert("Senha de Administrador incorreta!");
-            return;
-        }
-
-        if (!novaPass) {
-            alert("A nova senha não pode estar vazia!");
-            return;
-        }
-
-        localStorage.setItem('sistema_senha', novaPass);
-        senhaSistema = novaPass;
-        alert("Senha alterada com sucesso!");
-        fecharModalSenha();
-    }
-
-    window.onload = function() {
-        definirDataAtualInclusao();
-        atualizarTabelaEBusca();
-    };
-
-    function definirDataAtualInclusao() {
-        const hoje = new Date().toISOString().split('T')[0];
-        document.getElementById('data_inclusao').value = hoje;
-    }
+    // Simulação de banco de dados local ou array de registros
+    let alunosSalvos = [
+        { codigo: 1, data_inclusao: '2026-01-10', nome_aluno: 'Ana Souza', telefone: '(11) 99999-1111', curso: 'Jovem Programador' },
+        { codigo: 2, data_inclusao: '2026-02-15', nome_aluno: 'Bruno Oliveira', telefone: '(11) 98888-2222', curso: 'Música e Arte' },
+        { codigo: 3, data_inclusao: '2026-03-20', nome_aluno: 'Carlos Eduardo', telefone: '(11) 97777-3333', curso: 'Esportes' },
+        { codigo: 4, data_inclusao: '2026-04-05', nome_aluno: 'Daniela Lima', telefone: '(11) 96666-4444', curso: 'Informática Básica' },
+        { codigo: 5, data_inclusao: '2026-08-28', nome_aluno: 'Elena Rodrigues', telefone: '(11) 95555-5555', curso: 'Teatro' }
+    ];
 
     function gerarProximoCodigo() {
-        if (alunosSalvos.length === 0) return "1001";
-        const codigosNum = alunosSalvos.map(a => parseInt(a.codigo)).filter(n => !isNaN(n));
-        if (codigosNum.length === 0) return "1001";
-        return (Math.max(...codigosNum) + 1).toString();
-    }
-
-    function processarArquivoCSV(input) {
-        const file = input.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const conteudo = e.target.result;
-            const linhas = conteudo.split(/\r\n|\n/);
-            let importadosCount = 0;
-
-            linhas.forEach((linha, index) => {
-                if (!linha.trim()) return;
-
-                const colunas = linha.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)|;(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(col => {
-                    return col.trim().replace(/^"(.*)"$/, '$1').trim();
-                });
-
-                if (index === 0 && (colunas[0].toUpperCase().includes('COD') || colunas[1].toUpperCase().includes('NOME'))) {
-                    return;
-                }
-
-                let codigo = colunas[0] ? colunas[0] : gerarProximoCodigo();
-                let nome = colunas[1] ? colunas[1] : '';
-                let telefone = colunas[2] ? colunas[2] : '';
-                let curso = colunas[3] ? colunas[3] : '';
-
-                if (nome && nome.toUpperCase() !== 'NOME DO ALUNO') {
-                    const novoAluno = {
-                        codigo: codigo,
-                        data_inclusao: new Date().toISOString().split('T')[0],
-                        nome_aluno: nome,
-                        telefone: telefone,
-                        curso: curso,
-                        status: "MATRICULADO"
-                    };
-
-                    const existe = alunosSalvos.findIndex(a => a.codigo === codigo);
-                    if (existe >= 0) {
-                        alunosSalvos[existe] = {...alunosSalvos[existe], ...novoAluno};
-                    } else {
-                        alunosSalvos.push(novoAluno);
-                    }
-                    importadosCount++;
-                }
-            });
-
-            localStorage.setItem('alunos_db', JSON.stringify(alunosSalvos));
-            atualizarTabelaEBusca();
-            alert(`${importadosCount} registros importados com sucesso!`);
-            input.value = '';
-        };
-        reader.readAsText(file, 'UTF-8');
-    }
-
-    document.getElementById('formMatricula').addEventListener('submit', function(e) {
-        e.preventDefault();
-        let codigoInput = document.getElementById('codigo').value.trim() || gerarProximoCodigo();
-        const indexExistente = alunosSalvos.findIndex(a => a.codigo === codigoInput);
-        const turnoSelecionado = document.querySelector('input[name="turno"]:checked');
-
-        const alunoDados = {
-            codigo: codigoInput,
-            data_inclusao: document.getElementById('data_inclusao').value,
-            nome_aluno: document.getElementById('nome_aluno').value,
-            data_nascimento: document.getElementById('data_nascimento').value,
-            sexo: document.getElementById('sexo').value,
-            estado_civil: document.getElementById('estado_civil').value,
-            nome_pai: document.getElementById('nome_pai').value,
-            nome_mae: document.getElementById('nome_mae').value,
-            endereco: document.getElementById('endereco').value,
-            numero: document.getElementById('numero').value,
-            bairro: document.getElementById('bairro').value,
-            cidade: document.getElementById('cidade').value,
-            estado: document.getElementById('estado').value,
-            cep: document.getElementById('cep').value,
-            telefone: document.getElementById('telefone').value,
-            documento: document.getElementById('documento').value,
-            grupos_jovem: document.getElementById('grupos_jovem').value,
-            estuda: document.getElementById('estuda').value,
-            escola: document.getElementById('escola').value,
-            serie: document.getElementById('serie').value,
-            escolaridade: document.getElementById('escolaridade').value,
-            trabalha_opcao: document.getElementById('trabalha_opcao').value,
-            trabalho_local: document.getElementById('trabalho_local').value,
-            curso: document.getElementById('curso').value,
-            turno: turnoSelecionado ? turnoSelecionado.value : '',
-            professor: document.getElementById('professor').value,
-            coordenador: document.getElementById('coordenador').value,
-            inicio_aulas: document.getElementById('inicio_aulas').value,
-            horario_aulas: document.getElementById('horario_aulas').value,
-            status: "MATRICULADO"
-        };
-
-        if (indexExistente >= 0) {
-            alunosSalvos[indexExistente] = alunoDados;
-            alert(`Registro #${codigoInput} atualizado!`);
-        } else {
-            alunosSalvos.push(alunoDados);
-            alert(`Novo registro #${codigoInput} salvo!`);
-        }
-
-        localStorage.setItem('alunos_db', JSON.stringify(alunosSalvos));
-        atualizarTabelaEBusca();
-        limparFormulario();
-    });
-
-    function limparFormulario() {
-        document.getElementById('formMatricula').reset();
-        document.getElementById('coordenador').value = "BENONE HENRIQUE DE SOUSA";
-        document.getElementById('inputBusca').value = "";
-        document.querySelectorAll('input[name="turno"]').forEach(r => r.checked = false);
-        definirDataAtualInclusao();
+        if (alunosSalvos.length === 0) return 1;
+        const max = Math.max(...alunosSalvos.map(a => a.codigo));
+        return max + 1;
     }
 
     function atualizarTabelaEBusca() {
@@ -874,101 +224,60 @@
             tr.innerHTML = `<td><strong>${aluno.codigo}</strong></td><td>${aluno.data_inclusao || '-'}</td><td>${aluno.nome_aluno}</td><td>${aluno.telefone || '-'}</td><td>${aluno.curso || '-'}</td>`;
             tbody.appendChild(tr);
 
-            const option = document.createElement('option');
-            option.value = `[${aluno.codigo}] ${aluno.nome_aluno}`;
-            datalist.appendChild(option);
+            if (aluno.nome_aluno) {
+                const option = document.createElement('option');
+                // Formato correto exibindo o Nome do Aluno seguido do Código
+                option.value = `${aluno.nome_aluno} [Código: ${aluno.codigo}]`;
+                datalist.appendChild(option);
+            }
         });
     }
 
-    function executarBuscaAluno() {
-        const valorBusca = document.getElementById('inputBusca').value.trim();
-        if (!valorBusca) return;
+    function inicializarFormulario() {
+        document.getElementById('codigo').value = gerarProximoCodigo();
+        const hoje = new Date().toISOString().split('T')[0];
+        document.getElementById('dataInclusao').value = hoje;
+        atualizarTabelaEBusca();
+    }
 
-        let match = valorBusca.match(/\[(.*?)\]/);
-        let codigoBusca = match ? match[1] : valorBusca;
+    document.getElementById('formMatricula').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const novoAluno = {
+            codigo: parseInt(document.getElementById('codigo').value),
+            data_inclusao: document.getElementById('dataInclusao').value,
+            nome_aluno: document.getElementById('nomeAluno').value,
+            telefone: document.getElementById('telefone').value,
+            curso: document.getElementById('curso').value
+        };
 
-        const alunoEncontrado = alunosSalvos.find(a => a.codigo === codigoBusca || a.nome_aluno.toUpperCase() === valorBusca.toUpperCase());
+        alunosSalvos.push(novoAluno);
+        alert('Matrícula salva com sucesso!');
+        this.reset();
+        inicializarFormulario();
+    });
 
-        if (alunoEncontrado) {
-            document.getElementById('codigo').value = alunoEncontrado.codigo || '';
-            document.getElementById('data_inclusao').value = alunoEncontrado.data_inclusao || '';
-            document.getElementById('nome_aluno').value = alunoEncontrado.nome_aluno || '';
-            document.getElementById('data_nascimento').value = alunoEncontrado.data_nascimento || '';
-            document.getElementById('sexo').value = alunoEncontrado.sexo || 'M';
-            document.getElementById('estado_civil').value = alunoEncontrado.estado_civil || 'SOLTEIRO(A)';
-            document.getElementById('nome_pai').value = alunoEncontrado.nome_pai || '';
-            document.getElementById('nome_mae').value = alunoEncontrado.nome_mae || '';
-            document.getElementById('endereco').value = alunoEncontrado.endereco || '';
-            document.getElementById('numero').value = alunoEncontrado.numero || '';
-            document.getElementById('bairro').value = alunoEncontrado.bairro || '';
-            document.getElementById('cidade').value = alunoEncontrado.cidade || '';
-            document.getElementById('estado').value = alunoEncontrado.estado || '';
-            document.getElementById('cep').value = alunoEncontrado.cep || '';
-            document.getElementById('telefone').value = alunoEncontrado.telefone || '';
-            document.getElementById('documento').value = alunoEncontrado.documento || '';
-            document.getElementById('grupos_jovem').value = alunoEncontrado.grupos_jovem || '';
-            document.getElementById('estuda').value = alunoEncontrado.estuda || 'SIM';
-            document.getElementById('escola').value = alunoEncontrado.escola || '';
-            document.getElementById('serie').value = alunoEncontrado.serie || '';
-            document.getElementById('escolaridade').value = alunoEncontrado.escolaridade || '';
-            document.getElementById('trabalha_opcao').value = alunoEncontrado.trabalha_opcao || 'NÃO';
-            document.getElementById('trabalho_local').value = alunoEncontrado.trabalho_local || '';
-            document.getElementById('curso').value = alunoEncontrado.curso || '';
-            
-            if (alunoEncontrado.turno) {
-                const radioTurno = document.querySelector(`input[name="turno"][value="${alunoEncontrado.turno}"]`);
-                if (radioTurno) radioTurno.checked = true;
+    function buscarAlunoPorNome() {
+        const valorBusca = document.getElementById('buscaAluno').value;
+        // Extrai o código caso o usuário selecione a opção do datalist no formato "Nome [Código: X]"
+        const match = valorBusca.match(/\[Código:\s*(\d+)\]/);
+        
+        if (match) {
+            const codigoBusca = parseInt(match[1]);
+            const alunoEncontrado = alunosSalvos.find(a => a.codigo === codigoBusca);
+            if (alunoEncontrado) {
+                document.getElementById('codigo').value = alunoEncontrado.codigo;
+                document.getElementById('dataInclusao').value = alunoEncontrado.data_inclusao || '';
+                document.getElementById('nomeAluno').value = alunoEncontrado.nome_aluno || '';
+                document.getElementById('telefone').value = alunoEncontrado.telefone || '';
+                document.getElementById('curso').value = alunoEncontrado.curso || '';
             }
-
-            document.getElementById('professor').value = alunoEncontrado.professor || '';
-            document.getElementById('coordenador').value = alunoEncontrado.coordenador || 'BENONE HENRIQUE DE SOUSA';
-            document.getElementById('inicio_aulas').value = alunoEncontrado.inicio_aulas || '';
-            document.getElementById('horario_aulas').value = alunoEncontrado.horario_aulas || '';
-        } else {
-            alert("Aluno não encontrado!");
         }
     }
 
-    function abrirModalRelatorio() {
-        const select = document.getElementById('filtroCursoRelatorio');
-        select.innerHTML = '<option value="TODOS">TODOS OS CURSOS</option>';
-        
-        const cursosUnicos = [...new Set(alunosSalvos.map(a => a.curso).filter(Boolean))];
-        cursosUnicos.forEach(curso => {
-            select.innerHTML += `<option value="${curso}">${curso}</option>`;
-        });
-
-        renderizarRelatorio();
-        document.getElementById('reportModal').style.display = 'block';
-    }
-
-    function fecharModalRelatorio() {
-        document.getElementById('reportModal').style.display = 'none';
-    }
-
-    function renderizarRelatorio() {
-        const filtro = document.getElementById('filtroCursoRelatorio').value;
-        const tbody = document.getElementById('tabelaRelatorioCorpo');
-        tbody.innerHTML = '';
-
-        const filtrados = filtro === 'TODOS' ? alunosSalvos : alunosSalvos.filter(a => a.curso === filtro);
-
-        filtrados.forEach(aluno => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${aluno.codigo || ''}</td>
-                <td>${aluno.nome_aluno || ''}</td>
-                <td>${aluno.endereco || ''}</td>
-                <td>${aluno.numero || ''}</td>
-                <td>${aluno.bairro || ''}</td>
-                <td>${aluno.cidade || ''}</td>
-                <td>${aluno.telefone || ''}</td>
-                <td>${aluno.curso || ''}</td>
-                <td>${aluno.status || 'MATRICULADO'}</td>
-            `;
-            tbody.appendChild(tr);
-        });
-    }
+    // Inicializa na carga da página
+    window.onload = inicializarFormulario;
 </script>
+
 </body>
 </html>
