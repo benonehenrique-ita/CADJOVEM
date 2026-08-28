@@ -12,7 +12,7 @@
             padding: 20px;
         }
         .container {
-            max-width: 900px;
+            max-width: 950px;
             margin: 0 auto;
             background: #ffffff;
             padding: 20px;
@@ -170,7 +170,7 @@
         <div class="bloco">
             <div class="bloco-titulo">Bloco 03 Qualificação</div>
             <div class="form-group">
-                <label for="curso">CURSO / ATIVIDADE:</label>
+                <label for="curso">CURSO OU ATIVIDADE QUE PRETENDE FAZER:</label>
                 <input type="text" id="curso">
             </div>
         </div>
@@ -186,7 +186,7 @@
                 <th>Data Inclusão</th>
                 <th>Nome do Aluno</th>
                 <th>Telefone</th>
-                <th>Curso</th>
+                <th>Curso / Atividade</th>
             </tr>
         </thead>
         <tbody id="tabelaRegistros">
@@ -196,13 +196,62 @@
 </div>
 
 <script>
-    // Simulação de banco de dados local ou array de registros
+    // Array estruturado exatamente com base nos dados reais do Access informados
     let alunosSalvos = [
-        { codigo: 1, data_inclusao: '2026-01-10', nome_aluno: 'Ana Souza', telefone: '(11) 99999-1111', curso: 'Jovem Programador' },
-        { codigo: 2, data_inclusao: '2026-02-15', nome_aluno: 'Bruno Oliveira', telefone: '(11) 98888-2222', curso: 'Música e Arte' },
-        { codigo: 3, data_inclusao: '2026-03-20', nome_aluno: 'Carlos Eduardo', telefone: '(11) 97777-3333', curso: 'Esportes' },
-        { codigo: 4, data_inclusao: '2026-04-05', nome_aluno: 'Daniela Lima', telefone: '(11) 96666-4444', curso: 'Informática Básica' },
-        { codigo: 5, data_inclusao: '2026-08-28', nome_aluno: 'Elena Rodrigues', telefone: '(11) 95555-5555', curso: 'Teatro' }
+        {
+            codigo: 3,
+            dataInclusao: '2013-02-06',
+            nomeAluno: 'ÂNGELA MARIA PAES DE SOUZA',
+            dataNascimento: '1994-11-30',
+            sexo: 'F',
+            estadoCivil: 'SOLTEIRA',
+            nomePai: 'ARLINDO ELIZIANO DE SOUZA',
+            nomeMae: 'MARLEIDE PAES DE ANDRADE',
+            endereco: 'TRAVESSA AMANCIO PEREIRA, Nº 105',
+            bairro: 'CENTRO',
+            cidade: 'ITAPETIM',
+            estado: 'PE',
+            cep: '56720-000',
+            telefone: '',
+            rgCpf: '123.456.789-01',
+            curso: 'INFORMÁTICA BÁSICA'
+        },
+        {
+            codigo: 4,
+            dataInclusao: '2013-02-05',
+            nomeAluno: 'PAULA DOS SANTOS MOURA',
+            dataNascimento: '1981-08-26',
+            sexo: 'F',
+            estadoCivil: 'SOLTEIRA',
+            nomePai: 'VALDECIR AURÉLIO DE MOURA',
+            nomeMae: 'ALDA DOS SANTOS MOURA',
+            endereco: 'RUA CRIZANTO VALDEVINO, Nº 109',
+            bairro: 'CENTRO',
+            cidade: 'ITAPETIM',
+            estado: 'PE',
+            cep: '56720-000',
+            telefone: '(87) 3853-1421',
+            rgCpf: '387.508.147-12',
+            curso: 'INFORMÁTICA BÁSICA'
+        },
+        {
+            codigo: 5,
+            dataInclusao: '2013-02-07',
+            nomeAluno: 'LAMARTINE VICENTE DA SILVA',
+            dataNascimento: '1968-03-05',
+            sexo: 'F',
+            estadoCivil: 'CASADA',
+            nomePai: 'FRANCELINO VICENTE DA SILVA',
+            nomeMae: 'PETUA MARIA DA CONCEIÇÃO',
+            endereco: 'RUA PADRE JOSÉ QUEREL, Nº 469',
+            bairro: 'CENTRO',
+            cidade: 'ITAPETIM',
+            estado: 'PE',
+            cep: '56720-000',
+            telefone: '(87) 9908-6262',
+            rgCpf: '3.796.555',
+            curso: 'INFORMÁTICA BÁSICA'
+        }
     ];
 
     function gerarProximoCodigo() {
@@ -220,14 +269,21 @@
         datalist.innerHTML = '';
 
         alunosSalvos.forEach(aluno => {
+            // Preenche a tabela visual inferior
             const tr = document.createElement('tr');
-            tr.innerHTML = `<td><strong>${aluno.codigo}</strong></td><td>${aluno.data_inclusao || '-'}</td><td>${aluno.nome_aluno}</td><td>${aluno.telefone || '-'}</td><td>${aluno.curso || '-'}</td>`;
+            tr.innerHTML = `
+                <td><strong>${aluno.codigo}</strong></td>
+                <td>${aluno.dataInclusao || '-'}</td>
+                <td>${aluno.nomeAluno || '-'}</td>
+                <td>${aluno.telefone || '-'}</td>
+                <td>${aluno.curso || '-'}</td>
+            `;
             tbody.appendChild(tr);
 
-            if (aluno.nome_aluno) {
+            // Popula o datalist usando exclusivamente o Nome do Aluno e o Código correspondente
+            if (aluno.nomeAluno) {
                 const option = document.createElement('option');
-                // Formato correto exibindo o Nome do Aluno seguido do Código
-                option.value = `${aluno.nome_aluno} [Código: ${aluno.codigo}]`;
+                option.value = `${aluno.nomeAluno} [Código: ${aluno.codigo}]`;
                 datalist.appendChild(option);
             }
         });
@@ -245,9 +301,20 @@
         
         const novoAluno = {
             codigo: parseInt(document.getElementById('codigo').value),
-            data_inclusao: document.getElementById('dataInclusao').value,
-            nome_aluno: document.getElementById('nomeAluno').value,
+            dataInclusao: document.getElementById('dataInclusao').value,
+            nomeAluno: document.getElementById('nomeAluno').value,
+            dataNascimento: document.getElementById('dataNascimento').value,
+            sexo: document.getElementById('sexo').value,
+            estadoCivil: document.getElementById('estadoCivil').value,
+            nomePai: document.getElementById('nomePai').value,
+            nomeMae: document.getElementById('nomeMae').value,
+            endereco: document.getElementById('endereco').value,
+            bairro: document.getElementById('bairro').value,
+            cidade: document.getElementById('cidade').value,
+            estado: document.getElementById('estado').value,
+            cep: document.getElementById('cep').value,
             telefone: document.getElementById('telefone').value,
+            rgCpf: document.getElementById('rgCpf').value,
             curso: document.getElementById('curso').value
         };
 
@@ -259,7 +326,6 @@
 
     function buscarAlunoPorNome() {
         const valorBusca = document.getElementById('buscaAluno').value;
-        // Extrai o código caso o usuário selecione a opção do datalist no formato "Nome [Código: X]"
         const match = valorBusca.match(/\[Código:\s*(\d+)\]/);
         
         if (match) {
@@ -267,9 +333,20 @@
             const alunoEncontrado = alunosSalvos.find(a => a.codigo === codigoBusca);
             if (alunoEncontrado) {
                 document.getElementById('codigo').value = alunoEncontrado.codigo;
-                document.getElementById('dataInclusao').value = alunoEncontrado.data_inclusao || '';
-                document.getElementById('nomeAluno').value = alunoEncontrado.nome_aluno || '';
+                document.getElementById('dataInclusao').value = alunoEncontrado.dataInclusao || '';
+                document.getElementById('nomeAluno').value = alunoEncontrado.nomeAluno || '';
+                document.getElementById('dataNascimento').value = alunoEncontrado.dataNascimento || '';
+                document.getElementById('sexo').value = alunoEncontrado.sexo || 'M';
+                document.getElementById('estadoCivil').value = alunoEncontrado.estadoCivil || '';
+                document.getElementById('nomePai').value = alunoEncontrado.nomePai || '';
+                document.getElementById('nomeMae').value = alunoEncontrado.nomeMae || '';
+                document.getElementById('endereco').value = alunoEncontrado.endereco || '';
+                document.getElementById('bairro').value = alunoEncontrado.bairro || '';
+                document.getElementById('cidade').value = alunoEncontrado.cidade || '';
+                document.getElementById('estado').value = alunoEncontrado.estado || '';
+                document.getElementById('cep').value = alunoEncontrado.cep || '';
                 document.getElementById('telefone').value = alunoEncontrado.telefone || '';
+                document.getElementById('rgCpf').value = alunoEncontrado.rgCpf || '';
                 document.getElementById('curso').value = alunoEncontrado.curso || '';
             }
         }
