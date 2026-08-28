@@ -797,28 +797,41 @@
                     return;
                 }
 
+                // Mapeia todas as colunas possíveis exportadas do backup/arquivo
                 let codigo = colunas[0] ? colunas[0] : gerarProximoCodigo();
-                let col1 = colunas[1] || ''; 
-                let col2 = colunas[2] || ''; 
-                let col3 = colunas[3] || ''; 
+                let dataInclusaoCorreta = converterParaDataInput(colunas[1]) || "2026-08-28";
+                let nomeAluno = colunas[2] || '';
+                let dataNasc = converterParaDataInput(colunas[3]);
+                let sexo = colunas[4] || 'M';
+                let estadoCivil = colunas[5] || 'SOLTEIRO(A)';
+                let nomePai = colunas[6] || '';
+                let nomeMae = colunas[7] || '';
+                let endereco = colunas[8] || '';
+                let numero = colunas[9] || '';
+                let bairro = colunas[10] || '';
+                let cidade = colunas[11] || '';
+                let estado = colunas[12] || '';
+                let cep = colunas[13] || '';
+                let telefone = colunas[14] || '';
+                let documento = colunas[15] || '';
+                let gruposJovem = colunas[16] || '';
+                let estuda = colunas[17] || 'SIM';
+                let escola = colunas[18] || '';
+                let serie = colunas[19] || '';
+                let escolaridade = colunas[20] || '';
+                let trabalhaOpcao = colunas[21] || 'NÃO';
+                let trabalhoLocal = colunas[22] || '';
+                let curso = colunas[23] || '';
+                let turno = colunas[24] || '';
+                let professor = colunas[25] || '';
+                let coordenador = colunas[26] || 'BENONE HENRIQUE DE SOUSA';
+                let inicioAulas = converterParaDataInput(colunas[27]) || '';
+                let horarioAulas = colunas[28] || '';
 
-                let dataInclusaoCorreta = "2026-08-28";
-                let nomeAluno = '';
-                let dataNasc = '';
-
-                const regexData = /^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/;
-                const regexDataIso = /^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}/;
-
-                if (regexData.test(col1) || regexDataIso.test(col1)) {
-                    dataInclusaoCorreta = converterParaDataInput(col1) || "2026-08-28";
-                    nomeAluno = col2;
-                    dataNasc = converterParaDataInput(col3);
-                } else if (regexData.test(col2) || regexDataIso.test(col2)) {
-                    nomeAluno = col1;
-                    dataNasc = converterParaDataInput(col2);
-                } else {
-                    nomeAluno = col2 || col1;
-                    dataNasc = converterParaDataInput(col3);
+                // Compatibilidade com arquivos antigos que tinham colunas deslocadas
+                if (!nomeAluno && colunas[1] && !converterParaDataInput(colunas[1])) {
+                    nomeAluno = colunas[1];
+                    dataNasc = converterParaDataInput(colunas[2]);
                 }
 
                 if (nomeAluno && nomeAluno.toUpperCase() !== 'NOME DO ALUNO') {
@@ -827,8 +840,31 @@
                         data_inclusao: dataInclusaoCorreta,
                         nome_aluno: nomeAluno.toUpperCase(),
                         data_nascimento: dataNasc,
-                        telefone: "",
-                        curso: "",
+                        sexo: sexo.toUpperCase(),
+                        estado_civil: estadoCivil.toUpperCase(),
+                        nome_pai: nomePai.toUpperCase(),
+                        nome_mae: nomeMae.toUpperCase(),
+                        endereco: endereco.toUpperCase(),
+                        numero: numero,
+                        bairro: bairro.toUpperCase(),
+                        cidade: cidade.toUpperCase(),
+                        estado: estado.toUpperCase(),
+                        cep: cep,
+                        telefone: telefone,
+                        documento: documento,
+                        grupos_jovem: gruposJovem.toUpperCase(),
+                        estuda: estuda.toUpperCase(),
+                        escola: escola.toUpperCase(),
+                        serie: serie.toUpperCase(),
+                        escolaridade: escolaridade.toUpperCase(),
+                        trabalha_opcao: trabalhaOpcao.toUpperCase(),
+                        trabalho_local: trabalhoLocal.toUpperCase(),
+                        curso: curso.toUpperCase(),
+                        turno: turno,
+                        professor: professor.toUpperCase(),
+                        coordenador: coordenador.toUpperCase(),
+                        inicio_aulas: inicioAulas,
+                        horario_aulas: horarioAulas.toUpperCase(),
                         status: "MATRICULADO"
                     };
 
@@ -928,9 +964,7 @@
         document.getElementById('nome_aluno').value = alunoEncontrado.nome_aluno || '';
         
         let dataNascFinal = alunoEncontrado.data_nascimento;
-        if (!dataNascFinal && alunoEncontrado.telefone && alunoEncontrado.telefone.includes('/')) {
-            dataNascFinal = converterParaDataInput(alunoEncontrado.telefone);
-        } else if (dataNascFinal) {
+        if (dataNascFinal) {
             dataNascFinal = converterParaDataInput(dataNascFinal);
         }
         document.getElementById('data_nascimento').value = dataNascFinal || '';
@@ -945,13 +979,7 @@
         document.getElementById('cidade').value = alunoEncontrado.cidade || '';
         document.getElementById('estado').value = alunoEncontrado.estado || '';
         document.getElementById('cep').value = alunoEncontrado.cep || '';
-        
-        let telVal = alunoEncontrado.telefone || '';
-        if (telVal.includes('/') || telVal.includes('00:00:00')) {
-            telVal = '';
-        }
-        document.getElementById('telefone').value = telVal;
-
+        document.getElementById('telefone').value = alunoEncontrado.telefone || '';
         document.getElementById('documento').value = alunoEncontrado.documento || '';
         document.getElementById('grupos_jovem').value = alunoEncontrado.grupos_jovem || '';
         document.getElementById('estuda').value = alunoEncontrado.estuda || 'SIM';
@@ -963,7 +991,12 @@
         document.getElementById('curso').value = alunoEncontrado.curso || '';
         document.getElementById('professor').value = alunoEncontrado.professor || '';
         document.getElementById('coordenador').value = alunoEncontrado.coordenador || 'BENONE HENRIQUE DE SOUSA';
-        document.getElementById('inicio_aulas').value = alunoEncontrado.inicio_aulas || '';
+        
+        let inicioAulasFinal = alunoEncontrado.inicio_aulas;
+        if (inicioAulasFinal) {
+            inicioAulasFinal = converterParaDataInput(inicioAulasFinal);
+        }
+        document.getElementById('inicio_aulas').value = inicioAulasFinal || '';
         document.getElementById('horario_aulas').value = alunoEncontrado.horario_aulas || '';
 
         document.querySelectorAll('input[name="turno"]').forEach(r => {
@@ -981,16 +1014,11 @@
 
         alunosSalvos.forEach(aluno => {
             const tr = document.createElement('tr');
-            let telExibicao = aluno.telefone || '';
-            if (telExibicao.includes('/') || telExibicao.includes('00:00:00')) {
-                telExibicao = '';
-            }
-
             tr.innerHTML = `
                 <td><strong>${aluno.codigo || ''}</strong></td>
                 <td>${aluno.data_inclusao || ''}</td>
                 <td>${aluno.nome_aluno || ''}</td>
-                <td>${telExibicao}</td>
+                <td>${aluno.telefone || ''}</td>
                 <td>${aluno.curso || ''}</td>
             `;
             tbody.appendChild(tr);
@@ -1037,9 +1065,6 @@
 
         filtrados.forEach(aluno => {
             const tr = document.createElement('tr');
-            let telExibicao = aluno.telefone || '';
-            if (telExibicao.includes('/') || telExibicao.includes('00:00:00')) telExibicao = '';
-
             tr.innerHTML = `
                 <td>${aluno.codigo || ''}</td>
                 <td>${aluno.nome_aluno || ''}</td>
@@ -1047,7 +1072,7 @@
                 <td>${aluno.numero || ''}</td>
                 <td>${aluno.bairro || ''}</td>
                 <td>${aluno.cidade || ''}</td>
-                <td>${telExibicao}</td>
+                <td>${aluno.telefone || ''}</td>
                 <td>${aluno.curso || ''}</td>
                 <td>${aluno.status || 'MATRICULADO'}</td>
             `;
