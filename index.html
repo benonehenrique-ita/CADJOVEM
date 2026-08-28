@@ -1,80 +1,99 @@
+// Banco de dados em memória e carregamento inicial
+let alunosSalvos = JSON.parse(localStorage.getItem('alunos_db')) || [];
+
+// Função para gerar o próximo código sequencial caso esteja vazio
+function gerarProximoCodigo() {
+    if (alunosSalvos.length === 0) return "1";
+    const codigos = alunosSalvos.map(a => parseInt(a.codigo)).filter(c => !isNaN(c));
+    if (codigos.length === 0) return "1";
+    return (Math.max(...codigos) + 1).toString();
+}
+
+// Função para processar o arquivo CSV importado
 function processarArquivoCSV(input) {
-        const file = input.files[0];
-        if (!file) return;
+    const file = input.files[0];
+    if (!file) return;
 
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const conteudo = e.target.result;
-            const linhas = conteudo.split(/\r\n|\n/);
-            let importadosCount = 0;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const conteudo = e.target.result;
+        const linhas = conteudo.split(/\r\n|\n/);
+        let importadosCount = 0;
 
-            linhas.forEach((linha, index) => {
-                if (!linha.trim()) return;
+        linhas.forEach((linha, index) => {
+            if (!linha.trim()) return;
 
-                const colunas = linha.split(/;(?=(?:(?:[^"]*"){2})*[^"]*$)|,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(col => {
-                    return col.trim().replace(/^"(.*)"$/, '$1').trim();
-                });
-
-                if (index === 0 && (colunas[0].toUpperCase().includes('COD') || colunas[2].toUpperCase().includes('NOME'))) {
-                    return;
-                }
-
-                let codigo = colunas[0] ? colunas[0] : gerarProximoCodigo();
-                let dataInclusao = colunas[1] ? colunas[1] : new Date().toISOString().split('T')[0];
-                let nome = colunas[2] ? colunas[2] : '';
-                let endereco = colunas[8] ? colunas[8] : '';
-                let numero = colunas[9] ? colunas[9] : '';
-                let bairro = colunas[10] ? colunas[10] : '';
-                let cidade = colunas[11] ? colunas[11] : '';
-                let telefone = colunas[14] ? colunas[14] : '';
-                let curso = colunas[26] ? colunas[26] : '';
-
-                if (nome && nome.toUpperCase() !== 'NOME DO ALUNO:' && nome.toUpperCase() !== 'NOME DO ALUNO') {
-                    const novoAluno = {
-                        codigo: codigo,
-                        data_inclusao: dataInclusao,
-                        nome_aluno: nome,
-                        endereco: endereco,
-                        numero: numero,
-                        bairro: bairro,
-                        cidade: cidade,
-                        telefone: telefone,
-                        curso: curso,
-                        status: "MATRICULADO"
-                    };
-
-                    const existe = alunosSalvos.findIndex(a => a.codigo === codigo);
-                    if (existe >= 0) {
-                        alunosSalvos[existe] = {...alunosSalvos[existe], ...novoAluno};
-                    } else {
-                        alunosSalvos.push(novoAluno);
-                    }
-                    importadosCount++;
-                }
+            const colunas = linha.split(/;(?=(?:(?:[^"]*"){2})*[^"]*$)|,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(col => {
+                return col.trim().replace(/^"(.*)"$/, '$1').trim();
             });
 
-            localStorage.setItem('alunos_db', JSON.stringify(alunosSalvos));
-            atualizarTabelaEBusca();
-            alert(`${importadosCount} registros importados com sucesso!`);
-            input.value = '';
-        };
-        reader.readAsText(file, 'UTF-8');
-    }
+            if (index === 0 && (colunas[0].toUpperCase().includes('COD') || colunas[2].toUpperCase().includes('NOME'))) {
+                return;
+            }
 
-   function atualizarTabelaEBusca() {
-        const tbody = document.getElementById('tabelaRegistros');
-        const datalist = document.getElementById('listaAlunos');
-        tbody.innerHTML = '';
-        datalist.innerHTML = '';
+            let codigo = colunas[0] ? colunas[0] : gerarProximoCodigo();
+            let dataInclusao = colunas[1] ? colunas[1] : new Date().toISOString().split('T')[0];
+            let nome = colunas[2] ? colunas[2] : '';
+            let endereco = colunas[8] ? colunas[8] : '';
+            let numero = colunas[9] ? colunas[9] : '';
+            let bairro = colunas[10] ? colunas[10] : '';
+            let cidade = colunas[11] ? colunas[11] : '';
+            let telefone = colunas[14] ? colunas[14] : '';
+            let curso = colunas[26] ? colunas[26] : '';
 
-        alunosSalvos.forEach(aluno => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td><strong>${aluno.codigo}</strong></td><td>${aluno.data_inclusao || '-'}</td><td>${aluno.nome_aluno}</td><td>${aluno.telefone || '-'}</td><td>${aluno.curso || '-'}</td>`;
-            tbody.appendChild(tr);
+            if (nome && nome.toUpperCase() !== 'NOME DO ALUNO:' && nome.toUpperCase() !== 'NOME DO ALUNO') {
+                const novoAluno = {
+                    codigo: codigo,
+                    data_inclusao: dataInclusao,
+                    nome_aluno: nome,
+                    endereco: endereco,
+                    numero: numero,
+                    bairro: bairro,
+                    cidade: cidade,
+                    telefone: telefone,
+                    curso: curso,
+                    status: "MATRICULADO"
+                };
 
-            const option = document.createElement('option');
-            // Garante que o nome venha na frente da data/código na listagem de sugestões
-            option.value = `[${aluno.codigo}] ${aluno.nome_aluno}`;
-            datalist.appendChild(option);
+                const existe = alunosSalvos.findIndex(a => a.codigo === codigo);
+                if (existe >= 0) {
+                    alunosSalvos[existe] = {...alunosSalvos[existe], ...novoAluno};
+                } else {
+                    alunosSalvos.push(novoAluno);
+                }
+                importadosCount++;
+            }
         });
-    }
+
+        localStorage.setItem('alunos_db', JSON.stringify(alunosSalvos));
+        atualizarTabelaEBusca();
+        alert(`${importadosCount} registros importados com sucesso!`);
+        input.value = '';
+    };
+    reader.readAsText(file, 'UTF-8');
+}
+
+// Função para atualizar a tabela visual e as opções de busca
+function atualizarTabelaEBusca() {
+    const tbody = document.getElementById('tabelaRegistros');
+    const datalist = document.getElementById('listaAlunos');
+    if (!tbody || !datalist) return;
+
+    tbody.innerHTML = '';
+    datalist.innerHTML = '';
+
+    alunosSalvos.forEach(aluno => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td><strong>${aluno.codigo}</strong></td><td>${aluno.data_inclusao || '-'}</td><td>${aluno.nome_aluno}</td><td>${aluno.telefone || '-'}</td><td>${aluno.curso || '-'}</td>`;
+        tbody.appendChild(tr);
+
+        const option = document.createElement('option');
+        option.value = `[${aluno.codigo}] ${aluno.nome_aluno}`;
+        datalist.appendChild(option);
+    });
+}
+
+// Executa ao carregar a página
+window.onload = function() {
+    atualizarTabelaEBusca();
+};
