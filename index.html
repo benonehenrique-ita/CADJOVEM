@@ -760,42 +760,71 @@
             const linhas = conteudo.split(/\r\n|\n/);
             let importadosCount = 0;
 
+            // Tenta identificar o cabeçalho se houver
+            let indices = { codigo: 0, nome: 1, telefone: 2, curso: 3 };
+
             linhas.forEach((linha, index) => {
-                if (index === 0 || !linha.trim()) return; // Ignora cabeçalho ou linhas vazias
-                const colunas = linha.split(/,|;/); // Aceita vírgula ou ponto e vírgula como separador
+                if (!linha.trim()) return;
+                
+                // Limpa aspas extras que o Excel exporta (ex: "TEXTO") e divide por vírgula ou ponto e vírgula
+                const colunas = linha.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)|;(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(col => {
+                    return col.trim().replace(/^"(.*)"$/, '$1').trim();
+                });
 
-                if (colunas.length >= 2) {
-                    let codigo = colunas[0] ? colunas[0].trim() : gerarProximoCodigo();
-                    let nome = colunas[1] ? colunas[1].trim() : '';
-                    let telefone = colunas[2] ? colunas[2].trim() : '';
-                    let curso = colunas[3] ? colunas[3].trim() : '';
-
-                    if (nome) {
-                        const novoAluno = {
-                            codigo: codigo,
-                            data_inclusao: new Date().toISOString().split('T')[0],
-                            nome_aluno: nome,
-                            telefone: telefone,
-                            curso: curso,
-                            status: "MATRICULADO"
-                        };
-
-                        // Evita duplicar se o código já existir
-                        const existe = alunosSalvos.findIndex(a => a.codigo === codigo);
-                        if (existe >= 0) {
-                            alunosSalvos[existe] = {...alunosSalvos[existe], ...novoAluno};
-                        } else {
-                            alunosSalvos.push(novoAluno);
-                        }
-                        importadosCount++;
+                if (index === 0) {
+                    // Verifica se a primeira linha é um cabeçalho reconhecível
+                    const cabecalhoStr = colunas.join(' ').toUpperCase();
+                    if (cabecalhoStr.includes('NOME') || cabecalhoStr.includes('CÓDIGO') || cabecalhoStr.includes('ALUNO')) {
+                        colunas.forEach((col, cIdx) => {
+                            let cUp = col.toUpperCase();
+                            if (cUp.includes('COD')) indices.codigo = cIdx;
+                            if (cUp.includes('NOME') || cUp.includes('ALUNO')) indices.nome = cIdx;
+                            if (cUp.includes('TEL') || cUp.includes('FONE')) indices.telefone = cIdx;
+                            if (cUp.includes('CURSO')) indices.curso = cIdx;
+                        });
+                        return; // Pula a linha do cabeçalho
                     }
+                }
+
+                let codigo = colunas[indices.codigo] ? colunas[indices.codigo] : gerarProximoCodigo();
+                let nome = colunas[indices.nome] ? colunas[indices.nome] : '';
+                let telefone = colunas[indices.telefone] ? colunas[indices.telefone] : '';
+                let curso = colunas[indices.curso] ? colunas[indices.curso] : '';
+
+                // Se o nome parecer uma data ou estiver vazio, tenta achar alguma coluna que pareça um nome real
+                if (!isNaN(Date.parse(nome)) || !nome || nome.length < 3) {
+                    for (let i = 0; i < colunas.length; i++) {
+                        if (colunas[i] && colunas[i].length > 3 && isNaN(Date.parse(colunas[i])) && !colunas[i].includes('@')) {
+                            nome = colunas[i];
+                            break;
+                        }
+                    }
+                }
+
+                if (nome && nome.toUpperCase() !== 'NOME DO ALUNO') {
+                    const novoAluno = {
+                        codigo: codigo,
+                        data_inclusao: new Date().toISOString().split('T')[0],
+                        nome_aluno: nome,
+                        telefone: telefone,
+                        curso: curso,
+                        status: "MATRICULADO"
+                    };
+
+                    const existe = alunosSalvos.findIndex(a => a.codigo === codigo);
+                    if (existe >= 0) {
+                        alunosSalvos[existe] = {...alunosSalvos[existe], ...novoAluno};
+                    } else {
+                        alunosSalvos.push(novoAluno);
+                    }
+                    importadosCount++;
                 }
             });
 
             localStorage.setItem('alunos_db', JSON.stringify(alunosSalvos));
             atualizarTabelaEBusca();
             alert(`${importadosCount} registros importados com sucesso!`);
-            input.value = ''; // Limpa o input file
+            input.value = '';
         };
         reader.readAsText(file, 'UTF-8');
     }
