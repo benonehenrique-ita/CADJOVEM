@@ -82,7 +82,7 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            display: none; /* Oculto até logar */
+            display: none;
         }
 
         /* Topo */
@@ -749,6 +749,7 @@
         return (Math.max(...codigosNum) + 1).toString();
     }
 
+    // Função de importação robusta para evitar inversão de colunas
     function processarArquivoCSV(input) {
         const file = input.files[0];
         if (!file) return;
@@ -766,26 +767,43 @@
                     return col.trim().replace(/^"(.*)"$/, '$1').trim();
                 });
 
-                if (index === 0 && (colunas[0].toUpperCase().includes('COD') || colunas[1].toUpperCase().includes('NOME'))) {
+                // Ignora cabeçalho
+                if (index === 0 && (colunas.some(c => c.toUpperCase().includes('COD')) || colunas.some(c => c.toUpperCase().includes('NOME')))) {
                     return;
                 }
 
+                // Tenta identificar qual coluna é o nome (geralmente contém letras e não é uma data pura)
                 let codigo = colunas[0] ? colunas[0] : gerarProximoCodigo();
-                let nome = colunas[1] ? colunas[1] : '';
-                let telefone = colunas[2] ? colunas[2] : '';
-                let curso = colunas[3] ? colunas[3] : '';
+                let col1 = colunas[1] || '';
+                let col2 = colunas[2] || '';
+                let col3 = colunas[3] || '';
 
-                if (nome && nome.toUpperCase() !== 'NOME DO ALUNO') {
+                let nomeAluno = '';
+                let telefone = '';
+                let curso = '';
+
+                // Verifica se a col1 parece ser uma data (ex: DD/MM/AAAA) e a col2 o nome real
+                const regexData = /^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/;
+                if (regexData.test(col1) && !regexData.test(col2)) {
+                    nomeAluno = col2;
+                    telefone = col3;
+                } else {
+                    nomeAluno = col1;
+                    telefone = col2;
+                    curso = col3;
+                }
+
+                if (nomeAluno && nomeAluno.toUpperCase() !== 'NOME DO ALUNO') {
                     const novoAluno = {
                         codigo: codigo,
                         data_inclusao: new Date().toISOString().split('T')[0],
-                        nome_aluno: nome,
+                        nome_aluno: nomeAluno.toUpperCase(),
                         telefone: telefone,
-                        curso: curso,
+                        curso: curso.toUpperCase(),
                         status: "MATRICULADO"
                     };
 
-                    const existe = alunosSalvos.findIndex(a => a.codigo === codigo);
+                    const existe = alunosSalvos.findIndex(a => a.codigo === codigo || a.nome_aluno === novoAluno.nome_aluno);
                     if (existe >= 0) {
                         alunosSalvos[existe] = {...alunosSalvos[existe], ...novoAluno};
                     } else {
@@ -812,42 +830,42 @@
         const alunoDados = {
             codigo: codigoInput,
             data_inclusao: document.getElementById('data_inclusao').value,
-            nome_aluno: document.getElementById('nome_aluno').value,
+            nome_aluno: document.getElementById('nome_aluno').value.toUpperCase(),
             data_nascimento: document.getElementById('data_nascimento').value,
             sexo: document.getElementById('sexo').value,
             estado_civil: document.getElementById('estado_civil').value,
-            nome_pai: document.getElementById('nome_pai').value,
-            nome_mae: document.getElementById('nome_mae').value,
-            endereco: document.getElementById('endereco').value,
+            nome_pai: document.getElementById('nome_pai').value.toUpperCase(),
+            nome_mae: document.getElementById('nome_mae').value.toUpperCase(),
+            endereco: document.getElementById('endereco').value.toUpperCase(),
             numero: document.getElementById('numero').value,
-            bairro: document.getElementById('bairro').value,
-            cidade: document.getElementById('cidade').value,
-            estado: document.getElementById('estado').value,
+            bairro: document.getElementById('bairro').value.toUpperCase(),
+            cidade: document.getElementById('cidade').value.toUpperCase(),
+            estado: document.getElementById('estado').value.toUpperCase(),
             cep: document.getElementById('cep').value,
             telefone: document.getElementById('telefone').value,
             documento: document.getElementById('documento').value,
-            grupos_jovem: document.getElementById('grupos_jovem').value,
+            grupos_jovem: document.getElementById('grupos_jovem').value.toUpperCase(),
             estuda: document.getElementById('estuda').value,
-            escola: document.getElementById('escola').value,
-            serie: document.getElementById('serie').value,
-            escolaridade: document.getElementById('escolaridade').value,
+            escola: document.getElementById('escola').value.toUpperCase(),
+            serie: document.getElementById('serie').value.toUpperCase(),
+            escolaridade: document.getElementById('escolaridade').value.toUpperCase(),
             trabalha_opcao: document.getElementById('trabalha_opcao').value,
-            trabalho_local: document.getElementById('trabalho_local').value,
+            trabalho_local: document.getElementById('trabalho_local').value.toUpperCase(),
             curso: document.getElementById('curso').value,
             turno: turnoSelecionado ? turnoSelecionado.value : '',
             professor: document.getElementById('professor').value,
             coordenador: document.getElementById('coordenador').value,
             inicio_aulas: document.getElementById('inicio_aulas').value,
-            horario_aulas: document.getElementById('horario_aulas').value,
+            horario_aulas: document.getElementById('horario_aulas').value.toUpperCase(),
             status: "MATRICULADO"
         };
 
         if (indexExistente >= 0) {
             alunosSalvos[indexExistente] = alunoDados;
-            alert(`Registro #${codigoInput} atualizado!`);
+            alert(`Registro #${codigoInput} atualizado com sucesso!`);
         } else {
             alunosSalvos.push(alunoDados);
-            alert(`Novo registro #${codigoInput} salvo!`);
+            alert(`Novo registro #${codigoInput} salvo com sucesso!`);
         }
 
         localStorage.setItem('alunos_db', JSON.stringify(alunosSalvos));
@@ -863,7 +881,7 @@
         definirDataAtualInclusao();
     }
 
-    // FUNÇÃO DE BUSCA COMPLETA CORRIGIDA
+    // BUSCA PRECISA E CORRETA DE ALUNOS
     function executarBuscaAluno() {
         const termo = document.getElementById('inputBusca').value.trim().toUpperCase();
         if (!termo) return;
@@ -877,7 +895,7 @@
             return;
         }
 
-        // Preenche todos os campos do formulário com os dados salvos
+        // Preenchimento detalhado de cada campo individualmente
         document.getElementById('codigo').value = alunoEncontrado.codigo || '';
         document.getElementById('data_inclusao').value = alunoEncontrado.data_inclusao || '';
         document.getElementById('nome_aluno').value = alunoEncontrado.nome_aluno || '';
@@ -907,7 +925,7 @@
         document.getElementById('inicio_aulas').value = alunoEncontrado.inicio_aulas || '';
         document.getElementById('horario_aulas').value = alunoEncontrado.horario_aulas || '';
 
-        // Marca o radio button do turno correspondente, se houver
+        // Ajusta o turno corretamente
         document.querySelectorAll('input[name="turno"]').forEach(r => {
             r.checked = (r.value === alunoEncontrado.turno);
         });
