@@ -1,4 +1,3 @@
-<!-- Código HTML atualizado e corrigido com o fechamento adequado das funções e tags -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -679,7 +678,6 @@
     let alunosSalvos = JSON.parse(localStorage.getItem('alunos_db')) || [];
     let senhaSistema = localStorage.getItem('sistema_senha') || 'juventudes';
 
-    // Força o campo de usuário a ficar sempre minúsculo
     document.getElementById('loginUsuario').addEventListener('input', function(e) {
         this.value = this.value.toLowerCase();
     });
@@ -745,9 +743,9 @@
     }
 
     function gerarProximoCodigo() {
-        if (alunosSalvos.length === 0) return "1";
+        if (alunosSalvos.length === 0) return "1001";
         const codigosNum = alunosSalvos.map(a => parseInt(a.codigo)).filter(n => !isNaN(n));
-        if (codigosNum.length === 0) return "1";
+        if (codigosNum.length === 0) return "1001";
         return (Math.max(...codigosNum) + 1).toString();
     }
 
@@ -865,6 +863,58 @@
         definirDataAtualInclusao();
     }
 
+    // FUNÇÃO DE BUSCA COMPLETA CORRIGIDA
+    function executarBuscaAluno() {
+        const termo = document.getElementById('inputBusca').value.trim().toUpperCase();
+        if (!termo) return;
+
+        const alunoEncontrado = alunosSalvos.find(a => 
+            a.codigo === termo || (a.nome_aluno && a.nome_aluno.toUpperCase().includes(termo))
+        );
+
+        if (!alunoEncontrado) {
+            alert("Aluno não encontrado!");
+            return;
+        }
+
+        // Preenche todos os campos do formulário com os dados salvos
+        document.getElementById('codigo').value = alunoEncontrado.codigo || '';
+        document.getElementById('data_inclusao').value = alunoEncontrado.data_inclusao || '';
+        document.getElementById('nome_aluno').value = alunoEncontrado.nome_aluno || '';
+        document.getElementById('data_nascimento').value = alunoEncontrado.data_nascimento || '';
+        document.getElementById('sexo').value = alunoEncontrado.sexo || 'M';
+        document.getElementById('estado_civil').value = alunoEncontrado.estado_civil || 'SOLTEIRO(A)';
+        document.getElementById('nome_pai').value = alunoEncontrado.nome_pai || '';
+        document.getElementById('nome_mae').value = alunoEncontrado.nome_mae || '';
+        document.getElementById('endereco').value = alunoEncontrado.endereco || '';
+        document.getElementById('numero').value = alunoEncontrado.numero || '';
+        document.getElementById('bairro').value = alunoEncontrado.bairro || '';
+        document.getElementById('cidade').value = alunoEncontrado.cidade || '';
+        document.getElementById('estado').value = alunoEncontrado.estado || '';
+        document.getElementById('cep').value = alunoEncontrado.cep || '';
+        document.getElementById('telefone').value = alunoEncontrado.telefone || '';
+        document.getElementById('documento').value = alunoEncontrado.documento || '';
+        document.getElementById('grupos_jovem').value = alunoEncontrado.grupos_jovem || '';
+        document.getElementById('estuda').value = alunoEncontrado.estuda || 'SIM';
+        document.getElementById('escola').value = alunoEncontrado.escola || '';
+        document.getElementById('serie').value = alunoEncontrado.serie || '';
+        document.getElementById('escolaridade').value = alunoEncontrado.escolaridade || '';
+        document.getElementById('trabalha_opcao').value = alunoEncontrado.trabalha_opcao || 'NÃO';
+        document.getElementById('trabalho_local').value = alunoEncontrado.trabalho_local || '';
+        document.getElementById('curso').value = alunoEncontrado.curso || '';
+        document.getElementById('professor').value = alunoEncontrado.professor || '';
+        document.getElementById('coordenador').value = alunoEncontrado.coordenador || 'BENONE HENRIQUE DE SOUSA';
+        document.getElementById('inicio_aulas').value = alunoEncontrado.inicio_aulas || '';
+        document.getElementById('horario_aulas').value = alunoEncontrado.horario_aulas || '';
+
+        // Marca o radio button do turno correspondente, se houver
+        document.querySelectorAll('input[name="turno"]').forEach(r => {
+            r.checked = (r.value === alunoEncontrado.turno);
+        });
+
+        alert(`Dados do aluno ${alunoEncontrado.nome_aluno} carregados com sucesso!`);
+    }
+
     function atualizarTabelaEBusca() {
         const tbody = document.getElementById('tabelaRegistros');
         const datalist = document.getElementById('listaAlunos');
@@ -873,75 +923,27 @@
 
         alunosSalvos.forEach(aluno => {
             const tr = document.createElement('tr');
-            tr.innerHTML = `<td><strong>${aluno.codigo}</strong></td><td>${aluno.data_inclusao || '-'}</td><td>${aluno.nome_aluno}</td><td>${aluno.telefone || '-'}</td><td>${aluno.curso || '-'}</td>`;
+            tr.innerHTML = `
+                <td><strong>${aluno.codigo || ''}</strong></td>
+                <td>${aluno.data_inclusao || ''}</td>
+                <td>${aluno.nome_aluno || ''}</td>
+                <td>${aluno.telefone || ''}</td>
+                <td>${aluno.curso || ''}</td>
+            `;
             tbody.appendChild(tr);
 
-            const option = document.createElement('option');
-            option.value = `${aluno.nome_aluno} [Código: ${aluno.codigo}]`;
-            datalist.appendChild(option);
+            if (aluno.nome_aluno) {
+                const option = document.createElement('option');
+                option.value = aluno.nome_aluno;
+                datalist.appendChild(option);
+            }
         });
-    }
-
-    function executarBuscaAluno() {
-        const valorBusca = document.getElementById('inputBusca').value.trim();
-        if (!valorBusca) return;
-
-        let codigoBusca = "";
-        const matchCodigo = valorBusca.match(/\[Código:\s*([^\]]+)\]/i);
-        if (matchCodigo) {
-            codigoBusca = matchCodigo[1].trim();
-        } else {
-            codigoBusca = valorBusca;
-        }
-
-        const aluno = alunosSalvos.find(a => a.codigo === codigoBusca || a.nome_aluno.toUpperCase() === valorBusca.toUpperCase());
-        if (aluno) {
-            preencherFormularioComAluno(aluno);
-        } else {
-            alert("Aluno não encontrado!");
-        }
-    }
-
-    function preencherFormularioComAluno(aluno) {
-        document.getElementById('codigo').value = aluno.codigo || '';
-        document.getElementById('data_inclusao').value = aluno.data_inclusao || '';
-        document.getElementById('nome_aluno').value = aluno.nome_aluno || '';
-        document.getElementById('data_nascimento').value = aluno.data_nascimento || '';
-        document.getElementById('sexo').value = aluno.sexo || 'M';
-        document.getElementById('estado_civil').value = aluno.estado_civil || 'SOLTEIRO(A)';
-        document.getElementById('nome_pai').value = aluno.nome_pai || '';
-        document.getElementById('nome_mae').value = aluno.nome_mae || '';
-        document.getElementById('endereco').value = aluno.endereco || '';
-        document.getElementById('numero').value = aluno.numero || '';
-        document.getElementById('bairro').value = aluno.bairro || '';
-        document.getElementById('cidade').value = aluno.cidade || '';
-        document.getElementById('estado').value = aluno.estado || '';
-        document.getElementById('cep').value = aluno.cep || '';
-        document.getElementById('telefone').value = aluno.telefone || '';
-        document.getElementById('documento').value = aluno.documento || '';
-        document.getElementById('grupos_jovem').value = aluno.grupos_jovem || '';
-        document.getElementById('estuda').value = aluno.estuda || 'SIM';
-        document.getElementById('escola').value = aluno.escola || '';
-        document.getElementById('serie').value = aluno.serie || '';
-        document.getElementById('escolaridade').value = aluno.escolaridade || '';
-        document.getElementById('trabalha_opcao').value = aluno.trabalha_opcao || 'NÃO';
-        document.getElementById('trabalho_local').value = aluno.trabalho_local || '';
-        document.getElementById('curso').value = aluno.curso || '';
-
-        document.querySelectorAll('input[name="turno"]').forEach(r => {
-            r.checked = (r.value === aluno.turno);
-        });
-
-        document.getElementById('professor').value = aluno.professor || '';
-        document.getElementById('coordenador').value = aluno.coordenador || 'BENONE HENRIQUE DE SOUSA';
-        document.getElementById('inicio_aulas').value = aluno.inicio_aulas || '';
-        document.getElementById('horario_aulas').value = aluno.horario_aulas || '';
     }
 
     function abrirModalRelatorio() {
         const selectFiltro = document.getElementById('filtroCursoRelatorio');
-        selectFiltro.innerHTML = '<option value="">-- TODOS OS CURSOS --</option>';
-
+        selectFiltro.innerHTML = '<option value="">TODOS OS CURSOS</option>';
+        
         const cursosUnicos = [...new Set(alunosSalvos.map(a => a.curso).filter(Boolean))];
         cursosUnicos.forEach(curso => {
             const opt = document.createElement('option');
@@ -960,27 +962,27 @@
 
     function renderizarRelatorio() {
         const tbody = document.getElementById('tabelaRelatorioCorpo');
-        const cursoFiltro = document.getElementById('filtroCursoRelatorio').value;
+        const filtro = document.getElementById('filtroCursoRelatorio').value;
         tbody.innerHTML = '';
 
-        const filtrados = cursoFiltro ? alunosSalvos.filter(a => a.curso === cursoFiltro) : alunosSalvos;
+        const filtrados = alunosSalvos.filter(a => !filtro || a.curso === filtro);
 
         if (filtrados.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="9" style="text-align: center;">Nenhum registro encontrado.</td></tr>';
+            tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; color: #666;">Nenhum registro encontrado.</td></tr>`;
             return;
         }
 
         filtrados.forEach(aluno => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>${aluno.codigo || '-'}</td>
-                <td>${aluno.nome_aluno || '-'}</td>
-                <td>${aluno.endereco || '-'}</td>
-                <td>${aluno.numero || '-'}</td>
-                <td>${aluno.bairro || '-'}</td>
-                <td>${aluno.cidade || '-'}</td>
-                <td>${aluno.telefone || '-'}</td>
-                <td>${aluno.curso || '-'}</td>
+                <td>${aluno.codigo || ''}</td>
+                <td>${aluno.nome_aluno || ''}</td>
+                <td>${aluno.endereco || ''}</td>
+                <td>${aluno.numero || ''}</td>
+                <td>${aluno.bairro || ''}</td>
+                <td>${aluno.cidade || ''}</td>
+                <td>${aluno.telefone || ''}</td>
+                <td>${aluno.curso || ''}</td>
                 <td>${aluno.status || 'MATRICULADO'}</td>
             `;
             tbody.appendChild(tr);
