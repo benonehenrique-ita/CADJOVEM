@@ -55,7 +55,7 @@
             border: 1px solid #cbd5e1;
             border-radius: 4px;
             font-size: 14px;
-            text-transform: uppercase;
+            /* Removido o text-transform para permitir minúsculas */
         }
 
         .login-card button {
@@ -122,7 +122,7 @@
             border-radius: 4px;
             border: 1px solid #ccc;
             font-size: 13px;
-            width: 200px;
+            width: 180px;
             text-transform: uppercase;
             outline: none;
         }
@@ -261,7 +261,7 @@
         }
 
         .btn {
-            padding: 9px 15px;
+            padding: 8px 12px;
             font-weight: bold;
             border: none;
             border-radius: 4px;
@@ -276,6 +276,8 @@
         .btn-print { background-color: #2563eb; color: #fff; }
         .btn-import { background-color: #8b5cf6; color: #fff; }
         .btn-report { background-color: #0d9488; color: #fff; }
+        .btn-logout { background-color: #dc2626; color: #fff; }
+        .btn-pass { background-color: #475569; color: #fff; }
 
         .records-section {
             padding: 20px;
@@ -312,8 +314,8 @@
 
         tr:nth-child(even) { background-color: #f8fafc; }
 
-        /* Modal de Relatório */
-        #reportModal {
+        /* Modais */
+        .modal {
             display: none;
             position: fixed;
             top: 0;
@@ -346,8 +348,6 @@
 
         .report-header h2 { color: #002b66; font-size: 16px; }
 
-        #printArea { display: none; }
-
         @media print {
             body * { visibility: hidden; }
             #reportModal, #reportModal * { visibility: visible; }
@@ -362,8 +362,8 @@
 <div id="loginOverlay">
     <div class="login-card">
         <h2>Acesso ao Sistema</h2>
-        <input type="text" id="loginUsuario" placeholder="Usuário" value="ADMIN">
-        <input type="password" id="loginSenha" placeholder="Senha">
+        <input type="text" id="loginUsuario" placeholder="Usuário (ex: cadjovem)">
+        <input type="password" id="loginSenha" placeholder="Senha (ex: juventudes)">
         <button onclick="realizarLogin()">Entrar</button>
     </div>
 </div>
@@ -378,8 +378,9 @@
                 <button type="button" class="btn btn-search" onclick="executarBuscaAluno()">Buscar</button>
             </div>
             <input type="file" id="inputCsv" accept=".txt,.csv" style="display: none;" onchange="processarArquivoCSV(this)">
-            <button type="button" class="btn btn-import" onclick="document.getElementById('inputCsv').click()">Importar Access</button>
-            <button type="button" class="btn btn-clear" onclick="limparFormulario()">Novo</button>
+            <button type="button" class="btn btn-import" onclick="document.getElementById('inputCsv').click()">Importar</button>
+            <button type="button" class="btn btn-pass" onclick="abrirModalSenha()">Mudar Senha</button>
+            <button type="button" class="btn btn-logout" onclick="realizarLogout()">Sair</button>
         </div>
     </div>
 
@@ -616,7 +617,7 @@
 </div>
 
 <!-- Modal do Relatório -->
-<div id="reportModal">
+<div id="reportModal" class="modal">
     <div class="report-content">
         <div class="report-header">
             <h2>Relatório de Alunos por Curso</h2>
@@ -626,8 +627,6 @@
             </div>
         </div>
         
-        <div style="margin-bottom: 15px;" id="infoRelatorioCurso"></div>
-
         <table>
             <thead>
                 <tr>
@@ -652,14 +651,38 @@
     </div>
 </div>
 
+<!-- Modal de Mudar Senha -->
+<div id="passwordModal" class="modal">
+    <div class="report-content" style="max-width: 400px;">
+        <div class="report-header">
+            <h2>Alterar Senha de Acesso</h2>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+            <div>
+                <label style="font-size: 12px; font-weight: bold;">Senha de Administrador (itapetim):</label>
+                <input type="password" id="admSenhaCheck" style="width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+            <div>
+                <label style="font-size: 12px; font-weight: bold;">Nova Senha do Sistema:</label>
+                <input type="password" id="novaSenhaInput" style="width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+        </div>
+        <div class="form-buttons">
+            <button type="button" class="btn btn-submit" onclick="salvarNovaSenha()">Salvar Nova Senha</button>
+            <button type="button" class="btn btn-clear" onclick="fecharModalSenha()">Cancelar</button>
+        </div>
+    </div>
+</div>
+
 <script>
     let alunosSalvos = JSON.parse(localStorage.getItem('alunos_db')) || [];
+    let senhaSistema = localStorage.getItem('sistema_senha') || 'juventudes';
 
     function realizarLogin() {
         const usuario = document.getElementById('loginUsuario').value.trim();
         const senha = document.getElementById('loginSenha').value.trim();
         
-        if (usuario === "ADMIN") {
+        if (usuario === "cadjovem" && senha === senhaSistema) {
             document.getElementById('loginOverlay').style.display = 'none';
             document.getElementById('mainContainer').style.display = 'block';
             atualizarTabelaEBusca();
@@ -667,6 +690,42 @@
         } else {
             alert("Usuário ou senha incorretos!");
         }
+    }
+
+    function realizarLogout() {
+        document.getElementById('loginSenha').value = '';
+        document.getElementById('mainContainer').style.display = 'none';
+        document.getElementById('loginOverlay').style.display = 'flex';
+    }
+
+    function abrirModalSenha() {
+        document.getElementById('admSenhaCheck').value = '';
+        document.getElementById('novaSenhaInput').value = '';
+        document.getElementById('passwordModal').style.display = 'block';
+    }
+
+    function fecharModalSenha() {
+        document.getElementById('passwordModal').style.display = 'none';
+    }
+
+    function salvarNovaSenha() {
+        const admPass = document.getElementById('admSenhaCheck').value.trim();
+        const novaPass = document.getElementById('novaSenhaInput').value.trim();
+
+        if (admPass !== 'itapetim') {
+            alert("Senha de Administrador (itapetim) incorreta!");
+            return;
+        }
+
+        if (!novaPass) {
+            alert("A nova senha não pode estar vazia!");
+            return;
+        }
+
+        localStorage.setItem('sistema_senha', novaPass);
+        senhaSistema = novaPass;
+        alert("Senha alterada com sucesso!");
+        fecharModalSenha();
     }
 
     window.onload = function() {
@@ -821,7 +880,6 @@
             document.getElementById('nome_aluno').value = aluno.nome_aluno;
             document.getElementById('curso').value = aluno.curso || '';
             document.getElementById('telefone').value = aluno.telefone || '';
-            // Preencha demais campos conforme necessário
         } else {
             alert("Aluno não encontrado.");
         }
