@@ -373,7 +373,7 @@
             </div>
             <input type="file" id="inputCsv" accept=".txt,.csv" style="display: none;" onchange="processarArquivoCSV(this)">
             <button type="button" class="btn btn-import" onclick="document.getElementById('inputCsv').click()">Importar</button>
-            <button type="button" class="btn btn-danger" onclick="limparBancoDados()" title="Limpa registros corrompidos">Limpar Dados</button>
+            <button type="button" class="btn btn-danger" onclick="limparBancoDados()" title="Limpa registros salvos">Limpar Dados</button>
             <button type="button" class="btn btn-pass" onclick="abrirModalSenha()">Mudar Senha</button>
             <button type="button" class="btn btn-logout" onclick="realizarLogout()">Sair</button>
         </div>
@@ -743,25 +743,31 @@
     }
 
     function limparBancoDados() {
-        if (confirm("Deseja realmente limpar todos os registros salvos incorretamente?")) {
+        if (confirm("Deseja realmente limpar todos os registros salvos?")) {
             localStorage.removeItem('alunos_db');
             alunosSalvos = [];
             atualizarTabelaEBusca();
-            alert("Banco de dados limpo com sucesso! Agora você pode importar o arquivo corrigido ou cadastrar novamente.");
+            alert("Banco de dados limpo com sucesso!");
         }
     }
 
-    // Função para converter data em formato brasileiro/texto (DD/MM/AAAA) para o formato do input type="date" (AAAA-MM-DD)
     function converterParaDataInput(dataStr) {
         if (!dataStr) return '';
         let limpa = dataStr.split(' ')[0].trim();
         let partes = limpa.split(/[\/\-]/);
         if (partes.length === 3) {
-            let dia = partes[0].padStart(2, '0');
-            let mes = partes[1].padStart(2, '0');
-            let ano = partes[2];
-            if (ano.length === 2) {
-                ano = (parseInt(ano) > 50 ? '19' : '20') + ano;
+            let dia, mes, ano;
+            if (partes[0].length === 4) {
+                ano = partes[0];
+                mes = partes[1].padStart(2, '0');
+                dia = partes[2].padStart(2, '0');
+            } else {
+                dia = partes[0].padStart(2, '0');
+                mes = partes[1].padStart(2, '0');
+                ano = partes[2];
+                if (ano.length === 2) {
+                    ano = (parseInt(ano) > 50 ? '19' : '20') + ano;
+                }
             }
             if (ano.length === 4) {
                 return `${ano}-${mes}-${dia}`;
@@ -770,7 +776,6 @@
         return '';
     }
 
-    // Leitor e importador de CSV inteligente corrigido
     function processarArquivoCSV(input) {
         const file = input.files[0];
         if (!file) return;
@@ -797,33 +802,32 @@
                 let col2 = colunas[2] || ''; 
                 let col3 = colunas[3] || ''; 
 
+                let dataInclusaoCorreta = "2026-08-28";
                 let nomeAluno = '';
                 let dataNasc = '';
-                let telefone = '';
 
                 const regexData = /^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/;
-                
-                if (regexData.test(col1)) {
-                    dataNasc = col1;
+                const regexDataIso = /^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}/;
+
+                if (regexData.test(col1) || regexDataIso.test(col1)) {
+                    dataInclusaoCorreta = converterParaDataInput(col1) || "2026-08-28";
                     nomeAluno = col2;
-                    telefone = col3;
-                } else if (regexData.test(col2)) {
+                    dataNasc = converterParaDataInput(col3);
+                } else if (regexData.test(col2) || regexDataIso.test(col2)) {
                     nomeAluno = col1;
-                    dataNasc = col2;
-                    telefone = col3;
+                    dataNasc = converterParaDataInput(col2);
                 } else {
                     nomeAluno = col2 || col1;
-                    dataNasc = '';
-                    telefone = col3;
+                    dataNasc = converterParaDataInput(col3);
                 }
 
-                if (nomeAluno && nomeAluno.toUpperCase() !== 'NOME DO ALUNO' && !regexData.test(nomeAluno)) {
+                if (nomeAluno && nomeAluno.toUpperCase() !== 'NOME DO ALUNO') {
                     const novoAluno = {
                         codigo: codigo,
-                        data_inclusao: "2026-08-28", // Mantém a data de inclusão correta da base
+                        data_inclusao: dataInclusaoCorreta,
                         nome_aluno: nomeAluno.toUpperCase(),
-                        data_nascimento: dataNasc, // Salva corretamente a data de nascimento extraída
-                        telefone: "", // Limpa o telefone para não exibir a data de nascimento antiga por engano
+                        data_nascimento: dataNasc,
+                        telefone: "",
                         curso: "",
                         status: "MATRICULADO"
                     };
@@ -840,7 +844,7 @@
 
             localStorage.setItem('alunos_db', JSON.stringify(alunosSalvos));
             atualizarTabelaEBusca();
-            alert(`${importadosCount} registros importados e corrigidos com sucesso!`);
+            alert(`${importadosCount} registros importados com sucesso!`);
             input.value = '';
         };
         reader.readAsText(file, 'UTF-8');
@@ -923,11 +927,10 @@
         document.getElementById('data_inclusao').value = alunoEncontrado.data_inclusao || '';
         document.getElementById('nome_aluno').value = alunoEncontrado.nome_aluno || '';
         
-        // Carrega a Data de Nascimento corretamente, mesmo se ela estava salva na propriedade de data de nascimento ou convertida do campo antigo
         let dataNascFinal = alunoEncontrado.data_nascimento;
         if (!dataNascFinal && alunoEncontrado.telefone && alunoEncontrado.telefone.includes('/')) {
             dataNascFinal = converterParaDataInput(alunoEncontrado.telefone);
-        } else if (dataNascFinal && dataNascFinal.includes('/')) {
+        } else if (dataNascFinal) {
             dataNascFinal = converterParaDataInput(dataNascFinal);
         }
         document.getElementById('data_nascimento').value = dataNascFinal || '';
@@ -943,7 +946,6 @@
         document.getElementById('estado').value = alunoEncontrado.estado || '';
         document.getElementById('cep').value = alunoEncontrado.cep || '';
         
-        // Limpa o telefone caso o dado antigo guardasse a data de nascimento, evitando o erro visual na tela
         let telVal = alunoEncontrado.telefone || '';
         if (telVal.includes('/') || telVal.includes('00:00:00')) {
             telVal = '';
@@ -979,7 +981,6 @@
 
         alunosSalvos.forEach(aluno => {
             const tr = document.createElement('tr');
-            // Oculta da tabela visual o lixo de data que estava aparecendo no campo telefone
             let telExibicao = aluno.telefone || '';
             if (telExibicao.includes('/') || telExibicao.includes('00:00:00')) {
                 telExibicao = '';
