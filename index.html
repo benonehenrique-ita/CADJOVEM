@@ -1,7 +1,5 @@
-// Banco de dados em memória e carregamento inicial
 let alunosSalvos = JSON.parse(localStorage.getItem('alunos_db')) || [];
 
-// Função para gerar o próximo código sequencial caso esteja vazio
 function gerarProximoCodigo() {
     if (alunosSalvos.length === 0) return "1";
     const codigos = alunosSalvos.map(a => parseInt(a.codigo)).filter(c => !isNaN(c));
@@ -9,7 +7,6 @@ function gerarProximoCodigo() {
     return (Math.max(...codigos) + 1).toString();
 }
 
-// Função para processar o arquivo CSV importado
 function processarArquivoCSV(input) {
     const file = input.files[0];
     if (!file) return;
@@ -73,7 +70,6 @@ function processarArquivoCSV(input) {
     reader.readAsText(file, 'UTF-8');
 }
 
-// Função para atualizar a tabela visual e as opções de busca
 function atualizarTabelaEBusca() {
     const tbody = document.getElementById('tabelaRegistros');
     const datalist = document.getElementById('listaAlunos');
@@ -93,7 +89,6 @@ function atualizarTabelaEBusca() {
     });
 }
 
-// Executa ao carregar a página
 window.onload = function() {
     atualizarTabelaEBusca();
 };
