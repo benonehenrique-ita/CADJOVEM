@@ -367,7 +367,7 @@ tr:nth-child(even) {
 
 .comprovante-wrapper-total {
     width: 100%;
-    height: 135mm; /* Ocupa exatamente a metade superior da folha A4 */
+    height: 135mm;
     max-height: 135mm;
     display: flex;
     flex-direction: column;
@@ -377,7 +377,7 @@ tr:nth-child(even) {
 
 .comprovante {
     width: 100%;
-    height: 62mm; /* Cada via ocupa pouco mais de 60mm para caber perfeitamente na metade */
+    height: 62mm;
     max-height: 62mm;
     box-sizing: border-box;
     border: 1px solid #002b66;
@@ -479,7 +479,7 @@ tr:nth-child(even) {
         left: 0;
         top: 0;
         width: 210mm;
-        height: 140mm; /* Força estritamente a metade da folha */
+        height: 140mm;
         max-height: 140mm;
         padding: 5mm 10mm;
         background: white;
@@ -509,7 +509,7 @@ tr:nth-child(even) {
     <div class="login-card">
         <h2>CADJOVEM</h2>
         <input type="text" id="loginUsuario" placeholder="Usuário" autocomplete="off">
-        <input type="password" id="loginSenha" placeholder="Senha" autocomplete="new-password">
+        <input type="password" id="loginSenha" placeholder="Senha" autocomplete="new-password" onkeydown="if(event.key==='Enter') realizarLogin()">
         <button onclick="realizarLogin()">Entrar</button>
     </div>
 </div>
@@ -841,13 +841,11 @@ let alunosSalvos = JSON.parse(localStorage.getItem('alunos_db')) || [];
 let senhaSistema = localStorage.getItem('sistema_senha') || 'juventudes';
 const COORDENADOR_PADRAO = 'BENONE HENRIQUE DE SOUSA';
 
-// Função de limpeza robusta para eliminar os caracteres corrompidos
 function limparTextoCorrompido(texto) {
     if (!texto) return '';
     return String(texto)
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, "")
-        .replace(//g, 'O')
         .replace(/[^a-zA-Z0-9\s\-\/\.\,\ª\º]/g, '')
         .toUpperCase()
         .trim();
@@ -875,7 +873,6 @@ function higienizarBaseDados() {
 higienizarBaseDados();
 
 function realizarLogin() {
-    const usuario = document.getElementById('loginUsuario').value.trim();
     const senha = document.getElementById('loginSenha').value;
 
     if (senha === senhaSistema) {
