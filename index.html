@@ -359,7 +359,7 @@ tr:nth-child(even) {
     font-size: 16px;
 }
 
-/* ================= COMPROVANTE (LAYOUT HORIZONTAL LIMPO) ================= */
+/* ================= COMPROVANTE ================= */
 
 #comprovantePrint {
     display: none;
@@ -367,8 +367,8 @@ tr:nth-child(even) {
 
 .comprovante-wrapper-total {
     width: 100%;
-    height: 135mm;
-    max-height: 135mm;
+    height: 130mm;
+    max-height: 130mm;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -377,11 +377,11 @@ tr:nth-child(even) {
 
 .comprovante {
     width: 100%;
-    height: 64mm;
-    max-height: 64mm;
+    height: 61mm;
+    max-height: 61mm;
     box-sizing: border-box;
     border: 1.5px solid #002b66;
-    padding: 5px 8px;
+    padding: 4px 6px;
     font-family: Arial, Helvetica, sans-serif;
     background: white;
     display: flex;
@@ -392,40 +392,40 @@ tr:nth-child(even) {
 .comprovante-cabecalho {
     text-align: center;
     border-bottom: 1px solid #002b66;
-    padding-bottom: 2px;
-    margin-bottom: 2px;
+    padding-bottom: 1px;
+    margin-bottom: 1px;
 }
 
 .comprovante-cabecalho h1 {
-    font-size: 10.5px;
+    font-size: 10px;
     color: #002b66;
-    margin-bottom: 1px;
+    margin-bottom: 0;
     font-weight: bold;
 }
 
 .comprovante-cabecalho h2 {
-    font-size: 8.5px;
+    font-size: 8px;
     color: #333;
     font-weight: bold;
 }
 
 .comprovante-titulo {
     text-align: center;
-    font-size: 9px;
+    font-size: 8.5px;
     font-weight: bold;
-    margin: 2px 0;
+    margin: 1px 0;
     color: #002b66;
     background: #f1f5f9;
-    padding: 2px;
+    padding: 1px;
     border: 1px solid #cbd5e1;
 }
 
 .comp-linha {
     display: flex;
     justify-content: space-between;
-    gap: 6px;
-    font-size: 9.5px;
-    margin-bottom: 3px;
+    gap: 4px;
+    font-size: 9px;
+    margin-bottom: 2px;
 }
 
 .comp-campo {
@@ -445,23 +445,23 @@ tr:nth-child(even) {
 
 .assinatura {
     text-align: center;
-    font-size: 8.5px;
-    margin-top: 1px;
+    font-size: 8px;
+    margin-top: 0;
 }
 
 .linha-assinatura {
     width: 35%;
     border-top: 1px solid #000;
-    margin: 8px auto 2px;
+    margin: 4px auto 1px;
 }
 
 .corte {
     border-top: 1px dashed #555;
-    margin: 1px 0;
+    margin: 2px 0;
     text-align: center;
     font-size: 7px;
     color: #555;
-    line-height: 1px;
+    line-height: 2px;
 }
 
 /* ================= RESPONSIVO ================= */
@@ -475,7 +475,7 @@ tr:nth-child(even) {
     .search-box input { width: 100%; }
 }
 
-/* ================= IMPRESSÃO RESTRITA ================= */
+/* ================= IMPRESSÃO ================= */
 
 @media print {
     body * {
@@ -490,8 +490,8 @@ tr:nth-child(even) {
         left: 0;
         top: 0;
         width: 210mm;
-        height: 140mm;
-        max-height: 140mm;
+        height: 297mm;
+        max-height: 297mm;
         padding: 5mm 10mm;
         background: white;
         overflow: hidden;
@@ -501,10 +501,14 @@ tr:nth-child(even) {
     .comprovante-wrapper-total {
         display: flex !important;
         visibility: visible !important;
+        width: 100%;
+        height: 135mm;
     }
     .comprovante {
         display: flex !important;
         visibility: visible !important;
+        width: 100%;
+        height: 64mm;
     }
     .comp-linha {
         display: flex !important;
@@ -899,7 +903,6 @@ higienizarBaseDados();
 function realizarLogin() {
     const senhaDigitada = document.getElementById('loginSenha').value;
 
-    // Força a senha 'juventudes' caso o localStorage esteja desatualizado
     if (!localStorage.getItem('sistema_senha')) {
         localStorage.setItem('sistema_senha', 'juventudes');
     }
@@ -1129,11 +1132,16 @@ function fecharModalRelatorio() {
 }
 
 function renderizarRelatorio() {
-    const filtro = document.getElementById('filtroCursoRelatorio').value;
+    const filtro = document.getElementById('filtroCursoRelatorio').value.toUpperCase().trim();
     const tbody = document.getElementById('tabelaRelatorioCorpo');
     tbody.innerHTML = '';
 
-    const filtrados = filtro ? alunosSalvos.filter(a => a.curso === filtro) : alunosSalvos;
+    const filtrados = alunosSalvos.filter(a => {
+        if (!filtro) return true;
+        const cursoAluno = (a.curso || '').toUpperCase().trim();
+        // Compara exato ou se contém partes principais para evitar falhas por acentos/formatação
+        return cursoAluno === filtro || cursoAluno.includes(filtro) || filtro.includes(cursoAluno);
+    });
 
     filtrados.forEach(aluno => {
         const tr = document.createElement('tr');
