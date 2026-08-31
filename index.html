@@ -359,7 +359,7 @@ tr:nth-child(even) {
     font-size: 16px;
 }
 
-/* ================= COMPROVANTE ================= */
+/* ================= COMPROVANTE (METADE DA PÁGINA) ================= */
 
 #comprovantePrint {
     display: none;
@@ -367,11 +367,11 @@ tr:nth-child(even) {
 
 .comprovante {
     width: 100%;
-    height: 130mm;
-    max-height: 130mm;
+    height: 125mm;
+    max-height: 125mm;
     box-sizing: border-box;
-    border: 1.5px solid #002b66;
-    padding: 6px 10px;
+    border: 1px solid #002b66;
+    padding: 5px 8px;
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
     background: white;
@@ -384,25 +384,25 @@ tr:nth-child(even) {
 
 .comprovante-cabecalho {
     text-align: center;
-    border-bottom: 2px solid #002b66;
+    border-bottom: 1.5px solid #002b66;
     padding-bottom: 2px;
     margin-bottom: 2px;
 }
 
 .comprovante-cabecalho h1 {
-    font-size: 12px;
+    font-size: 11px;
     color: #002b66;
     margin-bottom: 0px;
 }
 
 .comprovante-cabecalho h2 {
-    font-size: 9px;
+    font-size: 8.5px;
     color: #333;
 }
 
 .comprovante-titulo {
     text-align: center;
-    font-size: 9.5px;
+    font-size: 9px;
     font-weight: bold;
     margin: 2px 0;
     color: #002b66;
@@ -411,8 +411,8 @@ tr:nth-child(even) {
 .comp-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1px 8px;
-    font-size: 9px;
+    gap: 1px 6px;
+    font-size: 8.5px;
 }
 
 .comp-item {
@@ -425,22 +425,22 @@ tr:nth-child(even) {
 }
 
 .assinatura {
-    margin-top: 4px;
+    margin-top: 2px;
     text-align: center;
-    font-size: 9px;
+    font-size: 8.5px;
 }
 
 .linha-assinatura {
-    width: 45%;
+    width: 40%;
     border-top: 1px solid #000;
-    margin: 8px auto 2px;
+    margin: 6px auto 2px;
 }
 
 .corte {
-    border-top: 1.5px dashed #555;
+    border-top: 1px dashed #555;
     margin: 2px 0;
     text-align: center;
-    font-size: 6.5px;
+    font-size: 6px;
     color: #555;
     line-height: 1px;
 }
@@ -457,28 +457,37 @@ tr:nth-child(even) {
     .comp-grid { grid-template-columns: 1fr; }
 }
 
-/* ================= IMPRESSÃO ================= */
+/* ================= IMPRESSÃO EXATA (METADE DA PÁGINA) ================= */
 
 @media print {
-    body * { visibility: hidden !important; }
-    #comprovantePrint, #comprovantePrint * { visibility: visible !important; }
+    body * {
+        visibility: hidden !important;
+    }
+    #comprovantePrint, #comprovantePrint * {
+        visibility: visible !important;
+    }
     #comprovantePrint {
         display: flex !important;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: flex-start;
         position: absolute;
         left: 0;
         top: 0;
         width: 210mm;
         height: 297mm;
-        padding: 4mm 8mm;
+        padding: 5mm 10mm;
         background: white;
         overflow: hidden;
         page-break-after: avoid;
         break-after: avoid;
     }
-    .no-print { display: none !important; }
-    @page { size: A4 portrait; margin: 0mm; }
+    .no-print {
+        display: none !important;
+    }
+    @page {
+        size: A4 portrait;
+        margin: 0;
+    }
 }
 </style>
 </head>
@@ -821,9 +830,16 @@ let alunosSalvos = JSON.parse(localStorage.getItem('alunos_db')) || [];
 let senhaSistema = localStorage.getItem('sistema_senha') || 'juventudes';
 const COORDENADOR_PADRAO = 'BENONE HENRIQUE DE SOUSA';
 
+// Função agressiva para limpar caracteres corrompidos () e acentos problemáticos
 function limparTextoCorrompido(texto) {
     if (!texto) return '';
-    return String(texto).toUpperCase().trim();
+    return String(texto)
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, "") // Remove acentos para evitar erros de codificação
+        .replace(//g, 'O') // Substitui o caractere corrompido comum por O ou espaço
+        .replace(/[^a-zA-Z0-9\s\-\/\.\,\ª\º]/g, '') // Remove caracteres estranhos restantes
+        .toUpperCase()
+        .trim();
 }
 
 function higienizarBaseDados() {
@@ -1135,16 +1151,16 @@ function imprimirComprovante() {
         aluno = {
             codigo: codigo || 'PROVISÓRIO',
             data_inclusao: document.getElementById('data_inclusao').value,
-            nome_aluno: document.getElementById('nome_aluno').value,
+            nome_aluno: limparTextoCorrompido(document.getElementById('nome_aluno').value),
             data_nascimento: document.getElementById('data_nascimento').value,
-            telefone: document.getElementById('telefone').value,
-            endereco: document.getElementById('endereco').value,
-            numero: document.getElementById('numero').value,
-            bairro: document.getElementById('bairro').value,
+            telefone: limparTextoCorrompido(document.getElementById('telefone').value),
+            endereco: limparTextoCorrompido(document.getElementById('endereco').value),
+            numero: limparTextoCorrompido(document.getElementById('numero').value),
+            bairro: limparTextoCorrompido(document.getElementById('bairro').value),
             curso: document.getElementById('curso').value,
             turnos: Array.from(document.querySelectorAll('input[name="turno"]:checked')).map(el => el.value).join(', '),
             inicio_aulas: document.getElementById('inicio_aulas').value,
-            horario_aulas: document.getElementById('horario_aulas').value,
+            horario_aulas: limparTextoCorrompido(document.getElementById('horario_aulas').value),
             professor: document.getElementById('professor').value
         };
     }
@@ -1189,6 +1205,7 @@ function processarArquivoCSV(input) {
         });
 
         localStorage.setItem('alunos_db', JSON.stringify(alunosSalvos));
+        higienizarBaseDados();
         atualizarTabelaRegistros();
         atualizarDatalistBusca();
         alert(`${importados} registros importados com sucesso!`);
