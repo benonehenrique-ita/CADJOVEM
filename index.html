@@ -420,7 +420,7 @@ tr:nth-child(even) {
     font-size: 16px;
 }
 
-/* ================= COMPROVANTE (MEIA PÁGINA) ================= */
+/* ================= COMPROVANTE (EXATAMENTE MEIA PÁGINA) ================= */
 
 #comprovantePrint {
     display: none;
@@ -428,12 +428,12 @@ tr:nth-child(even) {
 
 .comprovante {
     width: 100%;
-    height: 48vh; /* Ocupa exatamente a metade da folha A4 */
-    max-height: 48vh;
+    height: 135mm; /* Metade exata de uma folha A4 vertical (297mm / 2) */
+    max-height: 135mm;
     box-sizing: border-box;
     border: 1.5px solid #002b66;
-    padding: 10px 15px;
-    margin-bottom: 0;
+    padding: 8px 12px;
+    margin: 0;
     font-family: Arial, Helvetica, sans-serif;
     background: white;
     display: flex;
@@ -446,39 +446,39 @@ tr:nth-child(even) {
 .comprovante-cabecalho {
     text-align: center;
     border-bottom: 2px solid #002b66;
-    padding-bottom: 4px;
-    margin-bottom: 4px;
+    padding-bottom: 3px;
+    margin-bottom: 3px;
 }
 
 .comprovante-cabecalho h1 {
-    font-size: 14px;
+    font-size: 13px;
     color: #002b66;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
 }
 
 .comprovante-cabecalho h2 {
-    font-size: 11px;
+    font-size: 10px;
     color: #333;
 }
 
 .comprovante-titulo {
     text-align: center;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: bold;
-    margin: 4px 0;
+    margin: 3px 0;
     color: #002b66;
 }
 
 .comp-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 3px 12px;
-    font-size: 10px;
+    gap: 2px 10px;
+    font-size: 9.5px;
 }
 
 .comp-item {
     border-bottom: 1px solid #ccc;
-    padding: 2px 0;
+    padding: 1.5px 0;
 }
 
 .comp-item strong {
@@ -486,24 +486,24 @@ tr:nth-child(even) {
 }
 
 .assinatura {
-    margin-top: 10px;
+    margin-top: 6px;
     text-align: center;
-    font-size: 10px;
+    font-size: 9.5px;
 }
 
 .linha-assinatura {
-    width: 60%;
+    width: 50%;
     border-top: 1px solid #000;
-    margin: 15px auto 3px;
+    margin: 10px auto 2px;
 }
 
 .corte {
     border-top: 1.5px dashed #555;
-    margin: 4px 0;
+    margin: 3px 0;
     text-align: center;
-    font-size: 8px;
+    font-size: 7px;
     color: #555;
-    line-height: 4px;
+    line-height: 2px;
 }
 
 /* ================= RESPONSIVO ================= */
@@ -532,7 +532,7 @@ tr:nth-child(even) {
     }
 }
 
-/* ================= IMPRESSÃO RIGOROSA (1 PÁGINA) ================= */
+/* ================= IMPRESSÃO RIGOROSA (EXATAMENTE 1 PÁGINA) ================= */
 
 @media print {
     body * {
@@ -547,13 +547,13 @@ tr:nth-child(even) {
     #comprovantePrint {
         display: flex !important;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: flex-start;
         position: absolute;
         left: 0;
         top: 0;
-        width: 100vw;
-        height: 100vh;
-        padding: 5mm;
+        width: 210mm;
+        height: 297mm;
+        padding: 5mm 10mm;
         background: white;
         overflow: hidden;
     }
@@ -908,7 +908,7 @@ tr:nth-child(even) {
 /* =========================================================
    LISTA OFICIAL DE CURSOS
 ========================================================= */
-const LISTA_CURSOS_OFICIAISETC = [
+const LISTA_CURSOS_OFICIAIS = [
     "INFORMÁTICA BÁSICA",
     "MANUTENÇÃO DE COMPUTADORES",
     "OFFICE AVANÇADO",
@@ -927,19 +927,47 @@ let alunosSalvos = JSON.parse(localStorage.getItem('alunos_db')) || [];
 let senhaSistema = localStorage.getItem('sistema_senha') || 'juventudes';
 const COORDENADOR_PADRAO = 'BENONE HENRIQUE DE SOUSA';
 
-/* Limpeza automática de caracteres corrompidos antigos na base local */
+/* Função rigorosa para limpar caracteres corrompidos e padronizar textos */
+function limparTextoCorrompido(texto) {
+    if (!texto) return '';
+    return String(texto)
+        .replace(//g, '') // Remove caracteres inválidos/interrogações antigas
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '') // Remove acentos temporariamente se necessário para correção ou mantém limpo
+        .toUpperCase()
+        .trim();
+}
+
 function higienizarBaseDados() {
     let alterado = false;
     alunosSalvos = alunosSalvos.map(aluno => {
-        // Se houver caracteres corrompidos conhecidos ou se o curso não for exatamente um dos oficiais, limpa ou padroniza
+        // Limpar campos de texto comuns corrompidos
+        ['nome_aluno', 'nome_pai', 'nome_mae', 'endereco', 'bairro', 'escola', 'serie', 'escolaridade', 'trabalho_local'].forEach(campo => {
+            if (aluno[campo]) {
+                let limpo = aluno[campo].replace(//g, '').toUpperCase();
+                if (limpo !== aluno[campo]) {
+                    aluno[campo] = limpo;
+                    alterado = true;
+                }
+            }
+        });
+
+        // Validar e corrigir curso estritamente para a lista oficial
         let cursoAtual = (aluno.curso || '').toUpperCase();
-        let matchOficial = LISTA_CURSOS_OFICIAISETC.find(c => cursoAtual.includes(c.substring(0, 8)));
+        let matchOficial = LISTA_CURSOS_OFICIAIS.find(c => cursoAtual.includes(c.substring(0, 6)));
         if (matchOficial) {
-            aluno.curso = matchOficial;
+            if (aluno.curso !== matchOficial) {
+                aluno.curso = matchOficial;
+                alterado = true;
+            }
+        } else if (cursoAtual) {
+            aluno.curso = LISTA_CURSOS_OFICIAIS[0]; // fallback seguro se irreconhecível
             alterado = true;
         }
+
         return aluno;
     });
+
     if (alterado) {
         localStorage.setItem('alunos_db', JSON.stringify(alunosSalvos));
     }
@@ -1069,33 +1097,33 @@ function salvarRegistro(e) {
     const aluno = {
         codigo: codigo,
         data_inclusao: document.getElementById('data_inclusao').value,
-        nome_aluno: document.getElementById('nome_aluno').value.toUpperCase(),
+        nome_aluno: document.getElementById('nome_aluno').value.replace(//g, '').toUpperCase(),
         data_nascimento: document.getElementById('data_nascimento').value,
         sexo: document.getElementById('sexo').value,
         estado_civil: document.getElementById('estado_civil').value,
-        nome_pai: document.getElementById('nome_pai').value.toUpperCase(),
-        nome_mae: document.getElementById('nome_mae').value.toUpperCase(),
-        endereco: document.getElementById('endereco').value.toUpperCase(),
-        numero: document.getElementById('numero').value.toUpperCase(),
-        bairro: document.getElementById('bairro').value.toUpperCase(),
-        cidade: document.getElementById('cidade').value.toUpperCase(),
-        estado: document.getElementById('estado').value.toUpperCase(),
-        cep: document.getElementById('cep').value.toUpperCase(),
-        telefone: document.getElementById('telefone').value.toUpperCase(),
-        documento: document.getElementById('documento').value.toUpperCase(),
-        grupos_jovem: document.getElementById('grupos_jovem').value.toUpperCase(),
+        nome_pai: document.getElementById('nome_pai').value.replace(//g, '').toUpperCase(),
+        nome_mae: document.getElementById('nome_mae').value.replace(//g, '').toUpperCase(),
+        endereco: document.getElementById('endereco').value.replace(//g, '').toUpperCase(),
+        numero: document.getElementById('numero').value.replace(//g, '').toUpperCase(),
+        bairro: document.getElementById('bairro').value.replace(//g, '').toUpperCase(),
+        cidade: document.getElementById('cidade').value.replace(//g, '').toUpperCase(),
+        estado: document.getElementById('estado').value.replace(//g, '').toUpperCase(),
+        cep: document.getElementById('cep').value.replace(//g, '').toUpperCase(),
+        telefone: document.getElementById('telefone').value.replace(//g, '').toUpperCase(),
+        documento: document.getElementById('documento').value.replace(//g, '').toUpperCase(),
+        grupos_jovem: document.getElementById('grupos_jovem').value.replace(//g, '').toUpperCase(),
         estuda: document.getElementById('estuda').value,
-        escola: document.getElementById('escola').value.toUpperCase(),
-        serie: document.getElementById('serie').value.toUpperCase(),
-        escolaridade: document.getElementById('escolaridade').value.toUpperCase(),
+        escola: document.getElementById('escola').value.replace(//g, '').toUpperCase(),
+        serie: document.getElementById('serie').value.replace(//g, '').toUpperCase(),
+        escolaridade: document.getElementById('escolaridade').value.replace(//g, '').toUpperCase(),
         trabalha_opcao: document.getElementById('trabalha_opcao').value,
-        trabalho_local: document.getElementById('trabalho_local').value.toUpperCase(),
+        trabalho_local: document.getElementById('trabalho_local').value.replace(//g, '').toUpperCase(),
         curso: document.getElementById('curso').value,
         turno: turnosSelecionados,
         professor: document.getElementById('professor').value,
         coordenador: COORDENADOR_PADRAO,
         inicio_aulas: document.getElementById('inicio_aulas').value,
-        horario_aulas: document.getElementById('horario_aulas').value.toUpperCase()
+        horario_aulas: document.getElementById('horario_aulas').value.replace(//g, '').toUpperCase()
     };
 
     const index = alunosSalvos.findIndex(a => a.codigo === codigo);
@@ -1120,11 +1148,12 @@ function atualizarTabelaEBusca() {
     const listaOrdenada = [...alunosSalvos].reverse();
 
     listaOrdenada.forEach(aluno => {
+        const nomeLimpo = (aluno.nome_aluno || '').replace(//g, '');
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${aluno.codigo}</td>
             <td>${aluno.data_inclusao || ''}</td>
-            <td>${aluno.nome_aluno}</td>
+            <td>${nomeLimpo}</td>
             <td>${aluno.telefone || ''}</td>
             <td>${aluno.curso || ''}</td>
         `;
@@ -1133,16 +1162,16 @@ function atualizarTabelaEBusca() {
         tbody.appendChild(tr);
 
         const option = document.createElement('option');
-        option.value = aluno.nome_aluno;
+        option.value = nomeLimpo;
         datalist.appendChild(option);
     });
 }
 
 function executarBuscaAluno() {
-    const termo = document.getElementById('inputBusca').value.trim().toUpperCase();
+    const termo = document.getElementById('inputBusca').value.trim().toUpperCase().replace(//g, '');
     if (!termo) return;
 
-    const aluno = alunosSalvos.find(a => a.nome_aluno.includes(termo) || a.codigo === termo);
+    const aluno = alunosSalvos.find(a => (a.nome_aluno || '').replace(//g, '').includes(termo) || a.codigo === termo);
     if (aluno) {
         carregarAlunoNoFormulario(aluno.codigo);
         document.getElementById('inputBusca').value = '';
@@ -1157,27 +1186,27 @@ function carregarAlunoNoFormulario(codigo) {
 
     document.getElementById('codigo').value = aluno.codigo || '';
     document.getElementById('data_inclusao').value = aluno.data_inclusao || '';
-    document.getElementById('nome_aluno').value = aluno.nome_aluno || '';
+    document.getElementById('nome_aluno').value = (aluno.nome_aluno || '').replace(//g, '');
     document.getElementById('data_nascimento').value = aluno.data_nascimento || '';
     document.getElementById('sexo').value = aluno.sexo || 'M';
     document.getElementById('estado_civil').value = aluno.estado_civil || 'SOLTEIRA';
-    document.getElementById('nome_pai').value = aluno.nome_pai || '';
-    document.getElementById('nome_mae').value = aluno.nome_mae || '';
-    document.getElementById('endereco').value = aluno.endereco || '';
-    document.getElementById('numero').value = aluno.numero || '';
-    document.getElementById('bairro').value = aluno.bairro || '';
-    document.getElementById('cidade').value = aluno.cidade || '';
-    document.getElementById('estado').value = aluno.estado || '';
-    document.getElementById('cep').value = aluno.cep || '';
-    document.getElementById('telefone').value = aluno.telefone || '';
-    document.getElementById('documento').value = aluno.documento || '';
-    document.getElementById('grupos_jovem').value = aluno.grupos_jovem || '';
+    document.getElementById('nome_pai').value = (aluno.nome_pai || '').replace(//g, '');
+    document.getElementById('nome_mae').value = (aluno.nome_mae || '').replace(//g, '');
+    document.getElementById('endereco').value = (aluno.endereco || '').replace(//g, '');
+    document.getElementById('numero').value = (aluno.numero || '').replace(//g, '');
+    document.getElementById('bairro').value = (aluno.bairro || '').replace(//g, '');
+    document.getElementById('cidade').value = (aluno.cidade || '').replace(//g, '');
+    document.getElementById('estado').value = (aluno.estado || '').replace(//g, '');
+    document.getElementById('cep').value = (aluno.cep || '').replace(//g, '');
+    document.getElementById('telefone').value = (aluno.telefone || '').replace(//g, '');
+    document.getElementById('documento').value = (aluno.documento || '').replace(//g, '');
+    document.getElementById('grupos_jovem').value = (aluno.grupos_jovem || '').replace(//g, '');
     document.getElementById('estuda').value = aluno.estuda || 'SIM';
-    document.getElementById('escola').value = aluno.escola || '';
-    document.getElementById('serie').value = aluno.serie || '';
-    document.getElementById('escolaridade').value = aluno.escolaridade || '';
+    document.getElementById('escola').value = (aluno.escola || '').replace(//g, '');
+    document.getElementById('serie').value = (aluno.serie || '').replace(//g, '');
+    document.getElementById('escolaridade').value = (aluno.escolaridade || '').replace(//g, '');
     document.getElementById('trabalha_opcao').value = aluno.trabalha_opcao || 'SIM';
-    document.getElementById('trabalho_local').value = aluno.trabalho_local || '';
+    document.getElementById('trabalho_local').value = (aluno.trabalho_local || '').replace(//g, '');
     document.getElementById('curso').value = aluno.curso || '';
     
     document.querySelectorAll('input[name="turno"]').forEach(cb => {
@@ -1187,7 +1216,7 @@ function carregarAlunoNoFormulario(codigo) {
     document.getElementById('professor').value = aluno.professor || '';
     document.getElementById('coordenador').value = COORDENADOR_PADRAO;
     document.getElementById('inicio_aulas').value = aluno.inicio_aulas || '';
-    document.getElementById('horario_aulas').value = aluno.horario_aulas || '';
+    document.getElementById('horario_aulas').value = (aluno.horario_aulas || '').replace(//g, '');
     
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -1206,7 +1235,7 @@ function limparBancoDados() {
    IMPRESSÃO DE COMPROVANTE (EXATAMENTE 1 PÁGINA / 2 VIAS)
 ========================================================= */
 function imprimirComprovante() {
-    const nome = document.getElementById('nome_aluno').value;
+    const nome = (document.getElementById('nome_aluno').value || '').replace(//g, '');
     if (!nome) {
         alert('Selecione ou preencha os dados de um aluno para emitir o comprovante.');
         return;
@@ -1218,13 +1247,13 @@ function imprimirComprovante() {
     const sexo = document.getElementById('sexo').value;
     const estadoCivil = document.getElementById('estado_civil').value;
     const telefone = document.getElementById('telefone').value;
-    const endereco = `${document.getElementById('endereco').value}, Nº ${document.getElementById('numero').value} - ${document.getElementById('bairro').value} - ${document.getElementById('cidade').value}/${document.getElementById('estado').value}`;
+    const endereco = `${document.getElementById('endereco').value.replace(//g, '')}, Nº ${document.getElementById('numero').value.replace(//g, '')} - ${document.getElementById('bairro').value.replace(//g, '')} - ${document.getElementById('cidade').value.replace(//g, '')}/${document.getElementById('estado').value.replace(//g, '')}`;
     const curso = document.getElementById('curso').value;
     
     const turnosSelecionados = Array.from(document.querySelectorAll('input[name="turno"]:checked')).map(el => el.value).join(', ');
     const professor = document.getElementById('professor').value;
     const inicioAulas = document.getElementById('inicio_aulas').value;
-    const horario = document.getElementById('horario_aulas').value;
+    const horario = document.getElementById('horario_aulas').value.replace(//g, '');
 
     const containerPrint = document.getElementById('comprovantePrint');
 
@@ -1275,8 +1304,7 @@ function abrirModalRelatorio() {
     const selectFiltro = document.getElementById('filtroCursoRelatorio');
     selectFiltro.innerHTML = '<option value="">-- TODOS OS CURSOS --</option>';
     
-    // Insere exclusivamente os cursos oficiais solicitados no filtro
-    LISTA_CURSOS_OFICIAISETC.forEach(c => {
+    LISTA_CURSOS_OFICIAIS.forEach(c => {
         const opt = document.createElement('option');
         opt.value = c;
         opt.textContent = c;
@@ -1302,11 +1330,11 @@ function renderizarRelatorio() {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${aluno.codigo}</td>
-            <td>${aluno.nome_aluno}</td>
-            <td>${aluno.endereco || ''}</td>
-            <td>${aluno.numero || ''}</td>
-            <td>${aluno.bairro || ''}</td>
-            <td>${aluno.cidade || ''}</td>
+            <td>${(aluno.nome_aluno || '').replace(//g, '')}</td>
+            <td>${(aluno.endereco || '').replace(//g, '')}</td>
+            <td>${(aluno.numero || '').replace(//g, '')}</td>
+            <td>${(aluno.bairro || '').replace(//g, '')}</td>
+            <td>${(aluno.cidade || '').replace(//g, '')}</td>
             <td>${aluno.telefone || ''}</td>
             <td>${aluno.curso || ''}</td>
             <td>ATIVO</td>
@@ -1334,19 +1362,19 @@ function processarArquivoCSV(input) {
             if (colunas.length < 3) return;
 
             let cursoOriginal = (colunas[10]?.trim().toUpperCase() || '');
-            let cursoValido = LISTA_CURSOS_OFICIAISETC.find(c => cursoOriginal.includes(c.substring(0, 8))) || '';
+            let cursoValido = LISTA_CURSOS_OFICIAIS.find(c => cursoOriginal.includes(c.substring(0, 6))) || LISTA_CURSOS_OFICIAIS[0];
 
             const novoAluno = {
                 codigo: colunas[0]?.trim() || gerarProximoCodigo(),
                 data_inclusao: converterParaDataInput(colunas[1]) || new Date().toISOString().split('T')[0],
-                nome_aluno: colunas[2]?.trim().toUpperCase() || '',
+                nome_aluno: (colunas[2]?.trim().toUpperCase() || '').replace(//g, ''),
                 data_nascimento: converterParaDataInput(colunas[3]) || '',
                 sexo: colunas[4]?.trim().toUpperCase() || 'M',
                 estado_civil: colunas[5]?.trim().toUpperCase() || 'SOLTEIRA',
-                nome_pai: colunas[6]?.trim().toUpperCase() || '',
-                nome_mae: colunas[7]?.trim().toUpperCase() || '',
-                endereco: colunas[8]?.trim().toUpperCase() || '',
-                numero: colunas[9]?.trim().toUpperCase() || '',
+                nome_pai: (colunas[6]?.trim().toUpperCase() || '').replace(//g, ''),
+                nome_mae: (colunas[7]?.trim().toUpperCase() || '').replace(//g, ''),
+                endereco: (colunas[8]?.trim().toUpperCase() || '').replace(//g, ''),
+                numero: (colunas[9]?.trim().toUpperCase() || '').replace(//g, ''),
                 bairro: '',
                 cidade: 'ITAPETIM',
                 estado: 'PE',
