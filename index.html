@@ -4,7 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Matrícula de Alunos - CADJOVEM</title>
+<title>CADJOVEM - Cadastro e Matrícula de Alunos | Itapetim-PE</title>
+
+<meta name="description" content="CADJOVEM - Sistema de cadastro e matrícula de alunos da Casa das Juventudes de Itapetim-PE.">
+<meta name="keywords" content="CADJOVEM, CAD Jovem, Casa das Juventudes, Itapetim, Itapetim PE, cadastro de alunos, matrícula de alunos">
+<meta name="author" content="Benone Henrique de Sousa">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://benonehenrique-ita.github.io/CADJOVEM/">
 
 <style>
 
@@ -16,18 +22,16 @@
 }
 
 body {
-    background-color: #eef2f7;
+    background: #eef2f7;
     padding: 20px;
 }
 
-/* LOGIN */
+/* ================= LOGIN ================= */
 
 #loginOverlay {
     position: fixed;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,43,102,.95);
+    background: rgba(0,43,102,0.96);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -63,7 +67,7 @@ body {
 .login-card button {
     width: 100%;
     padding: 10px;
-    background-color: #16a34a;
+    background: #16a34a;
     color: white;
     border: none;
     border-radius: 4px;
@@ -71,10 +75,10 @@ body {
     cursor: pointer;
 }
 
-/* CONTAINER */
+/* ================= CONTAINER ================= */
 
 .container {
-    max-width: 1100px;
+    max-width: 980px;
     margin: 0 auto;
     background: #fff;
     border: 2px solid #002b66;
@@ -84,11 +88,11 @@ body {
     display: none;
 }
 
-/* HEADER */
+/* ================= CABEÇALHO ================= */
 
 .header {
-    background-color: #002b66;
-    color: #fff;
+    background: #002b66;
+    color: white;
     padding: 15px 20px;
     display: flex;
     flex-wrap: wrap;
@@ -101,30 +105,30 @@ body {
     font-size: 20px;
     font-style: italic;
     text-transform: uppercase;
+    letter-spacing: .5px;
 }
 
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     flex-wrap: wrap;
 }
 
 .search-box {
     display: flex;
-    gap: 6px;
+    gap: 5px;
 }
 
 .search-box input {
     padding: 7px 10px;
+    width: 180px;
     border-radius: 4px;
     border: 1px solid #ccc;
-    font-size: 13px;
-    width: 180px;
     text-transform: uppercase;
 }
 
-/* FORM */
+/* ================= FORMULÁRIO ================= */
 
 form {
     padding: 20px;
@@ -135,19 +139,19 @@ form {
 
 .block {
     border: 2px solid #002b66;
-    background-color: #002b66;
+    background: #002b66;
     padding: 12px;
     border-radius: 6px;
 }
 
 .block-title {
-    background-color: #d0e1f9;
+    background: #d0e1f9;
     color: #002b66;
     text-align: center;
     font-weight: bold;
     font-size: 13px;
-    padding: 5px 15px;
-    margin: -20px auto 12px auto;
+    padding: 4px 15px;
+    margin: -20px auto 12px;
     width: fit-content;
     border-radius: 4px;
     border: 1px solid #002b66;
@@ -168,7 +172,7 @@ form {
 .field {
     display: flex;
     align-items: center;
-    background: #fff;
+    background: white;
     border-radius: 4px;
     flex: 1;
     min-width: 0;
@@ -176,7 +180,7 @@ form {
 }
 
 .field label {
-    background-color: #e2e8f0;
+    background: #e2e8f0;
     color: #0f172a;
     font-size: 11px;
     font-weight: bold;
@@ -198,66 +202,81 @@ form {
     min-width: 0;
     font-size: 12px;
     text-transform: uppercase;
-    background: #fff;
+    background: white;
     color: #000;
 }
 
-.field input[type="date"] {
-    text-transform: none;
-}
-
 .field input[readonly] {
-    background-color: #f1f5f9;
+    background: #f1f5f9;
     color: #475569;
     font-weight: bold;
 }
 
 .primary-key label {
-    background-color: #fde047;
+    background: #fde047;
     color: #713f12;
     border-color: #eab308;
 }
 
 /* LARGURAS */
 
-.w-codigo { flex: 0 0 190px; }
-.w-inclusao { flex: 0 0 270px; }
-.w-uf { flex: 0 0 110px; }
-.w-cep { flex: 0 0 160px; }
-.w-tel { flex: 0 0 190px; }
-.w-small { flex: 0 0 140px; }
-.w-medium { flex: 0 0 280px; }
-.w-large { flex: 0 0 350px; }
+.w-codigo {
+    flex: 0 0 190px;
+}
 
-/* TURNOS */
+.w-inclusao {
+    flex: 0 0 270px;
+}
 
-.checkbox-group {
+.w-uf {
+    flex: 0 0 110px;
+}
+
+.w-cep {
+    flex: 0 0 160px;
+}
+
+.w-tel {
+    flex: 0 0 190px;
+}
+
+.w-small {
+    flex: 0 0 140px;
+}
+
+.w-medium {
+    flex: 0 0 280px;
+}
+
+/* ================= TURNOS ================= */
+
+.turnos {
     display: flex;
-    justify-content: flex-start;
     align-items: center;
-    gap: 30px;
-    background: #fff;
-    padding: 8px 16px;
-    border: 1px solid #cbd5e1;
+    gap: 25px;
+    background: white;
+    padding: 7px 12px;
     border-radius: 4px;
     width: 100%;
 }
 
-.checkbox-group label {
+.turnos label {
     background: none !important;
     border: none !important;
     margin: 0 !important;
-    padding: 4px 8px !important;
-    font-size: 12px;
-    font-weight: bold;
+    padding: 3px !important;
     color: #002b66;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 5px;
 }
 
-/* BOTÕES */
+.turnos input {
+    width: auto;
+}
+
+/* ================= BOTÕES ================= */
 
 .form-buttons {
     display: flex;
@@ -276,21 +295,61 @@ form {
     font-size: 12px;
 }
 
-.btn-search { background:#0284c7;color:#fff; }
-.btn-submit { background:#16a34a;color:#fff; }
-.btn-clear { background:#f59e0b;color:#fff; }
-.btn-print { background:#2563eb;color:#fff; }
-.btn-import { background:#8b5cf6;color:#fff; }
-.btn-report { background:#0d9488;color:#fff; }
-.btn-logout { background:#dc2626;color:#fff; }
-.btn-pass { background:#475569;color:#fff; }
-.btn-danger { background:#b91c1c;color:#fff; }
+.btn-search {
+    background: #0284c7;
+    color: white;
+}
 
-/* TABELA */
+.btn-submit {
+    background: #16a34a;
+    color: white;
+}
+
+.btn-clear {
+    background: #f59e0b;
+    color: white;
+}
+
+.btn-print {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-import {
+    background: #8b5cf6;
+    color: white;
+}
+
+.btn-report {
+    background: #0d9488;
+    color: white;
+}
+
+.btn-logout {
+    background: #dc2626;
+    color: white;
+}
+
+.btn-pass {
+    background: #475569;
+    color: white;
+}
+
+.btn-danger {
+    background: #b91c1c;
+    color: white;
+}
+
+.btn-comprovante {
+    background: #7c3aed;
+    color: white;
+}
+
+/* ================= REGISTROS ================= */
 
 .records-section {
     padding: 20px;
-    background: #fff;
+    background: white;
     border-top: 2px solid #002b66;
 }
 
@@ -313,7 +372,7 @@ td {
 }
 
 th {
-    background-color: #002b66;
+    background: #002b66;
     color: white;
     padding: 8px;
     text-align: left;
@@ -324,17 +383,15 @@ td {
 }
 
 tr:nth-child(even) {
-    background-color: #f8fafc;
+    background: #f8fafc;
 }
 
-/* MODAL */
+/* ================= MODAIS ================= */
 
 .modal {
     display: none;
     position: fixed;
     inset: 0;
-    width: 100%;
-    height: 100%;
     background: rgba(0,0,0,.8);
     z-index: 10000;
     padding: 20px;
@@ -342,7 +399,7 @@ tr:nth-child(even) {
 }
 
 .report-content {
-    background: #fff;
+    background: white;
     max-width: 1100px;
     margin: 30px auto;
     padding: 20px;
@@ -364,28 +421,150 @@ tr:nth-child(even) {
     font-size: 16px;
 }
 
+/* ================= COMPROVANTE ================= */
+
+#comprovantePrint {
+    display: none;
+}
+
+.comprovante {
+    width: 100%;
+    border: 1.5px solid #002b66;
+    padding: 15px;
+    margin-bottom: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.comprovante-cabecalho {
+    text-align: center;
+    border-bottom: 2px solid #002b66;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+}
+
+.comprovante-cabecalho h1 {
+    font-size: 16px;
+    color: #002b66;
+    margin-bottom: 4px;
+}
+
+.comprovante-cabecalho h2 {
+    font-size: 13px;
+    color: #333;
+}
+
+.comprovante-titulo {
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 8px 0;
+    color: #002b66;
+}
+
+.comp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px 15px;
+    font-size: 11px;
+}
+
+.comp-item {
+    border-bottom: 1px solid #ccc;
+    padding: 4px 0;
+}
+
+.comp-item strong {
+    color: #002b66;
+}
+
+.assinatura {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 11px;
+}
+
+.linha-assinatura {
+    width: 70%;
+    border-top: 1px solid #000;
+    margin: 30px auto 5px;
+}
+
+.corte {
+    border-top: 2px dashed #555;
+    margin: 10px 0;
+    text-align: center;
+    font-size: 9px;
+    color: #555;
+}
+
+/* ================= RESPONSIVO ================= */
+
+@media(max-width:700px) {
+
+    body {
+        padding: 5px;
+    }
+
+    .container {
+        width: 100%;
+    }
+
+    .field {
+        flex: 1 1 100% !important;
+    }
+
+    .header-actions {
+        width: 100%;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .search-box input {
+        width: 100%;
+    }
+
+    .comp-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ================= IMPRESSÃO ================= */
+
 @media print {
 
     body * {
-        visibility: hidden;
+        visibility: hidden !important;
     }
 
-    #reportModal,
-    #reportModal * {
-        visibility: visible;
+    #comprovantePrint,
+    #comprovantePrint * {
+        visibility: visible !important;
     }
 
-    #reportModal {
+    #comprovantePrint {
+        display: block !important;
         position: absolute;
         left: 0;
         top: 0;
         width: 100%;
-        background: #fff;
-        padding: 0;
+        padding: 10px;
+        background: white;
+    }
+
+    .comprovante {
+        margin-bottom: 8px;
+        page-break-inside: avoid;
     }
 
     .no-print {
         display: none !important;
+    }
+
+    @page {
+        size: A4 portrait;
+        margin: 10mm;
     }
 }
 
@@ -394,13 +573,13 @@ tr:nth-child(even) {
 
 <body>
 
-<!-- LOGIN -->
+<!-- ================= LOGIN ================= -->
 
 <div id="loginOverlay">
 
     <div class="login-card">
 
-        <h2>Acesso ao Sistema</h2>
+        <h2>CADJOVEM</h2>
 
         <input
             type="text"
@@ -416,899 +595,835 @@ tr:nth-child(even) {
             autocomplete="new-password"
         >
 
-        <button onclick="realizarLogin()">
-            Entrar
-        </button>
+        <button onclick="realizarLogin()">Entrar</button>
 
     </div>
 
 </div>
 
 
-<!-- SISTEMA -->
+<!-- ================= SISTEMA ================= -->
 
 <div class="container" id="mainContainer">
 
-<div class="header">
+    <div class="header">
 
-    <h1>
-        Matrícula de Alunos - CADJOVEM
-    </h1>
+        <h1>CADJOVEM - Matrícula de Alunos</h1>
 
-    <div class="header-actions">
+        <div class="header-actions">
 
-        <div class="search-box">
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="inputBusca"
+                    list="listaAlunos"
+                    placeholder="BUSCAR ALUNO..."
+                >
+
+                <datalist id="listaAlunos"></datalist>
+
+                <button
+                    type="button"
+                    class="btn btn-search"
+                    onclick="executarBuscaAluno()">
+                    Buscar
+                </button>
+
+            </div>
 
             <input
-                type="text"
-                id="inputBusca"
-                list="listaAlunos"
-                placeholder="BUSCAR ALUNO..."
+                type="file"
+                id="inputCsv"
+                accept=".txt,.csv"
+                style="display:none"
+                onchange="processarArquivoCSV(this)"
             >
-
-            <datalist id="listaAlunos"></datalist>
 
             <button
                 type="button"
-                class="btn btn-search"
-                onclick="executarBuscaAluno()">
-                Buscar
+                class="btn btn-import"
+                onclick="document.getElementById('inputCsv').click()">
+                Importar
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-danger"
+                onclick="limparBancoDados()">
+                Limpar Dados
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-pass"
+                onclick="abrirModalSenha()">
+                Mudar Senha
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-logout"
+                onclick="realizarLogout()">
+                Sair
             </button>
 
         </div>
 
-        <input
-            type="file"
-            id="inputCsv"
-            accept=".txt,.csv"
-            style="display:none"
-            onchange="processarArquivoCSV(this)"
-        >
+    </div>
 
-        <button
-            type="button"
-            class="btn btn-import"
-            onclick="document.getElementById('inputCsv').click()">
-            Importar
-        </button>
 
-        <button
-            type="button"
-            class="btn btn-danger"
-            onclick="limparBancoDados()">
-            Limpar Dados
-        </button>
+    <!-- ================= FORMULÁRIO ================= -->
 
-        <button
-            type="button"
-            class="btn btn-pass"
-            onclick="abrirModalSenha()">
-            Mudar Senha
-        </button>
+    <form id="formMatricula">
 
-        <button
-            type="button"
-            class="btn btn-logout"
-            onclick="realizarLogout()">
-            Sair
-        </button>
+        <!-- BLOCO 01 -->
+
+        <div class="block">
+
+            <div class="block-title">
+                Bloco 01 - Identificação
+            </div>
+
+            <div class="row">
+
+                <div class="field w-codigo primary-key">
+                    <label>Código:</label>
+                    <input
+                        type="text"
+                        id="codigo"
+                        placeholder="AUTO"
+                    >
+                </div>
+
+                <div class="field w-inclusao">
+                    <label>Data de Inclusão:</label>
+                    <input
+                        type="date"
+                        id="data_inclusao"
+                    >
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="field">
+                    <label>Nome do Aluno:</label>
+                    <input
+                        type="text"
+                        id="nome_aluno"
+                        required
+                    >
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="field w-medium">
+                    <label>Data de Nascimento:</label>
+                    <input
+                        type="date"
+                        id="data_nascimento"
+                    >
+                </div>
+
+                <div class="field w-small">
+
+                    <label>Sexo:</label>
+
+                    <select id="sexo">
+
+                        <option value="M">M</option>
+                        <option value="F">F</option>
+
+                    </select>
+
+                </div>
+
+                <div class="field">
+
+                    <label>Estado Civil:</label>
+
+                    <select id="estado_civil">
+
+                        <option value="SOLTEIRA">SOLTEIRA</option>
+                        <option value="SOLTEIRO">SOLTEIRO</option>
+                        <option value="CASADA">CASADA</option>
+                        <option value="CASADO">CASADO</option>
+                        <option value="DIVORCIADA">DIVORCIADA</option>
+                        <option value="DIVORCIADO">DIVORCIADO</option>
+                        <option value="VIÚVA">VIÚVA</option>
+                        <option value="VIÚVO">VIÚVO</option>
+                        <option value="UNIÃO ESTÁVEL">UNIÃO ESTÁVEL</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="field">
+
+                    <label>Nome do Pai:</label>
+
+                    <input
+                        type="text"
+                        id="nome_pai"
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="field">
+
+                    <label>Nome da Mãe:</label>
+
+                    <input
+                        type="text"
+                        id="nome_mae"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BLOCO 02 -->
+
+        <div class="block">
+
+            <div class="block-title">
+                Bloco 02 - Endereço e Documento
+            </div>
+
+            <div class="row">
+
+                <div class="field">
+
+                    <label>Endereço:</label>
+
+                    <input
+                        type="text"
+                        id="endereco"
+                    >
+
+                </div>
+
+                <div class="field w-small">
+
+                    <label>Nº:</label>
+
+                    <input
+                        type="text"
+                        id="numero"
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="field">
+
+                    <label>Bairro:</label>
+
+                    <input
+                        type="text"
+                        id="bairro"
+                    >
+
+                </div>
+
+                <div class="field">
+
+                    <label>Cidade:</label>
+
+                    <input
+                        type="text"
+                        id="cidade"
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="field w-uf">
+
+                    <label>Estado:</label>
+
+                    <input
+                        type="text"
+                        id="estado"
+                        maxlength="2"
+                    >
+
+                </div>
+
+                <div class="field w-cep">
+
+                    <label>CEP:</label>
+
+                    <input
+                        type="text"
+                        id="cep"
+                        maxlength="9"
+                    >
+
+                </div>
+
+                <div class="field w-tel">
+
+                    <label>Telefone:</label>
+
+                    <input
+                        type="text"
+                        id="telefone"
+                    >
+
+                </div>
+
+                <div class="field">
+
+                    <label>RG ou CPF:</label>
+
+                    <input
+                        type="text"
+                        id="documento"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BLOCO 03 -->
+
+        <div class="block">
+
+            <div class="block-title">
+                Bloco 03 - Qualificação
+            </div>
+
+            <div class="row">
+
+                <div class="field">
+
+                    <label>Participa de Grupos Jovem?</label>
+
+                    <input
+                        type="text"
+                        id="grupos_jovem"
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="field w-medium">
+
+                    <label>Estuda Atualmente?</label>
+
+                    <select id="estuda">
+
+                        <option value="SIM">SIM</option>
+                        <option value="NÃO">NÃO</option>
+
+                    </select>
+
+                </div>
+
+                <div class="field">
+
+                    <label>Escola:</label>
+
+                    <input
+                        type="text"
+                        id="escola"
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="field">
+
+                    <label>Série:</label>
+
+                    <input
+                        type="text"
+                        id="serie"
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="field">
+
+                    <label>Grau de Escolaridade:</label>
+
+                    <input
+                        type="text"
+                        id="escolaridade"
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="field w-medium">
+
+                    <label>Trabalha Atualmente?</label>
+
+                    <select id="trabalha_opcao">
+
+                        <option value="SIM">SIM</option>
+                        <option value="NÃO">NÃO</option>
+
+                    </select>
+
+                </div>
+
+                <div class="field">
+
+                    <label>Onde Trabalha?</label>
+
+                    <input
+                        type="text"
+                        id="trabalho_local"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BLOCO 04 -->
+
+        <div class="block">
+
+            <div class="block-title">
+                Bloco 04 - Objetivo
+            </div>
+
+            <div class="row">
+
+                <div class="field">
+
+                    <label>Curso ou Atividade:</label>
+
+                    <select id="curso">
+
+                        <option value="">-- SELECIONE --</option>
+
+                        <option>INFORMÁTICA BÁSICA</option>
+                        <option>MANUTENÇÃO DE COMPUTADORES</option>
+                        <option>OFFICE AVANÇADO</option>
+                        <option>PROGRAMAÇÃO DE SISTEMA</option>
+                        <option>CAPOEIRA</option>
+                        <option>INICIALIZAÇÃO NA COMPUTAÇÃO</option>
+                        <option>INFORMÁTICA INTERMEDIARIA</option>
+                        <option>TÉCNICO EM INFORMÁTICA</option>
+                        <option>WEB DESIGNER</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="field">
+
+                    <label>Preferência por Turno:</label>
+
+                    <div class="turnos">
+
+                        <label>
+                            <input
+                                type="checkbox"
+                                name="turno"
+                                value="MANHÃ"
+                            >
+                            MANHÃ
+                        </label>
+
+                        <label>
+                            <input
+                                type="checkbox"
+                                name="turno"
+                                value="TARDE"
+                            >
+                            TARDE
+                        </label>
+
+                        <label>
+                            <input
+                                type="checkbox"
+                                name="turno"
+                                value="NOITE"
+                            >
+                            NOITE
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BLOCO 05 -->
+
+        <div class="block">
+
+            <div class="block-title">
+                Bloco 05 - Referências do Programa
+            </div>
+
+            <div class="row">
+
+                <div class="field">
+
+                    <label>Nome do Professor:</label>
+
+                    <select id="professor">
+
+                        <option value="">-- SELECIONE --</option>
+
+                        <option value="JONES NUNES">
+                            JONES NUNES
+                        </option>
+
+                        <option value="LEANDRO JONH DA SILVA">
+                            LEANDRO JONH DA SILVA
+                        </option>
+
+                        <option value="LUCINALDO CLEMENTE DA SILVA">
+                            LUCINALDO CLEMENTE DA SILVA
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="field">
+
+                    <label>Coordenador:</label>
+
+                    <input
+                        type="text"
+                        id="coordenador"
+                        value="BENONE HENRIQUE DE SOUSA"
+                        readonly
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="field w-medium">
+
+                    <label>Início das Aulas:</label>
+
+                    <input
+                        type="date"
+                        id="inicio_aulas"
+                    >
+
+                </div>
+
+                <div class="field w-medium">
+
+                    <label>Horário das Aulas:</label>
+
+                    <input
+                        type="text"
+                        id="horario_aulas"
+                        placeholder="Ex: 08:00 AS 10:00"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BOTÕES -->
+
+        <div class="form-buttons">
+
+            <button
+                type="button"
+                class="btn btn-report"
+                onclick="abrirModalRelatorio()">
+                Relatório por Curso
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-comprovante"
+                onclick="imprimirComprovante()">
+                Imprimir Comprovante - 2 Vias
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-clear"
+                onclick="limparFormulario()">
+                Limpar
+            </button>
+
+            <button
+                type="submit"
+                class="btn btn-submit">
+                Salvar Registro
+            </button>
+
+        </div>
+
+    </form>
+
+
+    <!-- ================= TABELA ================= -->
+
+    <div class="records-section">
+
+        <h2>Registros Salvos</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Código</th>
+                    <th>Data Inclusão</th>
+                    <th>Nome do Aluno</th>
+                    <th>Telefone</th>
+                    <th>Curso</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="tabelaRegistros"></tbody>
+
+        </table>
 
     </div>
 
 </div>
 
 
-<form id="formMatricula">
-
-<!-- BLOCO 01 -->
-
-<div class="block">
-
-<div class="block-title">
-    Bloco 01 Identificação
-</div>
-
-<div class="row">
-
-<div class="field w-codigo primary-key">
-<label>Código (PK):</label>
-<input type="text" id="codigo">
-</div>
-
-<div class="field w-inclusao">
-<label>Data de Inclusão:</label>
-<input type="date" id="data_inclusao">
-</div>
-
-</div>
-
-
-<div class="row">
-
-<div class="field">
-<label>Nome do Aluno:</label>
-<input type="text" id="nome_aluno">
-</div>
-
-</div>
-
-
-<div class="row">
-
-<div class="field w-medium">
-<label>Data de Nascimento:</label>
-<input type="date" id="data_nascimento">
-</div>
-
-<div class="field w-small">
-
-<label>Sexo:</label>
-
-<select id="sexo">
-
-<option value="M">M</option>
-<option value="F">F</option>
-
-</select>
-
-</div>
-
-
-<div class="field">
-
-<label>Estado Civil:</label>
-
-<select id="estado_civil">
-
-<option value="SOLTEIRO(A)">SOLTEIRO(A)</option>
-<option value="CASADO(A)">CASADO(A)</option>
-<option value="DIVORCIADO(A)">DIVORCIADO(A)</option>
-<option value="VIÚVO(A)">VIÚVO(A)</option>
-<option value="UNIÃO ESTÁVEL">UNIÃO ESTÁVEL</option>
-
-</select>
-
-</div>
-
-</div>
-
-
-<div class="row">
-
-<div class="field">
-<label>Nome do Pai:</label>
-<input type="text" id="nome_pai">
-</div>
-
-</div>
-
-
-<div class="row">
-
-<div class="field">
-<label>Nome da Mãe:</label>
-<input type="text" id="nome_mae">
-</div>
-
-</div>
-
-</div>
-
-
-<!-- BLOCO 02 -->
-
-<div class="block">
-
-<div class="block-title">
-    Bloco 02 Endereço e Documentos
-</div>
-
-
-<div class="row">
-
-<div class="field">
-<label>Endereço:</label>
-<input type="text" id="endereco">
-</div>
-
-<div class="field w-small">
-<label>Nº:</label>
-<input type="text" id="numero">
-</div>
-
-</div>
-
-
-<div class="row">
-
-<div class="field">
-<label>Bairro:</label>
-<input type="text" id="bairro">
-</div>
-
-<div class="field">
-<label>Cidade:</label>
-<input type="text" id="cidade">
-</div>
-
-</div>
-
-
-<div class="row">
-
-<div class="field w-uf">
-<label>Estado:</label>
-<input type="text" id="estado" maxlength="2">
-</div>
-
-<div class="field w-cep">
-<label>CEP:</label>
-<input type="text" id="cep">
-</div>
-
-<div class="field w-tel">
-<label>Telefone:</label>
-<input type="text" id="telefone">
-</div>
-
-</div>
-
-
-<div class="row">
-
-<div class="field">
-<label>E-mail:</label>
-<input type="email" id="email">
-</div>
-
-</div>
-
-
-<div class="row">
-
-<div class="field">
-<label>RG:</label>
-<input type="text" id="rg">
-</div>
-
-<div class="field">
-<label>CPF:</label>
-<input type="text" id="cpf">
-</div>
-
-<div class="field">
-<label>NIS:</label>
-<input type="text" id="nis">
-</div>
-
-</div>
-
-</div>
-
-
-<!-- BLOCO 03 -->
-
-<div class="block">
-
-<div class="block-title">
-    Bloco 03 Qualificação
-</div>
-
-
-<div class="row">
-
-<div class="field">
-<label>Participa de Grupos Jovem? Qual?</label>
-<input type="text" id="grupos_jovem">
-</div>
-
-</div>
-
-
-<div class="row">
-
-<div class="field w-medium">
-
-<label>Estuda Atualmente?</label>
-
-<select id="estuda">
-
-<option value="SIM">SIM</option>
-<option value="NÃO">NÃO</option>
-
-</select>
-
-</div>
-
-
-<div class="field">
-
-<label>Escola:</label>
-<input type="text" id="escola">
-
-</div>
-
-</div>
-
-
-<div class="row">
-
-<div class="field">
-<label>Série:</label>
-<input type="text" id="serie">
-</div>
-
-<div class="field">
-<label>Grau de Escolaridade:</label>
-<input type="text" id="escolaridade">
-</div>
-
-</div>
-
-
-<div class="row">
-
-<div class="field w-medium">
-
-<label>Trabalha atualmente?</label>
-
-<select id="trabalha_opcao">
-
-<option value="SIM">SIM</option>
-<option value="NÃO">NÃO</option>
-
-</select>
-
-</div>
-
-
-<div class="field">
-
-<label>Onde trabalha:</label>
-<input type="text" id="trabalho_local">
-
-</div>
-
-</div>
-
-
-<div class="row">
-
-<div class="field">
-
-<label>Aptidão Vocacional:</label>
-<input type="text" id="aptidao_vocacional">
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- BLOCO 04 -->
-
-<div class="block">
-
-<div class="block-title">
-    Bloco 04 Objetivo
-</div>
-
-
-<div class="row">
-
-<div class="field">
-
-<label>Curso ou Atividade:</label>
-
-<select id="curso">
-
-<option value="">-- SELECIONE O CURSO --</option>
-
-<option value="INFORMÁTICA BÁSICA">
-INFORMÁTICA BÁSICA
-</option>
-
-<option value="MANUTENÇÃO DE COMPUTADORES">
-MANUTENÇÃO DE COMPUTADORES
-</option>
-
-<option value="OFFICE AVANÇADO">
-OFFICE AVANÇADO
-</option>
-
-<option value="PROGRAMAÇÃO DE SISTEMA">
-PROGRAMAÇÃO DE SISTEMA
-</option>
-
-<option value="CAPOEIRA">
-CAPOEIRA
-</option>
-
-<option value="INICIALIZAÇÃO NA COMPUTAÇÃO">
-INICIALIZAÇÃO NA COMPUTAÇÃO
-</option>
-
-<option value="INFORMÁTICA INTERMEDIARIA">
-INFORMÁTICA INTERMEDIARIA
-</option>
-
-<option value="TÉCNICO EM INFORMÁTICA">
-TÉCNICO EM INFORMÁTICA
-</option>
-
-<option value="WEB DESIGNAR">
-WEB DESIGNAR
-</option>
-
-</select>
-
-</div>
-
-</div>
-
-
-<div class="row">
-
-<div class="field">
-
-<label>Preferência por Turno:</label>
-
-<div class="checkbox-group">
-
-<label>
-<input type="radio" name="turno" value="Manhã">
-MANHÃ
-</label>
-
-<label>
-<input type="radio" name="turno" value="Tarde">
-TARDE
-</label>
-
-<label>
-<input type="radio" name="turno" value="Noite">
-NOITE
-</label>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- BLOCO 05 -->
-
-<div class="block">
-
-<div class="block-title">
-    Bloco 05 Referências do Programa
-</div>
-
-
-<div class="row">
-
-<div class="field">
-
-<label>Nome do Professor:</label>
-
-<select id="professor">
-
-<option value="">
--- SELECIONE --
-</option>
-
-<option value="JONES NUNES DA SILVA">
-JONES NUNES DA SILVA
-</option>
-
-<option value="LEANDRO JONH DA SILVA">
-LEANDRO JONH DA SILVA
-</option>
-
-<option value="LUCINALDO CLEMENTE DA SILVA">
-LUCINALDO CLEMENTE DA SILVA
-</option>
-
-</select>
-
-</div>
-
-</div>
-
-
-<div class="row">
-
-<div class="field">
-
-<label>Coordenador:</label>
-
-<input
-type="text"
-id="coordenador"
-value="BENONE HENRIQUE DE SOUSA"
-readonly>
-
-</div>
-
-</div>
-
-
-<div class="row">
-
-<div class="field w-medium">
-
-<label>Início das Aulas:</label>
-<input type="date" id="inicio_aulas">
-
-</div>
-
-
-<div class="field">
-
-<label>Horário:</label>
-<input
-type="text"
-id="horario_aulas"
-placeholder="EX: 08:00 AS 10:00">
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- BLOCO 06 -->
-
-<div class="block">
-
-<div class="block-title">
-    Bloco 06 Avaliações
-</div>
-
-
-<div class="row">
-
-<div class="field">
-<label>Windows - Nota A:</label>
-<input type="text" id="windows_nota_a">
-</div>
-
-<div class="field">
-<label>Windows - Nota B:</label>
-<input type="text" id="windows_nota_b">
-</div>
-
-<div class="field">
-<label>Windows - Nota C:</label>
-<input type="text" id="windows_nota_c">
-</div>
-
-<div class="field">
-<label>Windows - Média:</label>
-<input type="text" id="windows_media">
-</div>
-
-</div>
-
-
-<div class="row">
-
-<div class="field">
-<label>Digitação - Nota A:</label>
-<input type="text" id="digitacao_nota_a">
-</div>
-
-<div class="field">
-<label>Digitação - Nota B:</label>
-<input type="text" id="digitacao_nota_b">
-</div>
-
-<div class="field">
-<label>Digitação - Nota C:</label>
-<input type="text" id="digitacao_nota_c">
-</div>
-
-<div class="field">
-<label>Digitação - Média:</label>
-<input type="text" id="digitacao_media">
-</div>
-
-</div>
-
-
-<div class="row">
-
-<div class="field">
-<label>Word - Nota A:</label>
-<input type="text" id="word_nota_a">
-</div>
-
-<div class="field">
-<label>Word - Nota B:</label>
-<input type="text" id="word_nota_b">
-</div>
-
-<div class="field">
-<label>Word - Nota C:</label>
-<input type="text" id="word_nota_c">
-</div>
-
-<div class="field">
-<label>Word - Média:</label>
-<input type="text" id="word_media">
-</div>
-
-</div>
-
-
-<div class="row">
-
-<div class="field">
-<label>Excel - Nota A:</label>
-<input type="text" id="excel_nota_a">
-</div>
-
-<div class="field">
-<label>Excel - Nota B:</label>
-<input type="text" id="excel_nota_b">
-</div>
-
-<div class="field">
-<label>Excel - Nota C:</label>
-<input type="text" id="excel_nota_c">
-</div>
-
-<div class="field">
-<label>Excel - Média:</label>
-<input type="text" id="excel_media">
-</div>
-
-</div>
-
-
-<div class="row">
-
-<div class="field">
-<label>Avaliação Final:</label>
-<input type="text" id="avaliacao_final">
-</div>
-
-<div class="field">
-<label>Certificação:</label>
-<input type="text" id="certificacao">
-</div>
-
-<div class="field">
-<label>Avaliação Final 1:</label>
-<input type="text" id="avaliacao_final1">
-</div>
-
-</div>
-
-</div>
-
-
-<div class="form-buttons">
-
-<button
-type="button"
-class="btn btn-report"
-onclick="abrirModalRelatorio()">
-Gerar Relatório por Curso
-</button>
-
-<button
-type="button"
-class="btn btn-clear"
-onclick="limparFormulario()">
-Limpar
-</button>
-
-<button
-type="submit"
-class="btn btn-submit">
-Salvar Registro
-</button>
-
-</div>
-
-</form>
-
-
-<!-- REGISTROS -->
-
-<div class="records-section">
-
-<h2>Registros Salvos</h2>
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Código</th>
-<th>Data Inclusão</th>
-<th>Nome do Aluno</th>
-<th>Telefone</th>
-<th>Curso</th>
-
-</tr>
-
-</thead>
-
-<tbody id="tabelaRegistros"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-
-<!-- RELATÓRIO -->
+<!-- ================= RELATÓRIO ================= -->
 
 <div id="reportModal" class="modal">
 
-<div class="report-content">
+    <div class="report-content">
 
-<div class="report-header">
+        <div class="report-header">
 
-<h2>
-Relatório de Alunos por Curso
-</h2>
+            <h2>Relatório de Alunos por Curso</h2>
 
-<div class="no-print">
+            <div class="no-print">
 
-<label>
-Filtrar Curso:
-</label>
+                <label>Filtrar Curso:</label>
 
-<select
-id="filtroCursoRelatorio"
-onchange="renderizarRelatorio()">
-</select>
+                <select
+                    id="filtroCursoRelatorio"
+                    onchange="renderizarRelatorio()">
+                </select>
 
-</div>
+            </div>
 
-</div>
+        </div>
 
+        <table>
 
-<table>
+            <thead>
 
-<thead>
+                <tr>
 
-<tr>
+                    <th>Código</th>
+                    <th>Nome do Aluno</th>
+                    <th>Endereço</th>
+                    <th>Nº</th>
+                    <th>Bairro</th>
+                    <th>Cidade</th>
+                    <th>Telefone</th>
+                    <th>Curso</th>
+                    <th>Status</th>
 
-<th>Código</th>
-<th>Nome</th>
-<th>Endereço</th>
-<th>Nº</th>
-<th>Bairro</th>
-<th>Cidade</th>
-<th>Telefone</th>
-<th>Curso</th>
-<th>Status</th>
+                </tr>
 
-</tr>
+            </thead>
 
-</thead>
+            <tbody id="tabelaRelatorioCorpo"></tbody>
 
-<tbody id="tabelaRelatorioCorpo"></tbody>
+        </table>
 
-</table>
+        <div class="form-buttons">
 
+            <button
+                type="button"
+                class="btn btn-print no-print"
+                onclick="window.print()">
+                Imprimir
+            </button>
 
-<div class="form-buttons">
+            <button
+                type="button"
+                class="btn btn-clear no-print"
+                onclick="fecharModalRelatorio()">
+                Sair
+            </button>
 
-<button
-type="button"
-class="btn btn-print no-print"
-onclick="window.print()">
-Imprimir
-</button>
+        </div>
 
-<button
-type="button"
-class="btn btn-clear no-print"
-onclick="fecharModalRelatorio()">
-Sair
-</button>
-
-</div>
-
-</div>
+    </div>
 
 </div>
 
 
-<!-- SENHA -->
+<!-- ================= ALTERAÇÃO DE SENHA ================= -->
 
 <div id="passwordModal" class="modal">
 
-<div class="report-content" style="max-width:400px">
+    <div
+        class="report-content"
+        style="max-width:400px">
 
-<div class="report-header">
+        <div class="report-header">
 
-<h2>
-Alterar Senha de Acesso
-</h2>
+            <h2>Alterar Senha de Acesso</h2>
+
+        </div>
+
+        <div
+            style="
+            display:flex;
+            flex-direction:column;
+            gap:12px;
+            margin-bottom:20px;
+            ">
+
+            <div>
+
+                <label>
+                    Senha de Administrador:
+                </label>
+
+                <input
+                    type="password"
+                    id="admSenhaCheck"
+                    style="width:100%;padding:8px"
+                >
+
+            </div>
+
+            <div>
+
+                <label>
+                    Nova Senha do Sistema:
+                </label>
+
+                <input
+                    type="password"
+                    id="novaSenhaInput"
+                    style="width:100%;padding:8px"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="form-buttons">
+
+            <button
+                type="button"
+                class="btn btn-submit"
+                onclick="salvarNovaSenha()">
+                Salvar Nova Senha
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-clear"
+                onclick="fecharModalSenha()">
+                Cancelar
+            </button>
+
+        </div>
+
+    </div>
 
 </div>
 
 
-<label>
-Senha de Administrador:
-</label>
+<!-- ================= ÁREA DE IMPRESSÃO ================= -->
 
-<input
-type="password"
-id="admSenhaCheck"
-style="width:100%;padding:8px;margin:5px 0 15px"
-autocomplete="new-password"
->
-
-
-<label>
-Nova Senha do Sistema:
-</label>
-
-<input
-type="password"
-id="novaSenhaInput"
-style="width:100%;padding:8px;margin:5px 0 20px"
-autocomplete="new-password"
->
-
-
-<div class="form-buttons">
-
-<button
-type="button"
-class="btn btn-submit"
-onclick="salvarNovaSenha()">
-Salvar Nova Senha
-</button>
-
-<button
-type="button"
-class="btn btn-clear"
-onclick="fecharModalSenha()">
-Cancelar
-</button>
-
-</div>
-
-</div>
-
-</div>
+<div id="comprovantePrint"></div>
 
 
 <script>
 
-/* ============================================================
+/* =========================================================
    BANCO DE DADOS
-============================================================ */
+========================================================= */
 
 let alunosSalvos =
-JSON.parse(localStorage.getItem("alunos_db")) || [];
+    JSON.parse(localStorage.getItem('alunos_db')) || [];
 
 let senhaSistema =
-localStorage.getItem("sistema_senha") || "juventudes";
+    localStorage.getItem('sistema_senha') || 'juventudes';
 
 
-/* ============================================================
+const COORDENADOR_PADRAO =
+    'BENONE HENRIQUE DE SOUSA';
+
+
+/* =========================================================
    LOGIN
-============================================================ */
+========================================================= */
 
 document
-.getElementById("loginUsuario")
-.addEventListener("input", function() {
+.getElementById('loginUsuario')
+.addEventListener('input', function() {
 
     this.value = this.value.toLowerCase();
 
@@ -1316,10 +1431,21 @@ document
 
 
 document
-.getElementById("loginSenha")
-.addEventListener("keydown", function(e) {
+.getElementById('loginUsuario')
+.addEventListener('keydown', function(e) {
 
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
+        realizarLogin();
+    }
+
+});
+
+
+document
+.getElementById('loginSenha')
+.addEventListener('keydown', function(e) {
+
+    if (e.key === 'Enter') {
         realizarLogin();
     }
 
@@ -1329,42 +1455,36 @@ document
 function realizarLogin() {
 
     const usuario =
-    document
-    .getElementById("loginUsuario")
-    .value
-    .trim()
-    .toLowerCase();
+        document.getElementById('loginUsuario')
+        .value
+        .trim()
+        .toLowerCase();
 
     const senha =
-    document
-    .getElementById("loginSenha")
-    .value
-    .trim();
+        document.getElementById('loginSenha')
+        .value
+        .trim();
 
     if (
-        usuario === "cadjovem" &&
+        usuario === 'cadjovem' &&
         senha === senhaSistema
     ) {
 
-        document
-        .getElementById("loginOverlay")
-        .style.display = "none";
+        document.getElementById(
+            'loginOverlay'
+        ).style.display = 'none';
 
-        document
-        .getElementById("mainContainer")
-        .style.display = "block";
+        document.getElementById(
+            'mainContainer'
+        ).style.display = 'block';
 
         atualizarTabelaEBusca();
 
         definirDataAtualInclusao();
 
-        document
-        .getElementById("codigo")
-        .value = gerarProximoCodigo();
-
     } else {
 
-        alert("Usuário ou senha incorretos!");
+        alert('Usuário ou senha incorretos!');
 
     }
 
@@ -1373,137 +1493,160 @@ function realizarLogin() {
 
 function realizarLogout() {
 
-    document
-    .getElementById("loginSenha")
-    .value = "";
+    document.getElementById('loginUsuario').value = '';
+    document.getElementById('loginSenha').value = '';
 
-    document
-    .getElementById("loginUsuario")
-    .value = "";
+    document.getElementById(
+        'mainContainer'
+    ).style.display = 'none';
 
-    document
-    .getElementById("mainContainer")
-    .style.display = "none";
-
-    document
-    .getElementById("loginOverlay")
-    .style.display = "flex";
+    document.getElementById(
+        'loginOverlay'
+    ).style.display = 'flex';
 
 }
 
 
-/* ============================================================
+/* =========================================================
    SENHA
-============================================================ */
+========================================================= */
 
 function abrirModalSenha() {
 
-    document
-    .getElementById("admSenhaCheck")
-    .value = "";
+    document.getElementById(
+        'admSenhaCheck'
+    ).value = '';
 
-    document
-    .getElementById("novaSenhaInput")
-    .value = "";
+    document.getElementById(
+        'novaSenhaInput'
+    ).value = '';
 
-    document
-    .getElementById("passwordModal")
-    .style.display = "block";
+    document.getElementById(
+        'passwordModal'
+    ).style.display = 'block';
 
 }
 
 
 function fecharModalSenha() {
 
-    document
-    .getElementById("passwordModal")
-    .style.display = "none";
+    document.getElementById(
+        'passwordModal'
+    ).style.display = 'none';
 
 }
 
 
 function salvarNovaSenha() {
 
-    const adm =
-    document
-    .getElementById("admSenhaCheck")
-    .value
-    .trim();
+    const admPass =
+        document.getElementById(
+            'admSenhaCheck'
+        ).value.trim();
 
-    const nova =
-    document
-    .getElementById("novaSenhaInput")
-    .value
-    .trim();
+    const novaPass =
+        document.getElementById(
+            'novaSenhaInput'
+        ).value.trim();
 
-    if (adm !== "itapetim") {
+    if (admPass !== 'itapetim') {
 
-        alert("Senha de Administrador incorreta!");
+        alert(
+            'Senha de Administrador incorreta!'
+        );
+
         return;
 
     }
 
-    if (!nova) {
+    if (!novaPass) {
 
-        alert("A nova senha não pode estar vazia!");
+        alert(
+            'A nova senha não pode estar vazia!'
+        );
+
         return;
 
     }
 
     localStorage.setItem(
-        "sistema_senha",
-        nova
+        'sistema_senha',
+        novaPass
     );
 
-    senhaSistema = nova;
+    senhaSistema = novaPass;
 
-    alert("Senha alterada com sucesso!");
+    alert(
+        'Senha alterada com sucesso!'
+    );
 
     fecharModalSenha();
 
 }
 
 
-/* ============================================================
-   DATAS
-============================================================ */
+/* =========================================================
+   DATA
+========================================================= */
 
 function definirDataAtualInclusao() {
 
     const hoje =
-    new Date()
-    .toISOString()
-    .split("T")[0];
+        new Date()
+        .toISOString()
+        .split('T')[0];
 
-    document
-    .getElementById("data_inclusao")
-    .value = hoje;
+    document.getElementById(
+        'data_inclusao'
+    ).value = hoje;
 
 }
 
 
-function converterParaDataInput(valor) {
+/* =========================================================
+   CÓDIGO AUTOMÁTICO
+========================================================= */
 
-    if (!valor) {
-        return "";
+function gerarProximoCodigo() {
+
+    if (alunosSalvos.length === 0) {
+        return '1001';
     }
 
-    valor = String(valor).trim();
+    const codigos =
+        alunosSalvos
+        .map(a => parseInt(a.codigo))
+        .filter(n => !isNaN(n));
 
-    /*
-       Remove horário:
-       30/11/1994 00:00:00
-       vira
-       30/11/1994
-    */
+    if (codigos.length === 0) {
+        return '1001';
+    }
 
-    valor = valor.split(" ")[0];
+    return (
+        Math.max(...codigos) + 1
+    ).toString();
+
+}
+
+
+/* =========================================================
+   DATA PARA INPUT DATE
+========================================================= */
+
+function converterParaDataInput(dataStr) {
+
+    if (!dataStr) return '';
+
+    let limpa =
+        String(dataStr)
+        .trim()
+        .split(' ')[0];
 
     let partes =
-    valor.split(/[\/\-]/);
+        limpa.split(/[\/\-]/);
 
     if (partes.length !== 3) {
-        return "";
+        return '';
     }
 
     let dia;
@@ -1513,89 +1656,84 @@ function converterParaDataInput(valor) {
     if (partes[0].length === 4) {
 
         ano = partes[0];
-        mes = partes[1];
-        dia = partes[2];
+        mes = partes[1].padStart(2,'0');
+        dia = partes[2].padStart(2,'0');
 
     } else {
 
-        dia = partes[0];
-        mes = partes[1];
+        dia = partes[0].padStart(2,'0');
+        mes = partes[1].padStart(2,'0');
         ano = partes[2];
 
-    }
+        if (ano.length === 2) {
 
-    if (ano.length === 2) {
+            ano =
+                (parseInt(ano) > 50 ? '19' : '20')
+                + ano;
 
-        ano =
-        (parseInt(ano) > 50 ? "19" : "20")
-        + ano;
+        }
 
     }
 
     if (
-        !/^\d{4}$/.test(ano) ||
-        !/^\d{1,2}$/.test(mes) ||
-        !/^\d{1,2}$/.test(dia)
+        ano.length === 4 &&
+        parseInt(mes) >= 1 &&
+        parseInt(mes) <= 12 &&
+        parseInt(dia) >= 1 &&
+        parseInt(dia) <= 31
     ) {
 
-        return "";
+        return `${ano}-${mes}-${dia}`;
 
     }
 
-    return (
-        ano + "-" +
-        String(mes).padStart(2,"0") + "-" +
-        String(dia).padStart(2,"0")
-    );
+    return '';
 
 }
 
 
-/* ============================================================
-   CÓDIGO
-============================================================ */
+/* =========================================================
+   DATA PARA EXIBIÇÃO
+========================================================= */
 
-function gerarProximoCodigo() {
+function formatarData(data) {
 
-    if (alunosSalvos.length === 0) {
-        return "1001";
-    }
+    if (!data) return '';
 
-    const numeros =
-    alunosSalvos
-    .map(a => parseInt(a.codigo))
-    .filter(n => !isNaN(n));
+    const valor =
+        converterParaDataInput(data);
 
-    if (numeros.length === 0) {
-        return "1001";
-    }
+    if (!valor) return data;
 
-    return (
-        Math.max(...numeros) + 1
-    ).toString();
+    const partes = valor.split('-');
+
+    return `${partes[2]}/${partes[1]}/${partes[0]}`;
 
 }
 
 
-/* ============================================================
-   CSV/TXT
-============================================================ */
+/* =========================================================
+   CONVERSÃO SEGURA DE TEXTO
+========================================================= */
 
-/*
-   Parser correto para CSV/TXT com:
+function normalizarTexto(valor) {
 
-   ;
-   ""
-   ;
-   campos vazios
-   vírgulas dentro de aspas
-*/
+    return String(valor || '')
+        .trim()
+        .toUpperCase();
 
-function separarLinhaCSV(linha) {
+}
+
+
+/* =========================================================
+   IMPORTAÇÃO CSV/TXT
+========================================================= */
+
+function separarCSV(linha) {
 
     const resultado = [];
 
-    let atual = "";
+    let atual = '';
 
     let dentroAspas = false;
 
@@ -1611,27 +1749,28 @@ function separarLinhaCSV(linha) {
             ) {
 
                 atual += '"';
+
                 i++;
 
             } else {
 
-                dentroAspas = !dentroAspas;
+                dentroAspas =
+                    !dentroAspas;
 
             }
 
-        }
-
-        else if (
-            caractere === ";" &&
+        } else if (
+            caractere === ';' &&
             !dentroAspas
         ) {
 
-            resultado.push(atual.trim());
-            atual = "";
+            resultado.push(
+                atual.trim()
+            );
 
-        }
+            atual = '';
 
-        else {
+        } else {
 
             atual += caractere;
 
@@ -1639,1710 +1778,1080 @@ function separarLinhaCSV(linha) {
 
     }
 
-    resultado.push(atual.trim());
-
-    return resultado.map(valor =>
-        valor.trim()
+    resultado.push(
+        atual.trim()
     );
 
-}
+    return resultado.map(valor => {
 
+        if (
+            valor.startsWith('"') &&
+            valor.endsWith('"')
+        ) {
 
-/* ============================================================
-   NORMALIZAÇÃO DOS NOMES DAS COLUNAS
-============================================================ */
+            valor =
+                valor.substring(
+                    1,
+                    valor.length - 1
+                );
 
-function normalizarCabecalho(texto) {
-
-    return String(texto || "")
-        .replace(/^"|"$/g,"")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g,"")
-        .replace(/\s+/g," ")
-        .trim()
-        .toUpperCase();
-
-}
-
-
-function encontrarColuna(cabecalho, nomes) {
-
-    for (const nome of nomes) {
-
-        const indice =
-        cabecalho.findIndex(
-            coluna =>
-            normalizarCabecalho(coluna) ===
-            normalizarCabecalho(nome)
-        );
-
-        if (indice >= 0) {
-            return indice;
         }
 
-    }
+        return valor.trim();
 
-    return -1;
-
-}
-
-
-function valorColuna(colunas, cabecalho, nomes) {
-
-    const indice =
-    encontrarColuna(
-        cabecalho,
-        nomes
-    );
-
-    if (indice < 0) {
-        return "";
-    }
-
-    return (
-        colunas[indice] || ""
-    ).trim();
+    });
 
 }
 
-
-/* ============================================================
-   IMPORTAÇÃO
-============================================================ */
 
 function processarArquivoCSV(input) {
 
     const file =
-    input.files[0];
+        input.files[0];
 
-    if (!file) {
-        return;
-    }
+    if (!file) return;
 
     const reader =
-    new FileReader();
+        new FileReader();
 
     reader.onload = function(e) {
 
         const conteudo =
-        e.target.result
-        .replace(/^\uFEFF/,"");
+            e.target.result;
 
         const linhas =
-        conteudo.split(/\r\n|\n/);
+            conteudo
+            .split(/\r?\n/)
+            .filter(linha => linha.trim());
 
-        if (linhas.length < 2) {
+        let importados = 0;
 
-            alert("O arquivo não possui registros.");
-            input.value = "";
+        linhas.forEach(
+            (linha, index) => {
+
+                const colunas =
+                    separarCSV(linha);
+
+                if (!colunas.length) {
+                    return;
+                }
+
+
+                /* IGNORA CABEÇALHO */
+
+                const primeira =
+                    normalizarTexto(
+                        colunas[0]
+                    );
+
+                if (
+                    index === 0 &&
+                    (
+                        primeira === 'CÓDIGO' ||
+                        primeira === 'CODIGO'
+                    )
+                ) {
+
+                    return;
+
+                }
+
+
+                /*
+                NOVA ESTRUTURA DA TABELA
+
+                0  Código
+                1  Data inclusão
+                2  Nome
+                3  Nascimento
+                4  Sexo
+                5  Estado civil
+                6  Pai
+                7  Mãe
+                8  Endereço
+                9  Número
+                10 Bairro
+                11 Cidade
+                12 Estado
+                13 CEP
+                14 Telefone
+                15 RG/CPF
+                16 Grupos jovem
+                17 Estuda
+                18 Escola
+                19 Série
+                20 Escolaridade
+                21 Trabalha
+                22 Curso
+                23 Manhã
+                24 Tarde
+                25 Noite
+                26 Professor
+                27 Coordenador
+                28 Início aulas
+                29 Horário aulas
+                */
+
+
+                const codigo =
+                    colunas[0] ||
+                    gerarProximoCodigo();
+
+                const aluno = {
+
+                    codigo:
+                        String(codigo).trim(),
+
+                    data_inclusao:
+                        converterParaDataInput(
+                            colunas[1]
+                        ),
+
+                    nome_aluno:
+                        normalizarTexto(
+                            colunas[2]
+                        ),
+
+                    data_nascimento:
+                        converterParaDataInput(
+                            colunas[3]
+                        ),
+
+                    sexo:
+                        normalizarTexto(
+                            colunas[4]
+                        ),
+
+                    estado_civil:
+                        normalizarTexto(
+                            colunas[5]
+                        ),
+
+                    nome_pai:
+                        normalizarTexto(
+                            colunas[6]
+                        ),
+
+                    nome_mae:
+                        normalizarTexto(
+                            colunas[7]
+                        ),
+
+                    endereco:
+                        normalizarTexto(
+                            colunas[8]
+                        ),
+
+                    numero:
+                        String(
+                            colunas[9] || ''
+                        ).trim(),
+
+                    bairro:
+                        normalizarTexto(
+                            colunas[10]
+                        ),
+
+                    cidade:
+                        normalizarTexto(
+                            colunas[11]
+                        ),
+
+                    estado:
+                        normalizarTexto(
+                            colunas[12]
+                        ),
+
+                    cep:
+                        String(
+                            colunas[13] || ''
+                        ).trim(),
+
+                    telefone:
+                        String(
+                            colunas[14] || ''
+                        ).trim(),
+
+                    documento:
+                        String(
+                            colunas[15] || ''
+                        ).trim(),
+
+                    grupos_jovem:
+                        normalizarTexto(
+                            colunas[16]
+                        ),
+
+                    estuda:
+                        normalizarTexto(
+                            colunas[17]
+                        ),
+
+                    escola:
+                        normalizarTexto(
+                            colunas[18]
+                        ),
+
+                    serie:
+                        normalizarTexto(
+                            colunas[19]
+                        ),
+
+                    escolaridade:
+                        normalizarTexto(
+                            colunas[20]
+                        ),
+
+                    trabalha_opcao:
+                        normalizarTexto(
+                            colunas[21]
+                        ),
+
+                    trabalho_local:
+                        normalizarTexto(
+                            colunas[21]
+                        ),
+
+                    curso:
+                        normalizarTexto(
+                            colunas[22]
+                        ),
+
+                    turno_manha:
+                        normalizarTexto(
+                            colunas[23]
+                        ) === 'X',
+
+                    turno_tarde:
+                        normalizarTexto(
+                            colunas[24]
+                        ) === 'X',
+
+                    turno_noite:
+                        normalizarTexto(
+                            colunas[25]
+                        ) === 'X',
+
+                    professor:
+                        normalizarTexto(
+                            colunas[26]
+                        ),
+
+                    coordenador:
+                        normalizarTexto(
+                            colunas[27]
+                        ) ||
+                        COORDENADOR_PADRAO,
+
+                    inicio_aulas:
+                        converterParaDataInput(
+                            colunas[28]
+                        ),
+
+                    horario_aulas:
+                        normalizarTexto(
+                            colunas[29]
+                        ),
+
+                    status:
+                        'MATRICULADO'
+
+                };
+
+
+                if (!aluno.nome_aluno) {
+                    return;
+                }
+
+
+                /*
+                Se o campo TRABALHA contém:
+                "SIM, COMÉCIO"
+
+                preservamos o texto completo,
+                mas também definimos a opção.
+                */
+
+                const trabalho =
+                    normalizarTexto(
+                        colunas[21]
+                    );
+
+                if (
+                    trabalho.startsWith('SIM')
+                ) {
+
+                    aluno.trabalha_opcao =
+                        'SIM';
+
+                    aluno.trabalho_local =
+                        trabalho
+                        .replace(
+                            /^SIM[,\s-]*/,
+                            ''
+                        )
+                        .trim();
+
+                } else {
+
+                    aluno.trabalha_opcao =
+                        trabalho === 'NÃO' ||
+                        trabalho === 'NAO'
+                            ? 'NÃO'
+                            : trabalho;
+
+                    aluno.trabalho_local = '';
+
+                }
+
+
+                /*
+                EVITA DUPLICAÇÃO
+
+                Primeiro pelo código.
+                Depois pelo nome.
+                */
+
+                const existente =
+                    alunosSalvos.findIndex(
+                        a =>
+                            String(a.codigo) ===
+                            String(aluno.codigo)
+                            ||
+                            normalizarTexto(
+                                a.nome_aluno
+                            ) ===
+                            aluno.nome_aluno
+                    );
+
+
+                if (existente >= 0) {
+
+                    alunosSalvos[existente] = {
+                        ...alunosSalvos[existente],
+                        ...aluno
+                    };
+
+                } else {
+
+                    alunosSalvos.push(aluno);
+
+                }
+
+                importados++;
+
+            }
+        );
+
+
+        localStorage.setItem(
+            'alunos_db',
+            JSON.stringify(alunosSalvos)
+        );
+
+        atualizarTabelaEBusca();
+
+        alert(
+            `${importados} registro(s) importado(s) com sucesso!`
+        );
+
+        input.value = '';
+
+    };
+
+    reader.readAsText(
+        file,
+        'UTF-8'
+    );
+
+}
+
+
+/* =========================================================
+   CAPTURA DOS DADOS DO FORMULÁRIO
+========================================================= */
+
+function obterTurnosSelecionados() {
+
+    return Array
+        .from(
+            document.querySelectorAll(
+                'input[name="turno"]:checked'
+            )
+        )
+        .map(
+            checkbox =>
+                checkbox.value
+        );
+
+}
+
+
+function montarAlunoDoFormulario() {
+
+    const turnos =
+        obterTurnosSelecionados();
+
+    const trabalha =
+        document
+        .getElementById(
+            'trabalha_opcao'
+        )
+        .value;
+
+    let localTrabalho =
+        document
+        .getElementById(
+            'trabalho_local'
+        )
+        .value
+        .trim()
+        .toUpperCase();
+
+
+    return {
+
+        codigo:
+            document.getElementById(
+                'codigo'
+            ).value.trim(),
+
+        data_inclusao:
+            document.getElementById(
+                'data_inclusao'
+            ).value,
+
+        nome_aluno:
+            document.getElementById(
+                'nome_aluno'
+            ).value
+            .trim()
+            .toUpperCase(),
+
+        data_nascimento:
+            document.getElementById(
+                'data_nascimento'
+            ).value,
+
+        sexo:
+            document.getElementById(
+                'sexo'
+            ).value,
+
+        estado_civil:
+            document.getElementById(
+                'estado_civil'
+            ).value,
+
+        nome_pai:
+            document.getElementById(
+                'nome_pai'
+            ).value
+            .trim()
+            .toUpperCase(),
+
+        nome_mae:
+            document.getElementById(
+                'nome_mae'
+            ).value
+            .trim()
+            .toUpperCase(),
+
+        endereco:
+            document.getElementById(
+                'endereco'
+            ).value
+            .trim()
+            .toUpperCase(),
+
+        numero:
+            document.getElementById(
+                'numero'
+            ).value.trim(),
+
+        bairro:
+            document.getElementById(
+                'bairro'
+            ).value
+            .trim()
+            .toUpperCase(),
+
+        cidade:
+            document.getElementById(
+                'cidade'
+            ).value
+            .trim()
+            .toUpperCase(),
+
+        estado:
+            document.getElementById(
+                'estado'
+            ).value
+            .trim()
+            .toUpperCase(),
+
+        cep:
+            document.getElementById(
+                'cep'
+            ).value.trim(),
+
+        telefone:
+            document.getElementById(
+                'telefone'
+            ).value.trim(),
+
+        documento:
+            document.getElementById(
+                'documento'
+            ).value.trim(),
+
+        grupos_jovem:
+            document.getElementById(
+                'grupos_jovem'
+            ).value
+            .trim()
+            .toUpperCase(),
+
+        estuda:
+            document.getElementById(
+                'estuda'
+            ).value,
+
+        escola:
+            document.getElementById(
+                'escola'
+            ).value
+            .trim()
+            .toUpperCase(),
+
+        serie:
+            document.getElementById(
+                'serie'
+            ).value
+            .trim()
+            .toUpperCase(),
+
+        escolaridade:
+            document.getElementById(
+                'escolaridade'
+            ).value
+            .trim()
+            .toUpperCase(),
+
+        trabalha_opcao:
+            trabalha,
+
+        trabalho_local:
+            localTrabalho,
+
+        curso:
+            document.getElementById(
+                'curso'
+            ).value,
+
+        turno_manha:
+            turnos.includes('MANHÃ'),
+
+        turno_tarde:
+            turnos.includes('TARDE'),
+
+        turno_noite:
+            turnos.includes('NOITE'),
+
+        professor:
+            document.getElementById(
+                'professor'
+            ).value,
+
+        coordenador:
+            document.getElementById(
+                'coordenador'
+            ).value,
+
+        inicio_aulas:
+            document.getElementById(
+                'inicio_aulas'
+            ).value,
+
+        horario_aulas:
+            document.getElementById(
+                'horario_aulas'
+            ).value
+            .trim()
+            .toUpperCase(),
+
+        status:
+            'MATRICULADO'
+
+    };
+
+}
+
+
+/* =========================================================
+   SALVAR
+========================================================= */
+
+document
+.getElementById('formMatricula')
+.addEventListener(
+    'submit',
+    function(e) {
+
+        e.preventDefault();
+
+        const aluno =
+            montarAlunoDoFormulario();
+
+        if (!aluno.nome_aluno) {
+
+            alert(
+                'Informe o nome do aluno.'
+            );
+
             return;
 
         }
 
 
-        /*
-           PRIMEIRA LINHA = CABEÇALHO
-        */
+        if (!aluno.codigo) {
 
-        const cabecalho =
-        separarLinhaCSV(linhas[0]);
+            aluno.codigo =
+                gerarProximoCodigo();
 
+        }
 
-        let importados = 0;
-        let atualizados = 0;
-        let ignorados = 0;
 
-
-        for (
-            let i = 1;
-            i < linhas.length;
-            i++
-        ) {
-
-            const linha =
-            linhas[i];
-
-            if (!linha.trim()) {
-                continue;
-            }
-
-
-            const colunas =
-            separarLinhaCSV(linha);
-
-
-            /*
-               Verificação básica
-            */
-
-            if (
-                colunas.length < 3
-            ) {
-
-                ignorados++;
-                continue;
-
-            }
-
-
-            /* =================================================
-               IDENTIFICAÇÃO
-            ================================================= */
-
-            const codigo =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["CÓDIGO","CODIGO"]
-            ) || gerarProximoCodigo();
-
-
-            const dataInclusao =
-            converterParaDataInput(
-                valorColuna(
-                    colunas,
-                    cabecalho,
-                    [
-                        "DATA DE INCLUSÃO",
-                        "DATA DE INCLUSAO"
-                    ]
-                )
-            );
-
-
-            const nomeAluno =
-            valorColuna(
-                colunas,
-                cabecalho,
-                [
-                    "NOME DO ALUNO:",
-                    "NOME DO ALUNO"
-                ]
-            ).toUpperCase();
-
-
-            if (!nomeAluno) {
-
-                ignorados++;
-                continue;
-
-            }
-
-
-            const dataNascimento =
-            converterParaDataInput(
-                valorColuna(
-                    colunas,
-                    cabecalho,
-                    [
-                        "DATA DE NASCIMENTO"
-                    ]
-                )
-            );
-
-
-            const sexo =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["SEXO:"]
-            ).toUpperCase();
-
-
-            const estadoCivil =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["ESTADO CIVIL:"]
-            ).toUpperCase();
-
-
-            const nomePai =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["NOME DO PAI:"]
-            ).toUpperCase();
-
-
-            const nomeMae =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["NOME DA MÃE"]
-            ).toUpperCase();
-
-
-            /* =================================================
-               ENDEREÇO
-            ================================================= */
-
-            const endereco =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["ENDEREÇO:"]
-            ).toUpperCase();
-
-
-            const numero =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["Nº:"]
-            );
-
-
-            const bairro =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["BAIRRO"]
-            ).toUpperCase();
-
-
-            const cidade =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["CIDADE:"]
-            ).toUpperCase();
-
-
-            const estado =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["ESTADO:"]
-            ).toUpperCase();
-
-
-            const cep =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["CEP:"]
-            );
-
-
-            const telefone =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["TELEFONE:"]
-            );
-
-
-            const email =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["E-MAIL:"]
-            );
-
-
-            const rg =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["RG:"]
-            );
-
-
-            const cpf =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["CPF:"]
-            );
-
-
-            const nis =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["NIS:"]
-            );
-
-
-            /* =================================================
-               QUALIFICAÇÃO
-            ================================================= */
-
-            const gruposJovem =
-            valorColuna(
-                colunas,
-                cabecalho,
-                [
-                    "PARTICIPA DE GRUPOS JOVEM? QUAL?"
-                ]
-            ).toUpperCase();
-
-
-            const estuda =
-            valorColuna(
-                colunas,
-                cabecalho,
-                [
-                    "ESTUDA ATUALMENTE?"
-                ]
-            ).toUpperCase();
-
-
-            const escola =
-            valorColuna(
-                colunas,
-                cabecalho,
-                [
-                    "SE ESTUDA INFORME O NOME DA ESCOLA:"
-                ]
-            ).toUpperCase();
-
-
-            const serie =
-            valorColuna(
-                colunas,
-                cabecalho,
-                [
-                    "INFORME A SERIE QUE ESTUDA:"
-                ]
-            ).toUpperCase();
-
-
-            const escolaridade =
-            valorColuna(
-                colunas,
-                cabecalho,
-                [
-                    "SE NÃO ESTUDA INFORME O GRAU DE ESCOLARIDADE:"
-                ]
-            ).toUpperCase();
-
-
-            /*
-               A tabela antiga possui uma coluna única:
-               TRABALHA ATUALMENTE? ONDE?
-            */
-
-            const trabalhoCompleto =
-            valorColuna(
-                colunas,
-                cabecalho,
-                [
-                    "TRABALHA ATUALMENTE? ONDE?"
-                ]
-            ).toUpperCase();
-
-
-            let trabalhaOpcao = "";
-            let trabalhoLocal = "";
-
-
-            if (trabalhoCompleto) {
-
-                if (
-                    trabalhoCompleto.startsWith("SIM")
-                ) {
-
-                    trabalhaOpcao = "SIM";
-
-                    trabalhoLocal =
-                    trabalhoCompleto
-                    .replace(/^SIM\s*[-:]?\s*/i,"")
-                    .trim();
-
-                }
-
-                else if (
-                    trabalhoCompleto.startsWith("NÃO") ||
-                    trabalhoCompleto.startsWith("NAO")
-                ) {
-
-                    trabalhaOpcao = "NÃO";
-
-                    trabalhoLocal =
-                    trabalhoCompleto
-                    .replace(/^N(Ã|A)O\s*[-:]?\s*/i,"")
-                    .trim();
-
-                }
-
-                else {
-
-                    trabalhoLocal =
-                    trabalhoCompleto;
-
-                }
-
-            }
-
-
-            const aptidao =
-            valorColuna(
-                colunas,
-                cabecalho,
-                [
-                    "APTIDÃO VOCACIONAL:"
-                ]
-            ).toUpperCase();
-
-
-            /* =================================================
-               CURSO
-            ================================================= */
-
-            const curso =
-            valorColuna(
-                colunas,
-                cabecalho,
-                [
-                    "INFORMA O CURSO OU ATIVIDADE QUE PRETENDE FAZER"
-                ]
-            ).toUpperCase();
-
-
-            /* =================================================
-               TURNOS
-            ================================================= */
-
-            const manha =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["MANHÃ"]
-            ).toUpperCase();
-
-
-            const tarde =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["TARDE"]
-            ).toUpperCase();
-
-
-            const noite =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["NOITE"]
-            ).toUpperCase();
-
-
-            let turno = "";
-
-
-            if (
-                manha === "X"
-            ) {
-
-                turno = "Manhã";
-
-            }
-
-            else if (
-                tarde === "X"
-            ) {
-
-                turno = "Tarde";
-
-            }
-
-            else if (
-                noite === "X"
-            ) {
-
-                turno = "Noite";
-
-            }
-
-
-            /* =================================================
-               PROFESSOR / COORDENADOR
-            ================================================= */
-
-            const professor =
-            valorColuna(
-                colunas,
-                cabecalho,
-                [
-                    "NOME DO PROFESSOR"
-                ]
-            ).toUpperCase();
-
-
-            const coordenador =
-            valorColuna(
-                colunas,
-                cabecalho,
-                [
-                    "NOME DO COORDENADOR DO PROGRAMA:"
-                ]
-            ).toUpperCase()
-            ||
-            "BENONE HENRIQUE DE SOUSA";
-
-
-            /* =================================================
-               AULAS
-            ================================================= */
-
-            const inicioAulas =
-            converterParaDataInput(
-                valorColuna(
-                    colunas,
-                    cabecalho,
-                    [
-                        "INÍCIO DAS AULAS"
-                    ]
-                )
-            );
-
-
-            const horarioAulas =
-            valorColuna(
-                colunas,
-                cabecalho,
-                [
-                    "HORÁRIO DAS AULAS"
-                ]
-            ).toUpperCase();
-
-
-            /* =================================================
-               AVALIAÇÕES
-            ================================================= */
-
-            const windowsNotaA =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["WINDOWS_NOTA_A"]
-            );
-
-
-            const windowsNotaB =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["WINDOWS_NOTA_B"]
-            );
-
-
-            const windowsNotaC =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["WINDOWS_NOTA_C"]
-            );
-
-
-            const windowsMedia =
-            valorColuna(
-                colunas,
-                cabecalho,
-                [
-                    "WINDOWS_ MÉDIA",
-                    "WINDOWS_MÉDIA"
-                ]
-            );
-
-
-            const digitacaoNotaA =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["DIGITAÇÃO_NOTA_A"]
-            );
-
-
-            const digitacaoNotaB =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["DIGITAÇÃO_NOTA_B"]
-            );
-
-
-            const digitacaoNotaC =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["DIGITAÇÃO_NOTA_C"]
-            );
-
-
-            const digitacaoMedia =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["DIGITAÇÃO_MÉDIA"]
-            );
-
-
-            const wordNotaA =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["WORD_NOTA_A"]
-            );
-
-
-            const wordNotaB =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["WORD_NOTA_B"]
-            );
-
-
-            const wordNotaC =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["WORD_NOTA_C"]
-            );
-
-
-            const wordMedia =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["WORD_MÉDIA"]
-            );
-
-
-            const excelNotaA =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["EXCEL_NOTA_A"]
-            );
-
-
-            const excelNotaB =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["EXCEL_NOTA_B"]
-            );
-
-
-            const excelNotaC =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["EXCEL_NOTA_C"]
-            );
-
-
-            const excelMedia =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["EXCEL_MÉDIA"]
-            );
-
-
-            const avaliacaoFinal =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["AVALIAÇÃO FINAL"]
-            ).toUpperCase();
-
-
-            const certificacao =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["CERTIFICAÇÃO"]
-            ).toUpperCase();
-
-
-            const avaliacaoFinal1 =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["AVALIAÇÃO FINAL1"]
-            ).toUpperCase();
-
-
-            const foto =
-            valorColuna(
-                colunas,
-                cabecalho,
-                ["FOTO"]
-            );
-
-
-            /* =================================================
-               MONTA REGISTRO
-            ================================================= */
-
-            const novoAluno = {
-
-                codigo,
-                data_inclusao:
-                dataInclusao,
-
-                nome_aluno:
-                nomeAluno,
-
-                data_nascimento:
-                dataNascimento,
-
-                sexo:
-                sexo,
-
-                estado_civil:
-                estadoCivil,
-
-                nome_pai:
-                nomePai,
-
-                nome_mae:
-                nomeMae,
-
-                endereco:
-                endereco,
-
-                numero:
-                numero,
-
-                bairro:
-                bairro,
-
-                cidade:
-                cidade,
-
-                estado:
-                estado,
-
-                cep:
-                cep,
-
-                telefone:
-                telefone,
-
-                email:
-                email,
-
-                rg:
-                rg,
-
-                cpf:
-                cpf,
-
-                nis:
-                nis,
-
-                grupos_jovem:
-                gruposJovem,
-
-                estuda:
-                estuda,
-
-                escola:
-                escola,
-
-                serie:
-                serie,
-
-                escolaridade:
-                escolaridade,
-
-                trabalha_opcao:
-                trabalhaOpcao,
-
-                trabalho_local:
-                trabalhoLocal,
-
-                aptidao_vocacional:
-                aptidao,
-
-                curso:
-                curso,
-
-                turno:
-                turno,
-
-                professor:
-                professor,
-
-                coordenador:
-                coordenador,
-
-                inicio_aulas:
-                inicioAulas,
-
-                horario_aulas:
-                horarioAulas,
-
-                windows_nota_a:
-                windowsNotaA,
-
-                windows_nota_b:
-                windowsNotaB,
-
-                windows_nota_c:
-                windowsNotaC,
-
-                windows_media:
-                windowsMedia,
-
-                digitacao_nota_a:
-                digitacaoNotaA,
-
-                digitacao_nota_b:
-                digitacaoNotaB,
-
-                digitacao_nota_c:
-                digitacaoNotaC,
-
-                digitacao_media:
-                digitacaoMedia,
-
-                word_nota_a:
-                wordNotaA,
-
-                word_nota_b:
-                wordNotaB,
-
-                word_nota_c:
-                wordNotaC,
-
-                word_media:
-                wordMedia,
-
-                excel_nota_a:
-                excelNotaA,
-
-                excel_nota_b:
-                excelNotaB,
-
-                excel_nota_c:
-                excelNotaC,
-
-                excel_media:
-                excelMedia,
-
-                foto:
-                foto,
-
-                avaliacao_final:
-                avaliacaoFinal,
-
-                certificacao:
-                certificacao,
-
-                avaliacao_final1:
-                avaliacaoFinal1,
-
-                status:
-                "MATRICULADO"
-
-            };
-
-
-            /* =================================================
-               EVITA DUPLICAÇÃO
-            ================================================= */
-
-            const indiceExistente =
+        const index =
             alunosSalvos.findIndex(
-                aluno =>
-                    String(aluno.codigo) ===
-                    String(codigo)
+                a =>
+                    String(a.codigo) ===
+                    String(aluno.codigo)
             );
 
 
-            if (indiceExistente >= 0) {
+        if (index >= 0) {
 
-                alunosSalvos[indiceExistente] = {
-                    ...alunosSalvos[indiceExistente],
-                    ...novoAluno
-                };
+            alunosSalvos[index] =
+                aluno;
 
-                atualizados++;
+            alert(
+                `Registro #${aluno.codigo} atualizado com sucesso!`
+            );
 
-            }
+        } else {
 
-            else {
+            alunosSalvos.push(aluno);
 
-                alunosSalvos.push(
-                    novoAluno
-                );
-
-                importados++;
-
-            }
+            alert(
+                `Novo registro #${aluno.codigo} salvo com sucesso!`
+            );
 
         }
 
 
         localStorage.setItem(
-            "alunos_db",
+            'alunos_db',
             JSON.stringify(alunosSalvos)
         );
 
-
         atualizarTabelaEBusca();
 
-
-        alert(
-            "Importação concluída!\n\n" +
-            "Novos registros: " + importados +
-            "\nRegistros atualizados: " + atualizados +
-            "\nIgnorados: " + ignorados
-        );
-
-
-        input.value = "";
-
-    };
-
-
-    reader.readAsText(
-        file,
-        "UTF-8"
-    );
-
-}
-
-
-/* ============================================================
-   SALVAR REGISTRO MANUAL
-============================================================ */
-
-document
-.getElementById("formMatricula")
-.addEventListener("submit", function(e) {
-
-    e.preventDefault();
-
-
-    const codigo =
-    document
-    .getElementById("codigo")
-    .value
-    .trim()
-    ||
-    gerarProximoCodigo();
-
-
-    const turnoSelecionado =
-    document.querySelector(
-        'input[name="turno"]:checked'
-    );
-
-
-    const alunoDados = {
-
-        codigo,
-
-        data_inclusao:
-        document.getElementById(
-            "data_inclusao"
-        ).value,
-
-        nome_aluno:
-        document.getElementById(
-            "nome_aluno"
-        ).value.toUpperCase(),
-
-        data_nascimento:
-        document.getElementById(
-            "data_nascimento"
-        ).value,
-
-        sexo:
-        document.getElementById(
-            "sexo"
-        ).value,
-
-        estado_civil:
-        document.getElementById(
-            "estado_civil"
-        ).value,
-
-        nome_pai:
-        document.getElementById(
-            "nome_pai"
-        ).value.toUpperCase(),
-
-        nome_mae:
-        document.getElementById(
-            "nome_mae"
-        ).value.toUpperCase(),
-
-        endereco:
-        document.getElementById(
-            "endereco"
-        ).value.toUpperCase(),
-
-        numero:
-        document.getElementById(
-            "numero"
-        ).value,
-
-        bairro:
-        document.getElementById(
-            "bairro"
-        ).value.toUpperCase(),
-
-        cidade:
-        document.getElementById(
-            "cidade"
-        ).value.toUpperCase(),
-
-        estado:
-        document.getElementById(
-            "estado"
-        ).value.toUpperCase(),
-
-        cep:
-        document.getElementById(
-            "cep"
-        ).value,
-
-        telefone:
-        document.getElementById(
-            "telefone"
-        ).value,
-
-        email:
-        document.getElementById(
-            "email"
-        ).value,
-
-        rg:
-        document.getElementById(
-            "rg"
-        ).value,
-
-        cpf:
-        document.getElementById(
-            "cpf"
-        ).value,
-
-        nis:
-        document.getElementById(
-            "nis"
-        ).value,
-
-        grupos_jovem:
-        document.getElementById(
-            "grupos_jovem"
-        ).value.toUpperCase(),
-
-        estuda:
-        document.getElementById(
-            "estuda"
-        ).value,
-
-        escola:
-        document.getElementById(
-            "escola"
-        ).value.toUpperCase(),
-
-        serie:
-        document.getElementById(
-            "serie"
-        ).value.toUpperCase(),
-
-        escolaridade:
-        document.getElementById(
-            "escolaridade"
-        ).value.toUpperCase(),
-
-        trabalha_opcao:
-        document.getElementById(
-            "trabalha_opcao"
-        ).value,
-
-        trabalho_local:
-        document.getElementById(
-            "trabalho_local"
-        ).value.toUpperCase(),
-
-        aptidao_vocacional:
-        document.getElementById(
-            "aptidao_vocacional"
-        ).value.toUpperCase(),
-
-        curso:
-        document.getElementById(
-            "curso"
-        ).value,
-
-        turno:
-        turnoSelecionado
-        ? turnoSelecionado.value
-        : "",
-
-        professor:
-        document.getElementById(
-            "professor"
-        ).value,
-
-        coordenador:
-        document.getElementById(
-            "coordenador"
-        ).value,
-
-        inicio_aulas:
-        document.getElementById(
-            "inicio_aulas"
-        ).value,
-
-        horario_aulas:
-        document.getElementById(
-            "horario_aulas"
-        ).value.toUpperCase(),
-
-        windows_nota_a:
-        document.getElementById(
-            "windows_nota_a"
-        ).value,
-
-        windows_nota_b:
-        document.getElementById(
-            "windows_nota_b"
-        ).value,
-
-        windows_nota_c:
-        document.getElementById(
-            "windows_nota_c"
-        ).value,
-
-        windows_media:
-        document.getElementById(
-            "windows_media"
-        ).value,
-
-        digitacao_nota_a:
-        document.getElementById(
-            "digitacao_nota_a"
-        ).value,
-
-        digitacao_nota_b:
-        document.getElementById(
-            "digitacao_nota_b"
-        ).value,
-
-        digitacao_nota_c:
-        document.getElementById(
-            "digitacao_nota_c"
-        ).value,
-
-        digitacao_media:
-        document.getElementById(
-            "digitacao_media"
-        ).value,
-
-        word_nota_a:
-        document.getElementById(
-            "word_nota_a"
-        ).value,
-
-        word_nota_b:
-        document.getElementById(
-            "word_nota_b"
-        ).value,
-
-        word_nota_c:
-        document.getElementById(
-            "word_nota_c"
-        ).value,
-
-        word_media:
-        document.getElementById(
-            "word_media"
-        ).value,
-
-        excel_nota_a:
-        document.getElementById(
-            "excel_nota_a"
-        ).value,
-
-        excel_nota_b:
-        document.getElementById(
-            "excel_nota_b"
-        ).value,
-
-        excel_nota_c:
-        document.getElementById(
-            "excel_nota_c"
-        ).value,
-
-        excel_media:
-        document.getElementById(
-            "excel_media"
-        ).value,
-
-        avaliacao_final:
-        document.getElementById(
-            "avaliacao_final"
-        ).value,
-
-        certificacao:
-        document.getElementById(
-            "certificacao"
-        ).value,
-
-        avaliacao_final1:
-        document.getElementById(
-            "avaliacao_final1"
-        ).value,
-
-        status:
-        "MATRICULADO"
-
-    };
-
-
-    const indice =
-    alunosSalvos.findIndex(
-        aluno =>
-        String(aluno.codigo) ===
-        String(codigo)
-    );
-
-
-    if (indice >= 0) {
-
-        alunosSalvos[indice] =
-        alunoDados;
-
-        alert(
-            "Registro #" +
-            codigo +
-            " atualizado com sucesso!"
-        );
+        limparFormulario();
 
     }
-
-    else {
-
-        alunosSalvos.push(
-            alunoDados
-        );
-
-        alert(
-            "Novo registro #" +
-            codigo +
-            " salvo com sucesso!"
-        );
-
-    }
+);
 
 
-    localStorage.setItem(
-        "alunos_db",
-        JSON.stringify(alunosSalvos)
-    );
-
-
-    atualizarTabelaEBusca();
-
-    limparFormulario();
-
-});
-
-
-/* ============================================================
+/* =========================================================
    LIMPAR FORMULÁRIO
-============================================================ */
+========================================================= */
 
 function limparFormulario() {
 
     document
-    .getElementById("formMatricula")
+    .getElementById(
+        'formMatricula'
+    )
     .reset();
 
-    document
-    .getElementById("coordenador")
-    .value =
-    "BENONE HENRIQUE DE SOUSA";
+    document.getElementById(
+        'codigo'
+    ).value = '';
 
-    document
-    .querySelectorAll(
+    document.getElementById(
+        'coordenador'
+    ).value =
+        COORDENADOR_PADRAO;
+
+    document.querySelectorAll(
         'input[name="turno"]'
     )
     .forEach(
-        r => r.checked = false
+        checkbox =>
+            checkbox.checked = false
     );
 
-    definirDataAtualInclusao();
+    document.getElementById(
+        'inputBusca'
+    ).value = '';
 
-    document
-    .getElementById("codigo")
-    .value =
-    gerarProximoCodigo();
+    definirDataAtualInclusao();
 
 }
 
 
-/* ============================================================
-   BUSCAR ALUNO
-============================================================ */
+/* =========================================================
+   BUSCA
+========================================================= */
+
+document
+.getElementById('inputBusca')
+.addEventListener(
+    'keydown',
+    function(e) {
+
+        if (e.key === 'Enter') {
+
+            e.preventDefault();
+
+            executarBuscaAluno();
+
+        }
+
+    }
+);
+
 
 function executarBuscaAluno() {
 
     const termo =
-    document
-    .getElementById("inputBusca")
-    .value
-    .trim()
-    .toUpperCase();
+        document.getElementById(
+            'inputBusca'
+        ).value
+        .trim()
+        .toUpperCase();
 
-    if (!termo) {
-        return;
-    }
+    if (!termo) return;
 
 
     const aluno =
-    alunosSalvos.find(
-        a =>
-            String(a.codigo)
-            .toUpperCase() === termo
-            ||
-            (
-                a.nome_aluno &&
-                a.nome_aluno
-                .toUpperCase()
-                .includes(termo)
-            )
-    );
+        alunosSalvos.find(
+            a =>
+                String(a.codigo) === termo
+                ||
+                (
+                    a.nome_aluno &&
+                    a.nome_aluno
+                    .toUpperCase()
+                    .includes(termo)
+                )
+        );
 
 
     if (!aluno) {
 
-        alert("Aluno não encontrado!");
+        alert(
+            'Aluno não encontrado!'
+        );
+
         return;
 
     }
 
 
-    /* IDENTIFICAÇÃO */
-
-    preencher("codigo", aluno.codigo);
-
-    preencher("data_inclusao",
-        converterParaDataInput(
-            aluno.data_inclusao
-        )
-    );
-
-    preencher("nome_aluno",
-        aluno.nome_aluno
-    );
-
-    preencher("data_nascimento",
-        converterParaDataInput(
-            aluno.data_nascimento
-        )
-    );
-
-    preencher("sexo",
-        aluno.sexo || "M"
-    );
-
-    preencher("estado_civil",
-        aluno.estado_civil || "SOLTEIRO(A)"
-    );
-
-    preencher("nome_pai",
-        aluno.nome_pai
-    );
-
-    preencher("nome_mae",
-        aluno.nome_mae
-    );
-
-
-    /* ENDEREÇO */
-
-    preencher("endereco",
-        aluno.endereco
-    );
-
-    preencher("numero",
-        aluno.numero
-    );
-
-    preencher("bairro",
-        aluno.bairro
-    );
-
-    preencher("cidade",
-        aluno.cidade
-    );
-
-    preencher("estado",
-        aluno.estado
-    );
-
-    preencher("cep",
-        aluno.cep
-    );
-
-    preencher("telefone",
-        aluno.telefone
-    );
-
-    preencher("email",
-        aluno.email
-    );
-
-    preencher("rg",
-        aluno.rg
-    );
-
-    preencher("cpf",
-        aluno.cpf
-    );
-
-    preencher("nis",
-        aluno.nis
-    );
-
-
-    /* QUALIFICAÇÃO */
-
-    preencher("grupos_jovem",
-        aluno.grupos_jovem
-    );
-
-    preencher("estuda",
-        aluno.estuda || "SIM"
-    );
-
-    preencher("escola",
-        aluno.escola
-    );
-
-    preencher("serie",
-        aluno.serie
-    );
-
-    preencher("escolaridade",
-        aluno.escolaridade
-    );
-
-    preencher("trabalha_opcao",
-        aluno.trabalha_opcao || "NÃO"
-    );
-
-    preencher("trabalho_local",
-        aluno.trabalho_local
-    );
-
-    preencher("aptidao_vocacional",
-        aluno.aptidao_vocacional
-    );
-
-
-    /* OBJETIVO */
-
-    preencher("curso",
-        aluno.curso
-    );
-
-
-    document
-    .querySelectorAll(
-        'input[name="turno"]'
-    )
-    .forEach(
-        r =>
-        r.checked =
-        r.value === aluno.turno
-    );
-
-
-    /* REFERÊNCIAS */
-
-    preencher("professor",
-        aluno.professor
-    );
-
-    preencher("coordenador",
-        aluno.coordenador ||
-        "BENONE HENRIQUE DE SOUSA"
-    );
-
-    preencher("inicio_aulas",
-        converterParaDataInput(
-            aluno.inicio_aulas
-        )
-    );
-
-    preencher("horario_aulas",
-        aluno.horario_aulas
-    );
-
-
-    /* AVALIAÇÕES */
-
-    preencher("windows_nota_a",
-        aluno.windows_nota_a
-    );
-
-    preencher("windows_nota_b",
-        aluno.windows_nota_b
-    );
-
-    preencher("windows_nota_c",
-        aluno.windows_nota_c
-    );
-
-    preencher("windows_media",
-        aluno.windows_media
-    );
-
-
-    preencher("digitacao_nota_a",
-        aluno.digitacao_nota_a
-    );
-
-    preencher("digitacao_nota_b",
-        aluno.digitacao_nota_b
-    );
-
-    preencher("digitacao_nota_c",
-        aluno.digitacao_nota_c
-    );
-
-    preencher("digitacao_media",
-        aluno.digitacao_media
-    );
-
-
-    preencher("word_nota_a",
-        aluno.word_nota_a
-    );
-
-    preencher("word_nota_b",
-        aluno.word_nota_b
-    );
-
-    preencher("word_nota_c",
-        aluno.word_nota_c
-    );
-
-    preencher("word_media",
-        aluno.word_media
-    );
-
-
-    preencher("excel_nota_a",
-        aluno.excel_nota_a
-    );
-
-    preencher("excel_nota_b",
-        aluno.excel_nota_b
-    );
-
-    preencher("excel_nota_c",
-        aluno.excel_nota_c
-    );
-
-    preencher("excel_media",
-        aluno.excel_media
-    );
-
-
-    preencher("avaliacao_final",
-        aluno.avaliacao_final
-    );
-
-    preencher("certificacao",
-        aluno.certificacao
-    );
-
-    preencher("avaliacao_final1",
-        aluno.avaliacao_final1
-    );
+    preencherFormulario(aluno);
 
 
     alert(
-        "Dados do aluno " +
-        aluno.nome_aluno +
-        " carregados com sucesso!"
+        `Dados do aluno ${aluno.nome_aluno} carregados com sucesso!`
     );
 
 }
 
 
-function preencher(id, valor) {
+/* =========================================================
+   PREENCHER FORMULÁRIO
+========================================================= */
 
-    const elemento =
-    document.getElementById(id);
+function preencherFormulario(aluno) {
 
-    if (elemento) {
+    document.getElementById(
+        'codigo'
+    ).value =
+        aluno.codigo || '';
 
-        elemento.value =
-        valor == null
-        ? ""
-        : valor;
+    document.getElementById(
+        'data_inclusao'
+    ).value =
+        converterParaDataInput(
+            aluno.data_inclusao
+        );
 
-    }
+    document.getElementById(
+        'nome_aluno'
+    ).value =
+        aluno.nome_aluno || '';
+
+    document.getElementById(
+        'data_nascimento'
+    ).value =
+        converterParaDataInput(
+            aluno.data_nascimento
+        );
+
+    document.getElementById(
+        'sexo'
+    ).value =
+        aluno.sexo || 'M';
+
+
+    selecionarOpcao(
+        'estado_civil',
+        aluno.estado_civil ||
+        'SOLTEIRA'
+    );
+
+
+    document.getElementById(
+        'nome_pai'
+    ).value =
+        aluno.nome_pai || '';
+
+    document.getElementById(
+        'nome_mae'
+    ).value =
+        aluno.nome_mae || '';
+
+    document.getElementById(
+        'endereco'
+    ).value =
+        aluno.endereco || '';
+
+    document.getElementById(
+        'numero'
+    ).value =
+        aluno.numero || '';
+
+    document.getElementById(
+        'bairro'
+    ).value =
+        aluno.bairro || '';
+
+    document.getElementById(
+        'cidade'
+    ).value =
+        aluno.cidade || '';
+
+    document.getElementById(
+        'estado'
+    ).value =
+        aluno.estado || '';
+
+    document.getElementById(
+        'cep'
+    ).value =
+        aluno.cep || '';
+
+    document.getElementById(
+        'telefone'
+    ).value =
+        aluno.telefone || '';
+
+    document.getElementById(
+        'documento'
+    ).value =
+        aluno.documento || '';
+
+    document.getElementById(
+        'grupos_jovem'
+    ).value =
+        aluno.grupos_jovem || '';
+
+    document.getElementById(
+        'estuda'
+    ).value =
+        aluno.estuda || 'NÃO';
+
+    document.getElementById(
+        'escola'
+    ).value =
+        aluno.escola || '';
+
+    document.getElementById(
+        'serie'
+    ).value =
+        aluno.serie || '';
+
+    document.getElementById(
+        'escolaridade'
+    ).value =
+        aluno.escolaridade || '';
+
+    document.getElementById(
+        'trabalha_opcao'
+    ).value =
+        aluno.trabalha_opcao || 'NÃO';
+
+    document.getElementById(
+        'trabalho_local'
+    ).value =
+        aluno.trabalho_local || '';
+
+    selecionarOpcao(
+        'curso',
+        aluno.curso || ''
+    );
+
+    selecionarOpcao(
+        'professor',
+        aluno.professor || ''
+    );
+
+    document.getElementById(
+        'coordenador'
+    ).value =
+        aluno.coordenador ||
+        COORDENADOR_PADRAO;
+
+    document.getElementById(
+        'inicio_aulas'
+    ).value =
+        converterParaDataInput(
+            aluno.inicio_aulas
+        );
+
+    document.getElementById(
+        'horario_aulas'
+    ).value =
+        aluno.horario_aulas || '';
+
+
+    document
+    .querySelector(
+        'input[name="turno"][value="MANHÃ"]'
+    )
+    .checked =
+        !!aluno.turno_manha;
+
+    document
+    .querySelector(
+        'input[name="turno"][value="TARDE"]'
+    )
+    .checked =
+        !!aluno.turno_tarde;
+
+    document
+    .querySelector(
+        'input[name="turno"][value="NOITE"]'
+    )
+    .checked =
+        !!aluno.turno_noite;
 
 }
 
 
-/* ============================================================
-   TABELA
-============================================================ */
+function selecionarOpcao(id, valor) {
+
+    const select =
+        document.getElementById(id);
+
+    if (!valor) {
+
+        select.value = '';
+
+        return;
+
+    }
+
+
+    const existe =
+        Array
+        .from(select.options)
+        .some(
+            option =>
+                option.value === valor
+        );
+
+
+    /*
+    Caso venha da tabela uma informação
+    que ainda não esteja cadastrada na lista,
+    ela é acrescentada automaticamente.
+    */
+
+    if (!existe) {
+
+        const option =
+            document.createElement(
+                'option'
+            );
+
+        option.value = valor;
+        option.textContent = valor;
+
+        select.appendChild(option);
+
+    }
+
+    select.value = valor;
+
+}
+
+
+/* =========================================================
+   TABELA E BUSCA
+========================================================= */
 
 function atualizarTabelaEBusca() {
 
     const tbody =
-    document.getElementById(
-        "tabelaRegistros"
-    );
+        document.getElementById(
+            'tabelaRegistros'
+        );
 
     const datalist =
-    document.getElementById(
-        "listaAlunos"
-    );
+        document.getElementById(
+            'listaAlunos'
+        );
 
-
-    tbody.innerHTML = "";
-    datalist.innerHTML = "";
+    tbody.innerHTML = '';
+    datalist.innerHTML = '';
 
 
     alunosSalvos.forEach(
         aluno => {
 
             const tr =
-            document.createElement("tr");
+                document.createElement(
+                    'tr'
+                );
 
 
             tr.innerHTML = `
 
                 <td>
                     <strong>
-                        ${escaparHTML(aluno.codigo || "")}
+                        ${aluno.codigo || ''}
                     </strong>
                 </td>
 
                 <td>
-                    ${escaparHTML(aluno.data_inclusao || "")}
+                    ${formatarData(
+                        aluno.data_inclusao
+                    )}
                 </td>
 
                 <td>
-                    ${escaparHTML(aluno.nome_aluno || "")}
+                    ${aluno.nome_aluno || ''}
                 </td>
 
                 <td>
-                    ${escaparHTML(aluno.telefone || "")}
+                    ${aluno.telefone || ''}
                 </td>
 
                 <td>
-                    ${escaparHTML(aluno.curso || "")}
+                    ${aluno.curso || ''}
                 </td>
 
             `;
@@ -3354,12 +2863,12 @@ function atualizarTabelaEBusca() {
             if (aluno.nome_aluno) {
 
                 const option =
-                document.createElement(
-                    "option"
-                );
+                    document.createElement(
+                        'option'
+                    );
 
                 option.value =
-                aluno.nome_aluno;
+                    aluno.nome_aluno;
 
                 datalist.appendChild(
                     option
@@ -3373,58 +2882,77 @@ function atualizarTabelaEBusca() {
 }
 
 
-function escaparHTML(valor) {
+/* =========================================================
+   LIMPAR BANCO
+========================================================= */
 
-    return String(valor)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+function limparBancoDados() {
+
+    if (
+        !confirm(
+            'Deseja realmente apagar todos os registros salvos?'
+        )
+    ) {
+
+        return;
+
+    }
+
+    localStorage.removeItem(
+        'alunos_db'
+    );
+
+    alunosSalvos = [];
+
+    atualizarTabelaEBusca();
+
+    limparFormulario();
+
+    alert(
+        'Banco de dados limpo com sucesso!'
+    );
 
 }
 
 
-/* ============================================================
+/* =========================================================
    RELATÓRIO
-============================================================ */
+========================================================= */
 
 function abrirModalRelatorio() {
 
     const select =
-    document.getElementById(
-        "filtroCursoRelatorio"
-    );
-
+        document.getElementById(
+            'filtroCursoRelatorio'
+        );
 
     select.innerHTML =
-    '<option value="">TODOS OS CURSOS</option>';
+        '<option value="">TODOS OS CURSOS</option>';
 
 
     const cursos =
-    [
-        ...new Set(
-            alunosSalvos
-            .map(a => a.curso)
-            .filter(Boolean)
-        )
-    ];
+        [
+            ...new Set(
+                alunosSalvos
+                .map(a => a.curso)
+                .filter(Boolean)
+            )
+        ]
+        .sort();
 
 
     cursos.forEach(
         curso => {
 
             const option =
-            document.createElement(
-                "option"
-            );
+                document.createElement(
+                    'option'
+                );
 
             option.value = curso;
             option.textContent = curso;
 
-            select.appendChild(
-                option
-            );
+            select.appendChild(option);
 
         }
     );
@@ -3432,19 +2960,18 @@ function abrirModalRelatorio() {
 
     renderizarRelatorio();
 
-
-    document
-    .getElementById("reportModal")
-    .style.display = "block";
+    document.getElementById(
+        'reportModal'
+    ).style.display = 'block';
 
 }
 
 
 function fecharModalRelatorio() {
 
-    document
-    .getElementById("reportModal")
-    .style.display = "none";
+    document.getElementById(
+        'reportModal'
+    ).style.display = 'none';
 
 }
 
@@ -3452,74 +2979,74 @@ function fecharModalRelatorio() {
 function renderizarRelatorio() {
 
     const tbody =
-    document.getElementById(
-        "tabelaRelatorioCorpo"
-    );
-
+        document.getElementById(
+            'tabelaRelatorioCorpo'
+        );
 
     const filtro =
-    document.getElementById(
-        "filtroCursoRelatorio"
-    ).value;
+        document.getElementById(
+            'filtroCursoRelatorio'
+        ).value;
 
 
-    tbody.innerHTML = "";
+    tbody.innerHTML = '';
 
 
-    const filtrados =
-    alunosSalvos.filter(
-        aluno =>
-        !filtro ||
-        aluno.curso === filtro
-    );
+    const lista =
+        alunosSalvos.filter(
+            aluno =>
+                !filtro ||
+                aluno.curso === filtro
+        );
 
 
-    if (
-        filtrados.length === 0
-    ) {
+    if (lista.length === 0) {
 
         tbody.innerHTML = `
-        <tr>
-            <td colspan="9"
-                style="text-align:center">
-                Nenhum registro encontrado.
-            </td>
-        </tr>`;
+            <tr>
+                <td
+                    colspan="9"
+                    style="text-align:center">
+                    Nenhum registro encontrado.
+                </td>
+            </tr>
+        `;
 
         return;
 
     }
 
 
-    filtrados.forEach(
+    lista.forEach(
         aluno => {
 
             const tr =
-            document.createElement("tr");
+                document.createElement(
+                    'tr'
+                );
 
 
             tr.innerHTML = `
 
-                <td>${escaparHTML(aluno.codigo || "")}</td>
+                <td>${aluno.codigo || ''}</td>
 
-                <td>${escaparHTML(aluno.nome_aluno || "")}</td>
+                <td>${aluno.nome_aluno || ''}</td>
 
-                <td>${escaparHTML(aluno.endereco || "")}</td>
+                <td>${aluno.endereco || ''}</td>
 
-                <td>${escaparHTML(aluno.numero || "")}</td>
+                <td>${aluno.numero || ''}</td>
 
-                <td>${escaparHTML(aluno.bairro || "")}</td>
+                <td>${aluno.bairro || ''}</td>
 
-                <td>${escaparHTML(aluno.cidade || "")}</td>
+                <td>${aluno.cidade || ''}</td>
 
-                <td>${escaparHTML(aluno.telefone || "")}</td>
+                <td>${aluno.telefone || ''}</td>
 
-                <td>${escaparHTML(aluno.curso || "")}</td>
+                <td>${aluno.curso || ''}</td>
 
-                <td>${escaparHTML(aluno.status || "MATRICULADO")}</td>
+                <td>${aluno.status || 'MATRICULADO'}</td>
 
             `;
-
 
             tbody.appendChild(tr);
 
@@ -3529,56 +3056,273 @@ function renderizarRelatorio() {
 }
 
 
-/* ============================================================
-   LIMPAR BANCO
-============================================================ */
+/* =========================================================
+   COMPROVANTE - 2 VIAS
+========================================================= */
 
-function limparBancoDados() {
+function imprimirComprovante() {
 
-    if (
-        !confirm(
-            "Deseja realmente limpar TODOS os registros?"
-        )
-    ) {
+    const aluno =
+        montarAlunoDoFormulario();
+
+
+    if (!aluno.nome_aluno) {
+
+        alert(
+            'Primeiro selecione ou preencha um aluno.'
+        );
 
         return;
 
     }
 
 
-    localStorage.removeItem(
-        "alunos_db"
-    );
+    const turnos = [];
+
+    if (aluno.turno_manha)
+        turnos.push('MANHÃ');
+
+    if (aluno.turno_tarde)
+        turnos.push('TARDE');
+
+    if (aluno.turno_noite)
+        turnos.push('NOITE');
 
 
-    alunosSalvos = [];
+    const turnosTexto =
+        turnos.length
+        ? turnos.join(' / ')
+        : 'NÃO INFORMADO';
 
 
-    atualizarTabelaEBusca();
+    const conteudo = `
+
+        <div class="comprovante">
+
+            <div class="comprovante-cabecalho">
+
+                <h1>
+                    CADJOVEM
+                </h1>
+
+                <h2>
+                    CASA DAS JUVENTUDES DE ITAPETIM-PE
+                </h2>
+
+            </div>
+
+            <div class="comprovante-titulo">
+                1ª VIA - CONTROLE DE INSCRIÇÃO
+            </div>
+
+            <div class="comp-grid">
+
+                <div class="comp-item">
+                    <strong>Código:</strong>
+                    ${aluno.codigo || ''}
+                </div>
+
+                <div class="comp-item">
+                    <strong>Data de Inclusão:</strong>
+                    ${formatarData(aluno.data_inclusao)}
+                </div>
+
+                <div
+                    class="comp-item"
+                    style="grid-column:1/-1">
+                    <strong>Aluno:</strong>
+                    ${aluno.nome_aluno}
+                </div>
+
+                <div class="comp-item">
+                    <strong>Data de Nascimento:</strong>
+                    ${formatarData(aluno.data_nascimento)}
+                </div>
+
+                <div class="comp-item">
+                    <strong>Sexo:</strong>
+                    ${aluno.sexo || ''}
+                </div>
+
+                <div class="comp-item">
+                    <strong>Estado Civil:</strong>
+                    ${aluno.estado_civil || ''}
+                </div>
+
+                <div class="comp-item">
+                    <strong>Telefone:</strong>
+                    ${aluno.telefone || ''}
+                </div>
+
+                <div
+                    class="comp-item"
+                    style="grid-column:1/-1">
+                    <strong>Endereço:</strong>
+                    ${aluno.endereco || ''}
+                    Nº ${aluno.numero || ''}
+                    - ${aluno.bairro || ''}
+                    - ${aluno.cidade || ''}
+                    - ${aluno.estado || ''}
+                </div>
+
+                <div class="comp-item">
+                    <strong>Curso/Atividade:</strong>
+                    ${aluno.curso || ''}
+                </div>
+
+                <div class="comp-item">
+                    <strong>Turno:</strong>
+                    ${turnosTexto}
+                </div>
+
+                <div class="comp-item">
+                    <strong>Professor:</strong>
+                    ${aluno.professor || ''}
+                </div>
+
+                <div class="comp-item">
+                    <strong>Início das Aulas:</strong>
+                    ${formatarData(aluno.inicio_aulas)}
+                </div>
+
+                <div class="comp-item">
+                    <strong>Horário:</strong>
+                    ${aluno.horario_aulas || ''}
+                </div>
+
+            </div>
+
+            <div class="assinatura">
+
+                <div class="linha-assinatura"></div>
+
+                <strong>
+                    ${aluno.nome_aluno}
+                </strong>
+
+                <br>
+
+                Aluno(a) ou Responsável
+
+            </div>
+
+        </div>
 
 
-    limparFormulario();
+        <div class="corte">
+            CORTE AQUI - 1ª VIA / 2ª VIA
+        </div>
 
 
-    alert(
-        "Banco de dados limpo com sucesso!"
-    );
+        <div class="comprovante">
+
+            <div class="comprovante-cabecalho">
+
+                <h1>
+                    CADJOVEM
+                </h1>
+
+                <h2>
+                    CASA DAS JUVENTUDES DE ITAPETIM-PE
+                </h2>
+
+            </div>
+
+            <div class="comprovante-titulo">
+                2ª VIA - COMPROVANTE DE MATRÍCULA
+            </div>
+
+            <div class="comp-grid">
+
+                <div class="comp-item">
+                    <strong>Código:</strong>
+                    ${aluno.codigo || ''}
+                </div>
+
+                <div class="comp-item">
+                    <strong>Data de Inclusão:</strong>
+                    ${formatarData(aluno.data_inclusao)}
+                </div>
+
+                <div
+                    class="comp-item"
+                    style="grid-column:1/-1">
+                    <strong>Aluno:</strong>
+                    ${aluno.nome_aluno}
+                </div>
+
+                <div class="comp-item">
+                    <strong>Curso/Atividade:</strong>
+                    ${aluno.curso || ''}
+                </div>
+
+                <div class="comp-item">
+                    <strong>Turno:</strong>
+                    ${turnosTexto}
+                </div>
+
+                <div class="comp-item">
+                    <strong>Professor:</strong>
+                    ${aluno.professor || ''}
+                </div>
+
+                <div class="comp-item">
+                    <strong>Início das Aulas:</strong>
+                    ${formatarData(aluno.inicio_aulas)}
+                </div>
+
+                <div class="comp-item">
+                    <strong>Horário:</strong>
+                    ${aluno.horario_aulas || ''}
+                </div>
+
+                <div
+                    class="comp-item"
+                    style="grid-column:1/-1">
+                    <strong>Coordenador:</strong>
+                    ${aluno.coordenador || COORDENADOR_PADRAO}
+                </div>
+
+            </div>
+
+            <div class="assinatura">
+
+                <div class="linha-assinatura"></div>
+
+                <strong>
+                    ${aluno.coordenador || COORDENADOR_PADRAO}
+                </strong>
+
+                <br>
+
+                Coordenador do Programa
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    document.getElementById(
+        'comprovantePrint'
+    ).innerHTML = conteudo;
+
+
+    window.print();
 
 }
 
 
-/* ============================================================
+/* =========================================================
    INICIALIZAÇÃO
-============================================================ */
+========================================================= */
 
 window.onload = function() {
 
     definirDataAtualInclusao();
 
-    document
-    .getElementById("codigo")
-    .value =
-    gerarProximoCodigo();
+    atualizarTabelaEBusca();
 
 };
 
