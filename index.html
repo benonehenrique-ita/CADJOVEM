@@ -359,65 +359,72 @@ tr:nth-child(even) {
     font-size: 16px;
 }
 
-/* ================= COMPROVANTE (METADE DA PÁGINA) ================= */
+/* ================= COMPROVANTE (OCUPANDO APENAS A METADE SUPERIOR) ================= */
 
 #comprovantePrint {
     display: none;
 }
 
+.comprovante-wrapper-total {
+    width: 100%;
+    height: 135mm; /* Ocupa exatamente a metade superior da folha A4 */
+    max-height: 135mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
 .comprovante {
     width: 100%;
-    height: 125mm;
-    max-height: 125mm;
+    height: 62mm; /* Cada via ocupa pouco mais de 60mm para caber perfeitamente na metade */
+    max-height: 62mm;
     box-sizing: border-box;
     border: 1px solid #002b66;
-    padding: 5px 8px;
-    margin: 0;
+    padding: 3px 6px;
     font-family: Arial, Helvetica, sans-serif;
     background: white;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    page-break-inside: avoid;
-    break-inside: avoid;
 }
 
 .comprovante-cabecalho {
     text-align: center;
-    border-bottom: 1.5px solid #002b66;
-    padding-bottom: 2px;
-    margin-bottom: 2px;
+    border-bottom: 1px solid #002b66;
+    padding-bottom: 1px;
+    margin-bottom: 1px;
 }
 
 .comprovante-cabecalho h1 {
-    font-size: 11px;
+    font-size: 9px;
     color: #002b66;
     margin-bottom: 0px;
 }
 
 .comprovante-cabecalho h2 {
-    font-size: 8.5px;
+    font-size: 7.5px;
     color: #333;
 }
 
 .comprovante-titulo {
     text-align: center;
-    font-size: 9px;
+    font-size: 8px;
     font-weight: bold;
-    margin: 2px 0;
+    margin: 1px 0;
     color: #002b66;
 }
 
 .comp-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1px 6px;
-    font-size: 8.5px;
+    gap: 1px 4px;
+    font-size: 7.5px;
 }
 
 .comp-item {
     border-bottom: 1px solid #ccc;
-    padding: 1px 0;
+    padding: 0.5px 0;
 }
 
 .comp-item strong {
@@ -425,22 +432,22 @@ tr:nth-child(even) {
 }
 
 .assinatura {
-    margin-top: 2px;
+    margin-top: 1px;
     text-align: center;
-    font-size: 8.5px;
+    font-size: 7.5px;
 }
 
 .linha-assinatura {
-    width: 40%;
+    width: 35%;
     border-top: 1px solid #000;
-    margin: 6px auto 2px;
+    margin: 4px auto 1px;
 }
 
 .corte {
     border-top: 1px dashed #555;
-    margin: 2px 0;
+    margin: 1px 0;
     text-align: center;
-    font-size: 6px;
+    font-size: 5px;
     color: #555;
     line-height: 1px;
 }
@@ -457,32 +464,36 @@ tr:nth-child(even) {
     .comp-grid { grid-template-columns: 1fr; }
 }
 
-/* ================= IMPRESSÃO EXATA (METADE DA PÁGINA) ================= */
+/* ================= IMPRESSÃO RESTRITA (EXATAMENTE 1 FOLHA / METADE SUPERIOR) ================= */
 
 @media print {
     body * {
-        visibility: hidden !important;
+        display: none !important;
     }
     #comprovantePrint, #comprovantePrint * {
+        display: block !important;
         visibility: visible !important;
     }
     #comprovantePrint {
-        display: flex !important;
-        flex-direction: column;
-        justify-content: flex-start;
         position: absolute;
         left: 0;
         top: 0;
         width: 210mm;
-        height: 297mm;
+        height: 140mm; /* Força estritamente a metade da folha */
+        max-height: 140mm;
         padding: 5mm 10mm;
         background: white;
         overflow: hidden;
         page-break-after: avoid;
         break-after: avoid;
     }
-    .no-print {
-        display: none !important;
+    .comprovante-wrapper-total {
+        display: flex !important;
+        visibility: visible !important;
+    }
+    .comprovante {
+        display: flex !important;
+        visibility: visible !important;
     }
     @page {
         size: A4 portrait;
@@ -830,14 +841,14 @@ let alunosSalvos = JSON.parse(localStorage.getItem('alunos_db')) || [];
 let senhaSistema = localStorage.getItem('sistema_senha') || 'juventudes';
 const COORDENADOR_PADRAO = 'BENONE HENRIQUE DE SOUSA';
 
-// Função agressiva para limpar caracteres corrompidos () e acentos problemáticos
+// Função de limpeza robusta para eliminar os caracteres corrompidos
 function limparTextoCorrompido(texto) {
     if (!texto) return '';
     return String(texto)
         .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, "") // Remove acentos para evitar erros de codificação
-        .replace(//g, 'O') // Substitui o caractere corrompido comum por O ou espaço
-        .replace(/[^a-zA-Z0-9\s\-\/\.\,\ª\º]/g, '') // Remove caracteres estranhos restantes
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(//g, 'O')
+        .replace(/[^a-zA-Z0-9\s\-\/\.\,\ª\º]/g, '')
         .toUpperCase()
         .trim();
 }
@@ -1167,9 +1178,11 @@ function imprimirComprovante() {
 
     const containerPrint = document.getElementById('comprovantePrint');
     containerPrint.innerHTML = `
-        ${gerarHTMLViaComprovante(aluno, 'VIA DA INSTITUIÇÃO')}
-        <div class="corte">-------------------------------------------------- CORTE AQUI --------------------------------------------------</div>
-        ${gerarHTMLViaComprovante(aluno, 'VIA DO ALUNO')}
+        <div class="comprovante-wrapper-total">
+            ${gerarHTMLViaComprovante(aluno, 'VIA DA INSTITUIÇÃO')}
+            <div class="corte">-------------------------------------------------- CORTE AQUI --------------------------------------------------</div>
+            ${gerarHTMLViaComprovante(aluno, 'VIA DO ALUNO')}
+        </div>
     `;
 
     window.print();
