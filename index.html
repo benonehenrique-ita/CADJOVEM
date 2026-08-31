@@ -475,7 +475,7 @@ tr:nth-child(even) {
     .search-box input { width: 100%; }
 }
 
-/* ================= IMPRESSÃO RESTRITA (EXATAMENTE 1 FOLHA / METADE SUPERIOR) ================= */
+/* ================= IMPRESSÃO RESTRITA ================= */
 
 @media print {
     body * {
@@ -522,7 +522,7 @@ tr:nth-child(even) {
 <div id="loginOverlay">
     <div class="login-card">
         <h2>CADJOVEM</h2>
-        <input type="text" id="loginUsuario" placeholder="Usuário" autocomplete="off">
+        <input type="text" id="loginUsuario" placeholder="Usuário" autocomplete="off" value="cadjovem">
         <input type="password" id="loginSenha" placeholder="Senha" autocomplete="new-password" onkeydown="if(event.key==='Enter') realizarLogin()">
         <button onclick="realizarLogin()">Entrar</button>
     </div>
@@ -858,19 +858,18 @@ const COORDENADOR_PADRAO = 'BENONE HENRIQUE DE SOUSA';
 function limparTextoCorrompido(texto) {
     if (!texto) return '';
     return String(texto)
-        .replace(//g, '') // Remove caracteres corrompidos antigos
-        .replace(/[ÃÂÀÁÄ]/g, 'A')
-        .replace(/[ÉÊÈË]/g, 'E')
-        .replace(/[ÍÌÏÎ]/g, 'I')
-        .replace(/[ÓÔÒÕÖ]/g, 'O')
-        .replace(/[ÚÙÛÜ]/g, 'U')
-        .replace(/[Ç]/g, 'C')
-        .replace(/[ãâàáä]/g, 'a')
-        .replace(/[éêèë]/g, 'e')
-        .replace(/[íìïî]/g, 'i')
-        .replace(/[óôòõö]/g, 'o')
-        .replace(/[úùûü]/g, 'u')
-        .replace(/[ç]/g, 'c')
+        .replace(/ÃÂÀÁÄ/g, 'A')
+        .replace(/ÉÊÈË/g, 'E')
+        .replace(/ÍÌÏÎ/g, 'I')
+        .replace(/ÓÔÒÕÖ/g, 'O')
+        .replace(/ÚÙÛÜ/g, 'U')
+        .replace(/Ç/g, 'C')
+        .replace(/ãâàáä/g, 'a')
+        .replace(/éêèë/g, 'e')
+        .replace(/íìïî/g, 'i')
+        .replace(/óôòõö/g, 'o')
+        .replace(/úùûü/g, 'u')
+        .replace(/ç/g, 'c')
         .replace(/[^a-zA-Z0-9\s\-\/\.\,\ª\º]/g, '')
         .toUpperCase()
         .trim();
@@ -898,16 +897,22 @@ function higienizarBaseDados() {
 higienizarBaseDados();
 
 function realizarLogin() {
-    const senha = document.getElementById('loginSenha').value;
+    const senhaDigitada = document.getElementById('loginSenha').value;
 
-    if (senha === senhaSistema) {
+    // Força a senha 'juventudes' caso o localStorage esteja desatualizado
+    if (!localStorage.getItem('sistema_senha')) {
+        localStorage.setItem('sistema_senha', 'juventudes');
+    }
+    senhaSistema = localStorage.getItem('sistema_senha');
+
+    if (senhaDigitada === senhaSistema) {
         document.getElementById('loginOverlay').style.display = 'none';
         document.getElementById('mainContainer').style.display = 'block';
         atualizarTabelaRegistros();
         atualizarDatalistBusca();
         preencherDataAtual();
     } else {
-        alert('Senha incorreta!');
+        alert('Senha incorreta! A senha padrão é: juventudes');
     }
 }
 
