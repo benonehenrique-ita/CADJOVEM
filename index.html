@@ -359,7 +359,7 @@ tr:nth-child(even) {
     font-size: 16px;
 }
 
-/* ================= COMPROVANTE (REORGANIZADO E HORIZONTAL) ================= */
+/* ================= COMPROVANTE (LAYOUT HORIZONTAL LIMPO) ================= */
 
 #comprovantePrint {
     display: none;
@@ -381,7 +381,7 @@ tr:nth-child(even) {
     max-height: 64mm;
     box-sizing: border-box;
     border: 1.5px solid #002b66;
-    padding: 6px 10px;
+    padding: 5px 8px;
     font-family: Arial, Helvetica, sans-serif;
     background: white;
     display: flex;
@@ -392,69 +392,76 @@ tr:nth-child(even) {
 .comprovante-cabecalho {
     text-align: center;
     border-bottom: 1px solid #002b66;
-    padding-bottom: 3px;
-    margin-bottom: 4px;
+    padding-bottom: 2px;
+    margin-bottom: 2px;
 }
 
 .comprovante-cabecalho h1 {
-    font-size: 11px;
+    font-size: 10.5px;
     color: #002b66;
     margin-bottom: 1px;
     font-weight: bold;
 }
 
 .comprovante-cabecalho h2 {
-    font-size: 9px;
+    font-size: 8.5px;
     color: #333;
     font-weight: bold;
 }
 
 .comprovante-titulo {
     text-align: center;
-    font-size: 9.5px;
+    font-size: 9px;
     font-weight: bold;
-    margin: 2px 0 4px 0;
+    margin: 2px 0;
     color: #002b66;
     background: #f1f5f9;
     padding: 2px;
     border: 1px solid #cbd5e1;
 }
 
-.comp-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 4px 8px;
+.comp-linha {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
     font-size: 9.5px;
+    margin-bottom: 3px;
 }
 
-.comp-item {
-    border-bottom: 1px solid #e2e8f0;
-    padding: 2px 0;
+.comp-campo {
+    flex: 1;
+    background: #fafafa;
+    border: 1px solid #cbd5e1;
+    padding: 2px 4px;
+    border-radius: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.comp-item strong {
+.comp-campo strong {
     color: #002b66;
 }
 
 .assinatura {
-    margin-top: 2px;
     text-align: center;
-    font-size: 9px;
+    font-size: 8.5px;
+    margin-top: 1px;
 }
 
 .linha-assinatura {
-    width: 40%;
+    width: 35%;
     border-top: 1px solid #000;
-    margin: 10px auto 2px;
+    margin: 8px auto 2px;
 }
 
 .corte {
     border-top: 1px dashed #555;
-    margin: 2px 0;
+    margin: 1px 0;
     text-align: center;
     font-size: 7px;
     color: #555;
-    line-height: 2px;
+    line-height: 1px;
 }
 
 /* ================= RESPONSIVO ================= */
@@ -466,7 +473,6 @@ tr:nth-child(even) {
     .header-actions { width: 100%; }
     .search-box { width: 100%; }
     .search-box input { width: 100%; }
-    .comp-grid { grid-template-columns: 1fr 1fr; }
 }
 
 /* ================= IMPRESSÃO RESTRITA (EXATAMENTE 1 FOLHA / METADE SUPERIOR) ================= */
@@ -499,6 +505,9 @@ tr:nth-child(even) {
     .comprovante {
         display: flex !important;
         visibility: visible !important;
+    }
+    .comp-linha {
+        display: flex !important;
     }
     @page {
         size: A4 portrait;
@@ -849,7 +858,20 @@ const COORDENADOR_PADRAO = 'BENONE HENRIQUE DE SOUSA';
 function limparTextoCorrompido(texto) {
     if (!texto) return '';
     return String(texto)
-        .replace(/[^a-zA-ZÀ-ÿ0-9\s\-\/\.\,\ª\º]/g, '')
+        .replace(//g, '') // Remove caracteres corrompidos antigos
+        .replace(/[ÃÂÀÁÄ]/g, 'A')
+        .replace(/[ÉÊÈË]/g, 'E')
+        .replace(/[ÍÌÏÎ]/g, 'I')
+        .replace(/[ÓÔÒÕÖ]/g, 'O')
+        .replace(/[ÚÙÛÜ]/g, 'U')
+        .replace(/[Ç]/g, 'C')
+        .replace(/[ãâàáä]/g, 'a')
+        .replace(/[éêèë]/g, 'e')
+        .replace(/[íìïî]/g, 'i')
+        .replace(/[óôòõö]/g, 'o')
+        .replace(/[úùûü]/g, 'u')
+        .replace(/[ç]/g, 'c')
+        .replace(/[^a-zA-Z0-9\s\-\/\.\,\ª\º]/g, '')
         .toUpperCase()
         .trim();
 }
@@ -857,7 +879,7 @@ function limparTextoCorrompido(texto) {
 function higienizarBaseDados() {
     let alterado = false;
     alunosSalvos = alunosSalvos.map(aluno => {
-        ['nome_aluno', 'nome_pai', 'nome_mae', 'endereco', 'bairro', 'escola', 'serie', 'escolaridade', 'trabalho_local', 'grupos_jovem', 'horario_aulas'].forEach(campo => {
+        ['nome_aluno', 'nome_pai', 'nome_mae', 'endereco', 'bairro', 'escola', 'serie', 'escolaridade', 'trabalho_local', 'grupos_jovem', 'horario_aulas', 'curso'].forEach(campo => {
             if (aluno[campo]) {
                 let limpo = limparTextoCorrompido(aluno[campo]);
                 if (limpo !== aluno[campo]) {
@@ -1130,27 +1152,37 @@ function gerarHTMLViaComprovante(aluno, viaTitulo) {
         <div class="comprovante">
             <div class="comprovante-cabecalho">
                 <h1>CASA DAS JUVENTUDES DE ITAPETIM - PE</h1>
-                <h2>CADJOVEM - COMPROVANTE DE MATRÍCULA (${viaTitulo})</h2>
+                <h2>CADJOVEM - COMPROVANTE DE MATRICULA (${viaTitulo})</h2>
             </div>
-            <div class="comprovante-titulo">DADOS DO ALUNO E MATRÍCULA</div>
-            <div class="comp-grid">
-                <div class="comp-item"><strong>Cód:</strong> ${aluno.codigo || ''}</div>
-                <div class="comp-item"><strong>Data:</strong> ${aluno.data_inclusao || ''}</div>
-                <div class="comp-item" style="grid-column: span 2;"><strong>Telefone:</strong> ${aluno.telefone || ''}</div>
-                
-                <div class="comp-item" style="grid-column: span 4;"><strong>Aluno:</strong> ${aluno.nome_aluno || ''}</div>
-                
-                <div class="comp-item" style="grid-column: span 2;"><strong>Nascimento:</strong> ${aluno.data_nascimento || ''}</div>
-                <div class="comp-item" style="grid-column: span 2;"><strong>Turno:</strong> ${aluno.turnos || ''}</div>
-                
-                <div class="comp-item" style="grid-column: span 4;"><strong>Endereço:</strong> ${aluno.endereco || ''}, Nº ${aluno.numero || ''} - ${aluno.bairro || ''}</div>
-                
-                <div class="comp-item" style="grid-column: span 2;"><strong>Curso:</strong> ${aluno.curso || ''}</div>
-                <div class="comp-item" style="grid-column: span 2;"><strong>Início:</strong> ${aluno.inicio_aulas || ''}</div>
-                
-                <div class="comp-item" style="grid-column: span 2;"><strong>Horário:</strong> ${aluno.horario_aulas || ''}</div>
-                <div class="comp-item" style="grid-column: span 2;"><strong>Professor:</strong> ${aluno.professor || ''}</div>
+            <div class="comprovante-titulo">DADOS DO ALUNO E MATRICULA</div>
+            
+            <div class="comp-linha">
+                <div class="comp-campo"><strong>Cód:</strong> ${aluno.codigo || ''}</div>
+                <div class="comp-campo"><strong>Data:</strong> ${aluno.data_inclusao || ''}</div>
+                <div class="comp-campo" style="flex: 1.5;"><strong>Telefone:</strong> ${aluno.telefone || ''}</div>
             </div>
+
+            <div class="comp-linha">
+                <div class="comp-campo" style="flex: 3;"><strong>Aluno:</strong> ${aluno.nome_aluno || ''}</div>
+                <div class="comp-campo"><strong>Nasc:</strong> ${aluno.data_nascimento || ''}</div>
+            </div>
+
+            <div class="comp-linha">
+                <div class="comp-campo" style="flex: 3;"><strong>Endereço:</strong> ${aluno.endereco || ''}, Nº ${aluno.numero || ''} - ${aluno.bairro || ''}</div>
+                <div class="comp-campo"><strong>Turno:</strong> ${aluno.turnos || ''}</div>
+            </div>
+
+            <div class="comp-linha">
+                <div class="comp-campo" style="flex: 2.5;"><strong>Curso:</strong> ${aluno.curso || ''}</div>
+                <div class="comp-campo"><strong>Início:</strong> ${aluno.inicio_aulas || ''}</div>
+                <div class="comp-campo" style="flex: 1.2;"><strong>Horário:</strong> ${aluno.horario_aulas || ''}</div>
+            </div>
+
+            <div class="comp-linha">
+                <div class="comp-campo" style="flex: 3;"><strong>Professor:</strong> ${aluno.professor || ''}</div>
+                <div class="comp-campo" style="flex: 2;"><strong>Coordenador:</strong> ${aluno.coordenador || COORDENADOR_PADRAO}</div>
+            </div>
+
             <div class="assinatura">
                 <div class="linha-assinatura"></div>
                 <span>Assinatura do Aluno / Responsável</span>
@@ -1163,6 +1195,8 @@ function imprimirComprovante() {
     const codigo = document.getElementById('codigo').value;
     let aluno = alunosSalvos.find(a => a.codigo === codigo);
 
+    const turnosSelecionados = Array.from(document.querySelectorAll('input[name="turno"]:checked')).map(el => el.value).join(', ');
+
     if (!aluno) {
         aluno = {
             codigo: codigo || 'PROVISÓRIO',
@@ -1174,17 +1208,22 @@ function imprimirComprovante() {
             numero: limparTextoCorrompido(document.getElementById('numero').value),
             bairro: limparTextoCorrompido(document.getElementById('bairro').value),
             curso: document.getElementById('curso').value,
-            turnos: Array.from(document.querySelectorAll('input[name="turno"]:checked')).map(el => el.value).join(', '),
+            turnos: turnosSelecionados,
             inicio_aulas: document.getElementById('inicio_aulas').value,
             horario_aulas: limparTextoCorrompido(document.getElementById('horario_aulas').value),
-            professor: document.getElementById('professor').value
+            professor: document.getElementById('professor').value,
+            coordenador: COORDENADOR_PADRAO
         };
+    } else {
+        if (!aluno.turnos && turnosSelecionados) {
+            aluno.turnos = turnosSelecionados;
+        }
     }
 
     const containerPrint = document.getElementById('comprovantePrint');
     containerPrint.innerHTML = `
         <div class="comprovante-wrapper-total">
-            ${gerarHTMLViaComprovante(aluno, 'VIA DA INSTITUIÇÃO')}
+            ${gerarHTMLViaComprovante(aluno, 'VIA DA INSTITUICAO')}
             <div class="corte">---------------------------------------------------------------------------------------------------------------------------------------- CORTE AQUI ----------------------------------------------------------------------------------------------------------------------------------------</div>
             ${gerarHTMLViaComprovante(aluno, 'VIA DO ALUNO')}
         </div>
