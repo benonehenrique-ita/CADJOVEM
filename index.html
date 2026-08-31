@@ -420,7 +420,7 @@ tr:nth-child(even) {
     font-size: 16px;
 }
 
-/* ================= COMPROVANTE ================= */
+/* ================= COMPROVANTE (MEIA PÁGINA) ================= */
 
 #comprovantePrint {
     display: none;
@@ -428,49 +428,57 @@ tr:nth-child(even) {
 
 .comprovante {
     width: 100%;
+    height: 48vh; /* Ocupa exatamente a metade da folha A4 */
+    max-height: 48vh;
+    box-sizing: border-box;
     border: 1.5px solid #002b66;
-    padding: 15px;
-    margin-bottom: 12px;
+    padding: 10px 15px;
+    margin-bottom: 0;
     font-family: Arial, Helvetica, sans-serif;
     background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    page-break-inside: avoid;
+    break-inside: avoid;
 }
 
 .comprovante-cabecalho {
     text-align: center;
     border-bottom: 2px solid #002b66;
-    padding-bottom: 8px;
-    margin-bottom: 10px;
-}
-
-.comprovante-cabecalho h1 {
-    font-size: 16px;
-    color: #002b66;
+    padding-bottom: 4px;
     margin-bottom: 4px;
 }
 
+.comprovante-cabecalho h1 {
+    font-size: 14px;
+    color: #002b66;
+    margin-bottom: 2px;
+}
+
 .comprovante-cabecalho h2 {
-    font-size: 13px;
+    font-size: 11px;
     color: #333;
 }
 
 .comprovante-titulo {
     text-align: center;
-    font-size: 13px;
+    font-size: 11px;
     font-weight: bold;
-    margin: 8px 0;
+    margin: 4px 0;
     color: #002b66;
 }
 
 .comp-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 5px 15px;
-    font-size: 11px;
+    gap: 3px 12px;
+    font-size: 10px;
 }
 
 .comp-item {
     border-bottom: 1px solid #ccc;
-    padding: 4px 0;
+    padding: 2px 0;
 }
 
 .comp-item strong {
@@ -478,23 +486,24 @@ tr:nth-child(even) {
 }
 
 .assinatura {
-    margin-top: 25px;
+    margin-top: 10px;
     text-align: center;
-    font-size: 11px;
+    font-size: 10px;
 }
 
 .linha-assinatura {
-    width: 70%;
+    width: 60%;
     border-top: 1px solid #000;
-    margin: 30px auto 5px;
+    margin: 15px auto 3px;
 }
 
 .corte {
-    border-top: 2px dashed #555;
-    margin: 10px 0;
+    border-top: 1.5px dashed #555;
+    margin: 4px 0;
     text-align: center;
-    font-size: 9px;
+    font-size: 8px;
     color: #555;
+    line-height: 4px;
 }
 
 /* ================= RESPONSIVO ================= */
@@ -523,7 +532,7 @@ tr:nth-child(even) {
     }
 }
 
-/* ================= IMPRESSÃO ================= */
+/* ================= IMPRESSÃO RIGOROSA (1 PÁGINA) ================= */
 
 @media print {
     body * {
@@ -536,18 +545,17 @@ tr:nth-child(even) {
     }
 
     #comprovantePrint {
-        display: block !important;
+        display: flex !important;
+        flex-direction: column;
+        justify-content: space-between;
         position: absolute;
         left: 0;
         top: 0;
-        width: 100%;
-        padding: 5px;
+        width: 100vw;
+        height: 100vh;
+        padding: 5mm;
         background: white;
-    }
-
-    .comprovante {
-        margin-bottom: 5px;
-        page-break-inside: avoid;
+        overflow: hidden;
     }
 
     .no-print {
@@ -556,7 +564,7 @@ tr:nth-child(even) {
 
     @page {
         size: A4 portrait;
-        margin: 5mm;
+        margin: 0mm;
     }
 }
 </style>
@@ -898,11 +906,45 @@ tr:nth-child(even) {
 
 <script>
 /* =========================================================
+   LISTA OFICIAL DE CURSOS
+========================================================= */
+const LISTA_CURSOS_OFICIAISETC = [
+    "INFORMÁTICA BÁSICA",
+    "MANUTENÇÃO DE COMPUTADORES",
+    "OFFICE AVANÇADO",
+    "PROGRAMAÇÃO DE SISTEMA",
+    "CAPOEIRA",
+    "INICIALIZAÇÃO NA COMPUTAÇÃO",
+    "INFORMÁTICA INTERMEDIARIA",
+    "TÉCNICO EM INFORMÁTICA",
+    "WEB DESIGNER"
+];
+
+/* =========================================================
    BANCO DE DADOS E ESTADO
 ========================================================= */
 let alunosSalvos = JSON.parse(localStorage.getItem('alunos_db')) || [];
 let senhaSistema = localStorage.getItem('sistema_senha') || 'juventudes';
 const COORDENADOR_PADRAO = 'BENONE HENRIQUE DE SOUSA';
+
+/* Limpeza automática de caracteres corrompidos antigos na base local */
+function higienizarBaseDados() {
+    let alterado = false;
+    alunosSalvos = alunosSalvos.map(aluno => {
+        // Se houver caracteres corrompidos conhecidos ou se o curso não for exatamente um dos oficiais, limpa ou padroniza
+        let cursoAtual = (aluno.curso || '').toUpperCase();
+        let matchOficial = LISTA_CURSOS_OFICIAISETC.find(c => cursoAtual.includes(c.substring(0, 8)));
+        if (matchOficial) {
+            aluno.curso = matchOficial;
+            alterado = true;
+        }
+        return aluno;
+    });
+    if (alterado) {
+        localStorage.setItem('alunos_db', JSON.stringify(alunosSalvos));
+    }
+}
+higienizarBaseDados();
 
 /* =========================================================
    LOGIN
@@ -989,22 +1031,18 @@ function gerarProximoCodigo() {
 }
 
 /* =========================================================
-   CONVERSÃO DE DATA PARA INPUT TYPE="DATE" (Corrigido)
+   CONVERSÃO DE DATA PARA INPUT TYPE="DATE"
 ========================================================= */
 function converterParaDataInput(dataStr) {
     if (!dataStr) return '';
     let limpa = String(dataStr).trim().split(' ')[0];
-    
-    // Se estiver no formato DD/MM/YYYY ou DD-MM-YYYY
     if (limpa.includes('/') || limpa.includes('-')) {
         let separador = limpa.includes('/') ? '/' : '-';
         let partes = limpa.split(separador);
         if (partes.length === 3) {
-            // Assume formato DD/MM/YYYY
             if (partes[0].length === 2 && partes[2].length === 4) {
                 return `${partes[2]}-${partes[1]}-${partes[0]}`;
             }
-            // Assume formato YYYY-MM-DD já correto
             if (partes[0].length === 4) {
                 return limpa;
             }
@@ -1026,8 +1064,6 @@ function limparFormulario() {
 function salvarRegistro(e) {
     e.preventDefault();
     const codigo = document.getElementById('codigo').value.trim() || gerarProximoCodigo();
-    
-    // Coleta turnos selecionados
     const turnosSelecionados = Array.from(document.querySelectorAll('input[name="turno"]:checked')).map(el => el.value).join(', ');
 
     const aluno = {
@@ -1081,11 +1117,9 @@ function atualizarTabelaEBusca() {
     tbody.innerHTML = '';
     datalist.innerHTML = '';
 
-    // Ordena por código decrescente ou nome
     const listaOrdenada = [...alunosSalvos].reverse();
 
     listaOrdenada.forEach(aluno => {
-        // Tabela principal
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${aluno.codigo}</td>
@@ -1098,7 +1132,6 @@ function atualizarTabelaEBusca() {
         tr.onclick = () => carregarAlunoNoFormulario(aluno.codigo);
         tbody.appendChild(tr);
 
-        // Datalist de busca
         const option = document.createElement('option');
         option.value = aluno.nome_aluno;
         datalist.appendChild(option);
@@ -1147,7 +1180,6 @@ function carregarAlunoNoFormulario(codigo) {
     document.getElementById('trabalho_local').value = aluno.trabalho_local || '';
     document.getElementById('curso').value = aluno.curso || '';
     
-    // Turnos checkboxes
     document.querySelectorAll('input[name="turno"]').forEach(cb => {
         cb.checked = aluno.curso && aluno.turno && aluno.turno.includes(cb.value);
     });
@@ -1171,7 +1203,7 @@ function limparBancoDados() {
 }
 
 /* =========================================================
-   IMPRESSÃO DE COMPROVANTE (2 VIAS)
+   IMPRESSÃO DE COMPROVANTE (EXATAMENTE 1 PÁGINA / 2 VIAS)
 ========================================================= */
 function imprimirComprovante() {
     const nome = document.getElementById('nome_aluno').value;
@@ -1198,25 +1230,27 @@ function imprimirComprovante() {
 
     const montarVia = (tipoVia) => `
         <div class="comprovante">
-            <div class="comprovante-cabecalho">
-                <h1>CADJOVEM</h1>
-                <h2>CASA DAS JUVENTUDES DE ITAPETIM-PE</h2>
-            </div>
-            <div class="comprovante-titulo">${tipoVia}</div>
-            <div class="comp-grid">
-                <div class="comp-item"><strong>Código:</strong> ${codigo}</div>
-                <div class="comp-item"><strong>Data de Inclusão:</strong> ${dataInclusao}</div>
-                <div class="comp-item" style="grid-column: span 2;"><strong>Aluno(a):</strong> ${nome}</div>
-                <div class="comp-item"><strong>Data de Nascimento:</strong> ${nascimento}</div>
-                <div class="comp-item"><strong>Sexo:</strong> ${sexo}</div>
-                <div class="comp-item"><strong>Estado Civil:</strong> ${estadoCivil}</div>
-                <div class="comp-item"><strong>Telefone:</strong> ${telefone}</div>
-                <div class="comp-item" style="grid-column: span 2;"><strong>Endereço:</strong> ${endereco}</div>
-                <div class="comp-item"><strong>Curso/Atividade:</strong> ${curso}</div>
-                <div class="comp-item"><strong>Turno:</strong> ${turnosSelecionados}</div>
-                <div class="comp-item"><strong>Professor:</strong> ${professor}</div>
-                <div class="comp-item"><strong>Início das Aulas:</strong> ${inicioAulas}</div>
-                <div class="comp-item" style="grid-column: span 2;"><strong>Horário:</strong> ${horario}</div>
+            <div>
+                <div class="comprovante-cabecalho">
+                    <h1>CADJOVEM</h1>
+                    <h2>CASA DAS JUVENTUDES DE ITAPETIM-PE</h2>
+                </div>
+                <div class="comprovante-titulo">${tipoVia}</div>
+                <div class="comp-grid">
+                    <div class="comp-item"><strong>Código:</strong> ${codigo}</div>
+                    <div class="comp-item"><strong>Data de Inclusão:</strong> ${dataInclusao}</div>
+                    <div class="comp-item" style="grid-column: span 2;"><strong>Aluno(a):</strong> ${nome}</div>
+                    <div class="comp-item"><strong>Data de Nascimento:</strong> ${nascimento}</div>
+                    <div class="comp-item"><strong>Sexo:</strong> ${sexo}</div>
+                    <div class="comp-item"><strong>Estado Civil:</strong> ${estadoCivil}</div>
+                    <div class="comp-item"><strong>Telefone:</strong> ${telefone}</div>
+                    <div class="comp-item" style="grid-column: span 2;"><strong>Endereço:</strong> ${endereco}</div>
+                    <div class="comp-item"><strong>Curso/Atividade:</strong> ${curso}</div>
+                    <div class="comp-item"><strong>Turno:</strong> ${turnosSelecionados}</div>
+                    <div class="comp-item"><strong>Professor:</strong> ${professor}</div>
+                    <div class="comp-item"><strong>Início das Aulas:</strong> ${inicioAulas}</div>
+                    <div class="comp-item" style="grid-column: span 2;"><strong>Horário:</strong> ${horario}</div>
+                </div>
             </div>
             <div class="assinatura">
                 <div class="linha-assinatura"></div>
@@ -1227,7 +1261,7 @@ function imprimirComprovante() {
 
     containerPrint.innerHTML = `
         ${montarVia('1º VIA - CONTROLE DE INSCRIÇÃO')}
-        <div class="corte">---------------------------------------------------- CORTE AQUI - 1ª VIA / 2ª VIA ----------------------------------------------------</div>
+        <div class="corte">---------------------------------------------- CORTE AQUI - 1ª VIA / 2ª VIA ----------------------------------------------</div>
         ${montarVia('2º VIA - COMPROVANTE DE MATRÍCULA')}
     `;
 
@@ -1241,9 +1275,8 @@ function abrirModalRelatorio() {
     const selectFiltro = document.getElementById('filtroCursoRelatorio');
     selectFiltro.innerHTML = '<option value="">-- TODOS OS CURSOS --</option>';
     
-    // Pega cursos únicos cadastrados
-    const cursosUnicos = [...new Set(alunosSalvos.map(a => a.curso).filter(Boolean))];
-    cursosUnicos.forEach(c => {
+    // Insere exclusivamente os cursos oficiais solicitados no filtro
+    LISTA_CURSOS_OFICIAISETC.forEach(c => {
         const opt = document.createElement('option');
         opt.value = c;
         opt.textContent = c;
@@ -1296,9 +1329,12 @@ function processarArquivoCSV(input) {
         let importadosCount = 0;
 
         linhas.forEach((linha, index) => {
-            if (index === 0 && linha.toLowerCase().includes('nome')) return; // Pula cabeçalho se houver
-            const colunas = linha.split(';'); // Separador padrão por ponto e vírgula ou vírgula
+            if (index === 0 && linha.toLowerCase().includes('nome')) return;
+            const colunas = linha.split(';');
             if (colunas.length < 3) return;
+
+            let cursoOriginal = (colunas[10]?.trim().toUpperCase() || '');
+            let cursoValido = LISTA_CURSOS_OFICIAISETC.find(c => cursoOriginal.includes(c.substring(0, 8))) || '';
 
             const novoAluno = {
                 codigo: colunas[0]?.trim() || gerarProximoCodigo(),
@@ -1309,8 +1345,8 @@ function processarArquivoCSV(input) {
                 estado_civil: colunas[5]?.trim().toUpperCase() || 'SOLTEIRA',
                 nome_pai: colunas[6]?.trim().toUpperCase() || '',
                 nome_mae: colunas[7]?.trim().toUpperCase() || '',
-                endereco: '',
-                numero: '',
+                endereco: colunas[8]?.trim().toUpperCase() || '',
+                numero: colunas[9]?.trim().toUpperCase() || '',
                 bairro: '',
                 cidade: 'ITAPETIM',
                 estado: 'PE',
@@ -1324,7 +1360,7 @@ function processarArquivoCSV(input) {
                 escolaridade: '',
                 trabalha_opcao: 'NÃO',
                 trabalho_local: '',
-                curso: '',
+                curso: cursoValido,
                 turno: '',
                 professor: '',
                 coordenador: COORDENADOR_PADRAO,
@@ -1333,7 +1369,6 @@ function processarArquivoCSV(input) {
             };
 
             if (novoAluno.nome_aluno) {
-                // Evita duplicatas exatas pelo nome
                 if (!alunosSalvos.some(a => a.nome_aluno === novoAluno.nome_aluno)) {
                     alunosSalvos.push(novoAluno);
                     importadosCount++;
