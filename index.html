@@ -359,7 +359,7 @@ tr:nth-child(even) {
     font-size: 16px;
 }
 
-/* ================= COMPROVANTE (OCUPANDO APENAS A METADE SUPERIOR) ================= */
+/* ================= COMPROVANTE (REORGANIZADO E HORIZONTAL) ================= */
 
 #comprovantePrint {
     display: none;
@@ -377,11 +377,11 @@ tr:nth-child(even) {
 
 .comprovante {
     width: 100%;
-    height: 62mm;
-    max-height: 62mm;
+    height: 64mm;
+    max-height: 64mm;
     box-sizing: border-box;
-    border: 1px solid #002b66;
-    padding: 3px 6px;
+    border: 1.5px solid #002b66;
+    padding: 6px 10px;
     font-family: Arial, Helvetica, sans-serif;
     background: white;
     display: flex;
@@ -392,39 +392,44 @@ tr:nth-child(even) {
 .comprovante-cabecalho {
     text-align: center;
     border-bottom: 1px solid #002b66;
-    padding-bottom: 1px;
-    margin-bottom: 1px;
+    padding-bottom: 3px;
+    margin-bottom: 4px;
 }
 
 .comprovante-cabecalho h1 {
-    font-size: 9px;
+    font-size: 11px;
     color: #002b66;
-    margin-bottom: 0px;
+    margin-bottom: 1px;
+    font-weight: bold;
 }
 
 .comprovante-cabecalho h2 {
-    font-size: 7.5px;
+    font-size: 9px;
     color: #333;
+    font-weight: bold;
 }
 
 .comprovante-titulo {
     text-align: center;
-    font-size: 8px;
+    font-size: 9.5px;
     font-weight: bold;
-    margin: 1px 0;
+    margin: 2px 0 4px 0;
     color: #002b66;
+    background: #f1f5f9;
+    padding: 2px;
+    border: 1px solid #cbd5e1;
 }
 
 .comp-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px 4px;
-    font-size: 7.5px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px 8px;
+    font-size: 9.5px;
 }
 
 .comp-item {
-    border-bottom: 1px solid #ccc;
-    padding: 0.5px 0;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 2px 0;
 }
 
 .comp-item strong {
@@ -432,24 +437,24 @@ tr:nth-child(even) {
 }
 
 .assinatura {
-    margin-top: 1px;
+    margin-top: 2px;
     text-align: center;
-    font-size: 7.5px;
+    font-size: 9px;
 }
 
 .linha-assinatura {
-    width: 35%;
+    width: 40%;
     border-top: 1px solid #000;
-    margin: 4px auto 1px;
+    margin: 10px auto 2px;
 }
 
 .corte {
     border-top: 1px dashed #555;
-    margin: 1px 0;
+    margin: 2px 0;
     text-align: center;
-    font-size: 5px;
+    font-size: 7px;
     color: #555;
-    line-height: 1px;
+    line-height: 2px;
 }
 
 /* ================= RESPONSIVO ================= */
@@ -461,7 +466,7 @@ tr:nth-child(even) {
     .header-actions { width: 100%; }
     .search-box { width: 100%; }
     .search-box input { width: 100%; }
-    .comp-grid { grid-template-columns: 1fr; }
+    .comp-grid { grid-template-columns: 1fr 1fr; }
 }
 
 /* ================= IMPRESSÃO RESTRITA (EXATAMENTE 1 FOLHA / METADE SUPERIOR) ================= */
@@ -844,9 +849,7 @@ const COORDENADOR_PADRAO = 'BENONE HENRIQUE DE SOUSA';
 function limparTextoCorrompido(texto) {
     if (!texto) return '';
     return String(texto)
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-zA-Z0-9\s\-\/\.\,\ª\º]/g, '')
+        .replace(/[^a-zA-ZÀ-ÿ0-9\s\-\/\.\,\ª\º]/g, '')
         .toUpperCase()
         .trim();
 }
@@ -1133,13 +1136,18 @@ function gerarHTMLViaComprovante(aluno, viaTitulo) {
             <div class="comp-grid">
                 <div class="comp-item"><strong>Cód:</strong> ${aluno.codigo || ''}</div>
                 <div class="comp-item"><strong>Data:</strong> ${aluno.data_inclusao || ''}</div>
-                <div class="comp-item" style="grid-column: span 2;"><strong>Aluno:</strong> ${aluno.nome_aluno || ''}</div>
-                <div class="comp-item"><strong>Nascimento:</strong> ${aluno.data_nascimento || ''}</div>
-                <div class="comp-item"><strong>Telefone:</strong> ${aluno.telefone || ''}</div>
-                <div class="comp-item" style="grid-column: span 2;"><strong>Endereço:</strong> ${aluno.endereco || ''}, Nº ${aluno.numero || ''} - ${aluno.bairro || ''}</div>
+                <div class="comp-item" style="grid-column: span 2;"><strong>Telefone:</strong> ${aluno.telefone || ''}</div>
+                
+                <div class="comp-item" style="grid-column: span 4;"><strong>Aluno:</strong> ${aluno.nome_aluno || ''}</div>
+                
+                <div class="comp-item" style="grid-column: span 2;"><strong>Nascimento:</strong> ${aluno.data_nascimento || ''}</div>
+                <div class="comp-item" style="grid-column: span 2;"><strong>Turno:</strong> ${aluno.turnos || ''}</div>
+                
+                <div class="comp-item" style="grid-column: span 4;"><strong>Endereço:</strong> ${aluno.endereco || ''}, Nº ${aluno.numero || ''} - ${aluno.bairro || ''}</div>
+                
                 <div class="comp-item" style="grid-column: span 2;"><strong>Curso:</strong> ${aluno.curso || ''}</div>
-                <div class="comp-item"><strong>Turno:</strong> ${aluno.turnos || ''}</div>
-                <div class="comp-item"><strong>Início:</strong> ${aluno.inicio_aulas || ''}</div>
+                <div class="comp-item" style="grid-column: span 2;"><strong>Início:</strong> ${aluno.inicio_aulas || ''}</div>
+                
                 <div class="comp-item" style="grid-column: span 2;"><strong>Horário:</strong> ${aluno.horario_aulas || ''}</div>
                 <div class="comp-item" style="grid-column: span 2;"><strong>Professor:</strong> ${aluno.professor || ''}</div>
             </div>
@@ -1177,7 +1185,7 @@ function imprimirComprovante() {
     containerPrint.innerHTML = `
         <div class="comprovante-wrapper-total">
             ${gerarHTMLViaComprovante(aluno, 'VIA DA INSTITUIÇÃO')}
-            <div class="corte">-------------------------------------------------- CORTE AQUI --------------------------------------------------</div>
+            <div class="corte">---------------------------------------------------------------------------------------------------------------------------------------- CORTE AQUI ----------------------------------------------------------------------------------------------------------------------------------------</div>
             ${gerarHTMLViaComprovante(aluno, 'VIA DO ALUNO')}
         </div>
     `;
