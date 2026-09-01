@@ -1257,30 +1257,49 @@ function processarArquivoCSV(input) {
         const conteudo = e.target.result;
         const linhas = conteudo.split(/\r\n|\n/);
         let importados = 0;
+        let atualizados = 0;
 
         linhas.forEach(linha => {
             if (!linha.trim()) return;
             const colunas = linha.split(';');
-            if (colunas.length >= 3) {
-                const novoAluno = {
-                    codigo: gerarCodigoUnico(),
-                    data_inclusao: new Date().toISOString().split('T')[0],
-                    nome_aluno: colunas[0].toUpperCase().trim(),
-                    telefone: colunas[1].toUpperCase().trim(),
-                    curso: colunas[2].toUpperCase().trim(),
-                    cidade: 'ITAPETIM',
-                    estado: 'PE',
-                    coordenador: COORDENADOR_PADRAO
-                };
-                alunosSalvos.push(novoAluno);
-                importados++;
+            
+            // Considera que a 1ª coluna é o código do Access e as seguintes são dados (ajuste se houver mais colunas no seu TXT)
+            if (colunas.length >= 4) {
+                const codigoAccess = colunas[0].toUpperCase().trim();
+                const nomeAluno = colunas[1].toUpperCase().trim();
+                const telefoneAluno = colunas[2].toUpperCase().trim();
+                const cursoAluno = colunas[3].toUpperCase().trim();
+
+                const indexExistente = alunosSalvos.findIndex(a => a.codigo === codigoAccess);
+
+                if (indexExistente >= 0) {
+                    // Atualiza apenas os campos básicos vindos do TXT mantendo o registro existente atualizado
+                    alunosSalvos[indexExistente].nome_aluno = nomeAluno;
+                    alunosSalvos[indexExistente].telefone = telefoneAluno;
+                    alunosSalvos[indexExistente].curso = cursoAluno;
+                    atualizados++;
+                } else {
+                    // Se não existe, cria um novo objeto com o código original do Access
+                    const novoAluno = {
+                        codigo: codigoAccess,
+                        data_inclusao: new Date().toISOString().split('T')[0],
+                        nome_aluno: nomeAluno,
+                        telefone: telefoneAluno,
+                        curso: cursoAluno,
+                        cidade: 'ITAPETIM',
+                        estado: 'PE',
+                        coordenador: COORDENADOR_PADRAO
+                    };
+                    alunosSalvos.push(novoAluno);
+                    importados++;
+                }
             }
         });
 
         localStorage.setItem('alunos_db', JSON.stringify(alunosSalvos));
         atualizarTabelaRegistros();
         atualizarDatalistBusca();
-        alert(`${importados} registros importados com sucesso!`);
+        alert(`Importação concluída!\nNovos cadastrados: ${importados}\nAtualizados por chave primária: ${atualizados}`);
         input.value = '';
     };
     reader.readAsText(file, 'UTF-8');
