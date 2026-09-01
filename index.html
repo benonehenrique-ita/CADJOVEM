@@ -359,7 +359,7 @@ tr:nth-child(even) {
     font-size: 16px;
 }
 
-/* ================= COMPROVANTE ================= */
+/* ================= COMPROVANTE ESTILO ACCESS ================= */
 
 #comprovantePrint {
     display: none;
@@ -367,101 +367,128 @@ tr:nth-child(even) {
 
 .comprovante-wrapper-total {
     width: 100%;
-    height: 130mm;
-    max-height: 130mm;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    overflow: hidden;
+    gap: 4mm;
 }
 
 .comprovante {
     width: 100%;
-    height: 61mm;
-    max-height: 61mm;
-    box-sizing: border-box;
-    border: 1.5px solid #002b66;
-    padding: 4px 6px;
+    border: 1.5px solid #000;
+    padding: 4px 8px;
     font-family: Arial, Helvetica, sans-serif;
     background: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.comprovante-cabecalho {
-    text-align: center;
-    border-bottom: 1px solid #002b66;
-    padding-bottom: 1px;
-    margin-bottom: 1px;
-}
-
-.comprovante-cabecalho h1 {
-    font-size: 10px;
-    color: #002b66;
-    margin-bottom: 0;
-    font-weight: bold;
-}
-
-.comprovante-cabecalho h2 {
     font-size: 8px;
-    color: #333;
-    font-weight: bold;
 }
 
-.comprovante-titulo {
+.comp-topo-ini {
     text-align: center;
-    font-size: 8.5px;
     font-weight: bold;
-    margin: 1px 0;
-    color: #002b66;
-    background: #f1f5f9;
-    padding: 1px;
-    border: 1px solid #cbd5e1;
+    font-size: 9px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #000;
+    padding-bottom: 2px;
+}
+
+.comp-cabecalho-principal {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #000;
+    padding: 3px;
+    margin-bottom: 3px;
+}
+
+.comp-logo-area {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.comp-logo-area img {
+    width: 22px;
+    height: 22px;
+}
+
+.comp-logo-area .prefeitura-txt {
+    font-size: 7px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1;
+}
+
+.comp-titulo-mat {
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    flex: 1;
+    font-style: italic;
 }
 
 .comp-linha {
     display: flex;
-    justify-content: space-between;
-    gap: 4px;
-    font-size: 9px;
+    gap: 3px;
     margin-bottom: 2px;
+    align-items: center;
 }
 
 .comp-campo {
-    flex: 1;
-    background: #fafafa;
-    border: 1px solid #cbd5e1;
+    background: #fff;
+    border: 1px solid #000;
     padding: 2px 4px;
-    border-radius: 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 16px;
 }
 
-.comp-campo strong {
-    color: #002b66;
+.comp-campo span {
+    font-weight: bold;
 }
 
-.assinatura {
-    text-align: center;
+.comp-campo .val {
+    font-weight: normal;
+    text-transform: uppercase;
+}
+
+.comp-grid-turnos {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    border: 1px solid #000;
+    padding: 2px 4px;
+    background: #fff;
+    min-height: 18px;
+}
+
+.turno-box {
+    border: 1px solid #000;
+    width: 14px;
+    height: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
     font-size: 8px;
-    margin-top: 0;
+}
+
+.assinatura-area {
+    text-align: center;
+    margin-top: 6px;
 }
 
 .linha-assinatura {
-    width: 35%;
+    width: 40%;
     border-top: 1px solid #000;
-    margin: 4px auto 1px;
+    margin: 12px auto 2px;
 }
 
-.corte {
-    border-top: 1px dashed #555;
-    margin: 2px 0;
+.corte-linha {
+    border-top: 1px dashed #000;
+    margin: 4px 0;
     text-align: center;
     font-size: 7px;
-    color: #555;
-    line-height: 2px;
+    color: #000;
 }
 
 /* ================= RESPONSIVO ================= */
@@ -489,29 +516,22 @@ tr:nth-child(even) {
         position: absolute;
         left: 0;
         top: 0;
-        width: 297mm;
-        height: 210mm;
-        max-height: 210mm;
+        width: 210mm;
+        height: 297mm;
         padding: 5mm 10mm;
         background: white;
         overflow: hidden;
-        page-break-after: avoid;
-        break-after: avoid;
     }
     .comprovante-wrapper-total {
         display: flex !important;
-        visibility: visible !important;
-        width: 100%;
-        height: 190mm;
+        flex-direction: column !important;
+        gap: 5mm !important;
+        height: 140mm; /* Ocupa apenas metade da folha A4 vertical */
     }
     .comprovante {
-        display: flex !important;
-        visibility: visible !important;
-        width: 100%;
-        height: 90mm;
-    }
-    .comp-linha {
-        display: flex !important;
+        display: block !important;
+        height: 65mm !important;
+        max-height: 65mm !important;
     }
 
     /* Impressão do Relatório em Paisagem caso esteja aberto */
@@ -541,8 +561,8 @@ tr:nth-child(even) {
     }
 
     @page {
-        size: A4 landscape;
-        margin: 10mm;
+        size: A4 portrait;
+        margin: 5mm;
     }
 }
 </style>
@@ -1164,44 +1184,68 @@ function renderizarRelatorio() {
 }
 
 function gerarHTMLViaComprovante(aluno, viaTitulo) {
+    const tManha = (aluno.turnos && aluno.turnos.includes('MANHÃ')) ? 'X' : '';
+    const tTarde = (aluno.turnos && aluno.turnos.includes('TARDE')) ? 'X' : '';
+    const tNoite = (aluno.turnos && aluno.turnos.includes('NOITE')) ? 'X' : '';
+
     return `
         <div class="comprovante">
-            <div class="comprovante-cabecalho">
-                <h1>CASA DAS JUVENTUDES DE ITAPETIM - PE</h1>
-                <h2>CADJOVEM - COMPROVANTE DE MATRICULA (${viaTitulo})</h2>
+            <div class="comp-topo-ini">
+                Início das Aulas dia <span style="text-decoration: underline; padding: 0 10px;">${formatarDataBR(aluno.inicio_aulas) || '__/__/____'}</span> As <span style="text-decoration: underline; padding: 0 10px;">${aluno.horario_aulas || '______'}</span> Horas.
             </div>
-            <div class="comprovante-titulo">DADOS DO ALUNO E MATRICULA</div>
             
-            <div class="comp-linha">
-                <div class="comp-campo"><strong>Cód:</strong> ${aluno.codigo || ''}</div>
-                <div class="comp-campo"><strong>Data:</strong> ${formatarDataBR(aluno.data_inclusao) || ''}</div>
-                <div class="comp-campo" style="flex: 1.5;"><strong>Telefone:</strong> ${aluno.telefone || ''}</div>
+            <div class="comp-cabecalho-principal">
+                <div class="comp-logo-area">
+                    <div class="prefeitura-txt">PREFEITURA DE<br>ITAPETIM</div>
+                </div>
+                <div class="comp-titulo-mat">COMPROVANTE DE MATRÍCULA DO ALUNO</div>
+                <div style="font-size: 7px; font-weight: bold; text-align: right;">${viaTitulo}</div>
             </div>
 
             <div class="comp-linha">
-                <div class="comp-campo" style="flex: 3;"><strong>Aluno:</strong> ${aluno.nome_aluno || ''}</div>
-                <div class="comp-campo"><strong>Nasc:</strong> ${formatarDataBR(aluno.data_nascimento) || ''}</div>
+                <div class="comp-campo" style="flex: 1.5;"><span>Código:</span> <div class="val">${aluno.codigo || ''}</div></div>
+                <div class="comp-campo" style="flex: 2.5;"><span>DATA DA MATRÍCULA</span> <div class="val">${formatarDataBR(aluno.data_inclusao) || ''}</div></div>
             </div>
 
             <div class="comp-linha">
-                <div class="comp-campo" style="flex: 3;"><strong>Endereço:</strong> ${aluno.endereco || ''}, Nº ${aluno.numero || ''} - ${aluno.bairro || ''}</div>
-                <div class="comp-campo"><strong>Turno:</strong> ${aluno.turnos || ''}</div>
+                <div class="comp-campo" style="flex: 1;"><span>NOME DO ALUNO:</span> <div class="val">${aluno.nome_aluno || ''}</div></div>
             </div>
 
             <div class="comp-linha">
-                <div class="comp-campo" style="flex: 2.5;"><strong>Curso:</strong> ${aluno.curso || ''}</div>
-                <div class="comp-campo"><strong>Início:</strong> ${formatarDataBR(aluno.inicio_aulas) || ''}</div>
-                <div class="comp-campo" style="flex: 1.2;"><strong>Horário:</strong> ${aluno.horario_aulas || ''}</div>
+                <div class="comp-campo" style="flex: 3;"><span>ENDEREÇO:</span> <div class="val">${aluno.endereco || ''}</div></div>
+                <div class="comp-campo" style="flex: 1;"><span>Nº:</span> <div class="val">${aluno.numero || ''}</div></div>
             </div>
 
             <div class="comp-linha">
-                <div class="comp-campo" style="flex: 3;"><strong>Professor:</strong> ${aluno.professor || ''}</div>
-                <div class="comp-campo" style="flex: 2;"><strong>Coordenador:</strong> ${aluno.coordenador || COORDENADOR_PADRAO}</div>
+                <div class="comp-campo" style="flex: 2;"><span>BAIRRO</span> <div class="val">${aluno.bairro || ''}</div></div>
+                <div class="comp-campo" style="flex: 2;"><span>CIDADE:</span> <div class="val">${aluno.cidade || ''}</div></div>
+                <div class="comp-campo" style="flex: 2;"><span>TELEFONE:</span> <div class="val">${aluno.telefone || ''}</div></div>
             </div>
 
-            <div class="assinatura">
+            <div class="comp-linha">
+                <div class="comp-campo" style="flex: 1;"><span>RG:</span> <div class="val">${aluno.documento || ''}</div></div>
+            </div>
+
+            <div class="comp-linha">
+                <div class="comp-campo" style="flex: 1;"><span>INFORMAR O CURSO OU ATIVIDADE QUE PRETENDE FAZER</span> <div class="val">${aluno.curso || ''}</div></div>
+            </div>
+
+            <div class="comp-linha">
+                <div class="comp-campo" style="flex: 1.5;"><span>PREFERÊNCIA POR TURNO</span></div>
+                <div class="comp-grid-turnos" style="flex: 2;">
+                    <span>MANHÃ</span> <div class="turno-box">${tManha}</div>
+                    <span>TARDE</span> <div class="turno-box">${tTarde}</div>
+                    <span>NOITE</span> <div class="turno-box">${tNoite}</div>
+                </div>
+            </div>
+
+            <div class="comp-linha">
+                <div class="comp-campo" style="flex: 1;"><span>NOME DO COORDENADOR DO PROGRAMA:</span> <div class="val">${aluno.coordenador || COORDENADOR_PADRAO}</div></div>
+            </div>
+
+            <div class="assinatura-area">
                 <div class="linha-assinatura"></div>
-                <span>Assinatura do Aluno / Responsável</span>
+                <span style="font-size: 7.5px; font-weight: bold;">Assinatura do Coordenador</span>
             </div>
         </div>
     `;
@@ -1240,7 +1284,7 @@ function imprimirComprovante() {
     containerPrint.innerHTML = `
         <div class="comprovante-wrapper-total">
             ${gerarHTMLViaComprovante(aluno, 'VIA DA INSTITUICAO')}
-            <div class="corte">---------------------------------------------------------------------------------------------------------------------------------------- CORTE AQUI ----------------------------------------------------------------------------------------------------------------------------------------</div>
+            <div class="corte-linha">--------------------------------------------------- CORTE AQUI ---------------------------------------------------</div>
             ${gerarHTMLViaComprovante(aluno, 'VIA DO ALUNO')}
         </div>
     `;
@@ -1263,7 +1307,6 @@ function processarArquivoCSV(input) {
             if (!linha.trim()) return;
             const colunas = linha.split(';');
             
-            // Considera que a 1ª coluna é o código do Access e as seguintes são dados (ajuste se houver mais colunas no seu TXT)
             if (colunas.length >= 4) {
                 const codigoAccess = colunas[0].toUpperCase().trim();
                 const nomeAluno = colunas[1].toUpperCase().trim();
@@ -1273,13 +1316,11 @@ function processarArquivoCSV(input) {
                 const indexExistente = alunosSalvos.findIndex(a => a.codigo === codigoAccess);
 
                 if (indexExistente >= 0) {
-                    // Atualiza apenas os campos básicos vindos do TXT mantendo o registro existente atualizado
                     alunosSalvos[indexExistente].nome_aluno = nomeAluno;
                     alunosSalvos[indexExistente].telefone = telefoneAluno;
                     alunosSalvos[indexExistente].curso = cursoAluno;
                     atualizados++;
                 } else {
-                    // Se não existe, cria um novo objeto com o código original do Access
                     const novoAluno = {
                         codigo: codigoAccess,
                         data_inclusao: new Date().toISOString().split('T')[0],
