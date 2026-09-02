@@ -1,8 +1,8 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>CADJOVEM - Cadastro e Matrícula de Alunos | Itapetim-PE</title>
@@ -11,9 +11,11 @@
 <meta name="keywords" content="CADJOVEM, CAD Jovem, Casa das Juventudes, Itapetim, Itapetim PE, cadastro de alunos, matrícula de alunos">
 <meta name="author" content="Benone Henrique de Sousa">
 <meta name="robots" content="index, follow">
+
 <link rel="canonical" href="https://benonehenrique-ita.github.io/CADJOVEM/">
 
 <style>
+
 * {
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
@@ -360,6 +362,13 @@ tr:nth-child(even) {
     font-size: 16px;
 }
 
+.report-counter {
+    color: #475569;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 4px;
+}
+
 .report-top-actions {
     display: flex;
     align-items: center;
@@ -386,85 +395,85 @@ tr:nth-child(even) {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 4mm;
+    gap: 0;
 }
 
 .comprovante {
     width: 100%;
     border: 1px solid #000;
-    padding: 3mm 4mm;
+    padding: 2.5mm 3.5mm;
     background: #fff;
     color: #000;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 8pt;
-    line-height: 1.05;
+    font-size: 7.5pt;
+    line-height: 1;
 }
 
 .comp-cabecalho {
     display: flex;
     align-items: center;
-    gap: 4mm;
+    gap: 3mm;
     border: 1px solid #000;
-    padding: 2mm 3mm;
-    margin-bottom: 1.5mm;
-    min-height: 11mm;
+    padding: 1.5mm 2.5mm;
+    margin-bottom: 1.2mm;
+    min-height: 9mm;
 }
 
 .comp-orgao {
     width: 31mm;
     text-align: center;
-    font-size: 6.5pt;
-    line-height: 1.15;
+    font-size: 6pt;
+    line-height: 1.1;
 }
 
 .comp-orgao span {
     display: block;
-    margin-top: 1mm;
-    font-size: 5.8pt;
+    margin-top: .8mm;
+    font-size: 5.5pt;
 }
 
 .comp-titulo {
     flex: 1;
     text-align: center;
-    font-size: 9pt;
-    line-height: 1.1;
+    font-size: 8.5pt;
+    line-height: 1.05;
 }
 
 .comp-titulo small {
     display: block;
-    margin-top: 1mm;
-    font-size: 6.5pt;
+    margin-top: .8mm;
+    font-size: 6pt;
 }
 
 .comp-ident {
     width: 24mm;
     border: 1px solid #000;
     text-align: center;
-    padding: 1mm;
-    font-size: 6pt;
+    padding: .8mm;
+    font-size: 5.5pt;
 }
 
 .comp-ident strong {
     display: block;
-    font-size: 8pt;
-    margin-top: 1mm;
+    font-size: 7.5pt;
+    margin-top: .8mm;
 }
 
 .comp-linha {
     display: flex;
     width: 100%;
-    gap: 1.5mm;
-    margin-bottom: 1.2mm;
+    gap: 1.2mm;
+    margin-bottom: 1mm;
     align-items: stretch;
 }
 
 .comp-campo {
     display: flex;
     align-items: center;
-    gap: 1.5mm;
+    gap: 1.2mm;
     min-width: 0;
-    min-height: 6.5mm;
-    padding: 1mm 1.5mm;
+    min-height: 5.8mm;
+    padding: .8mm 1.2mm;
     border: 1px solid #000;
     background: #fff;
     white-space: nowrap;
@@ -472,7 +481,7 @@ tr:nth-child(even) {
 }
 
 .comp-campo b {
-    font-size: 6.2pt;
+    font-size: 5.8pt;
     flex: 0 0 auto;
 }
 
@@ -480,7 +489,7 @@ tr:nth-child(even) {
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 7.2pt;
+    font-size: 6.8pt;
     font-weight: normal;
     text-transform: uppercase;
 }
@@ -500,41 +509,41 @@ tr:nth-child(even) {
     flex: 0 0 84mm;
     display: flex;
     align-items: center;
-    gap: 2.5mm;
+    gap: 2mm;
     border: 1px solid #000;
-    padding: 1mm 1.5mm;
-    min-height: 6.5mm;
+    padding: .8mm 1.2mm;
+    min-height: 5.8mm;
     white-space: nowrap;
 }
 
 .comp-turnos > b {
-    font-size: 6.2pt;
-    margin-right: 1mm;
+    font-size: 5.8pt;
+    margin-right: .8mm;
 }
 
 .comp-turnos label {
     display: flex;
     align-items: center;
-    gap: 1mm;
-    font-size: 6.8pt;
+    gap: .8mm;
+    font-size: 6.2pt;
     font-weight: bold;
 }
 
 .comp-turnos i {
     display: inline-flex;
-    width: 4mm;
-    height: 4mm;
+    width: 3.6mm;
+    height: 3.6mm;
     align-items: center;
     justify-content: center;
     border: 1px solid #000;
     font-style: normal;
-    font-size: 7pt;
+    font-size: 6.5pt;
 }
 
 .comp-assinaturas {
     display: flex;
     justify-content: center;
-    margin-top: 2.5mm;
+    margin-top: 1.8mm;
 }
 
 .assinatura {
@@ -544,18 +553,22 @@ tr:nth-child(even) {
 
 .linha-assinatura {
     border-top: 1px solid #000;
-    margin-bottom: 1mm;
+    margin-bottom: .8mm;
 }
 
 .assinatura strong {
-    font-size: 6.5pt;
+    font-size: 6pt;
 }
 
 .corte-linha {
     width: 100%;
+    height: 8mm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-top: 1px dashed #000;
-    text-align: center;
-    font-size: 7pt;
+    border-bottom: 0;
+    font-size: 6.5pt;
     line-height: 1;
     color: #000;
 }
@@ -563,23 +576,44 @@ tr:nth-child(even) {
 /* ================= RESPONSIVO ================= */
 
 @media(max-width:700px) {
-    body { padding: 5px; }
-    .container { width: 100%; }
-    .field { flex: 1 1 100% !important; }
-    .header-actions { width: 100%; }
-    .search-box { width: 100%; }
-    .search-box input { width: 100%; }
+
+    body {
+        padding: 5px;
+    }
+
+    .container {
+        width: 100%;
+    }
+
+    .field {
+        flex: 1 1 100% !important;
+    }
+
+    .header-actions {
+        width: 100%;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .search-box input {
+        width: 100%;
+    }
+
 }
 
 /* ================= IMPRESSÃO ================= */
 
 @media print {
+
     @page {
         size: A4 portrait;
-        margin: 5mm;
+        margin: 4mm;
     }
 
-    html, body {
+    html,
+    body {
         margin: 0 !important;
         padding: 0 !important;
         width: 100% !important;
@@ -595,8 +629,8 @@ tr:nth-child(even) {
         display: block !important;
         position: static !important;
         width: 200mm !important;
-        height: 145mm !important;
-        max-height: 145mm !important;
+        height: 144mm !important;
+        max-height: 144mm !important;
         margin: 0 auto !important;
         padding: 0 !important;
         background: #fff !important;
@@ -611,18 +645,26 @@ tr:nth-child(even) {
 
     .comprovante-wrapper-total {
         width: 100% !important;
-        height: 145mm !important;
+        height: 144mm !important;
         display: flex !important;
         flex-direction: column !important;
         gap: 0 !important;
     }
 
+    /*
+     * Cada via fica limitada a 66mm.
+     * A linha de corte ocupa 8mm.
+     * Total aproximado: 140mm.
+     * Assim as duas vias ficam dentro da metade
+     * superior da folha A4.
+     */
+
     .comprovante {
         width: 100% !important;
-        height: 65mm !important;
-        min-height: 65mm !important;
-        max-height: 65mm !important;
-        flex: 0 0 65mm !important;
+        height: 66mm !important;
+        min-height: 66mm !important;
+        max-height: 66mm !important;
+        flex: 0 0 66mm !important;
         overflow: hidden !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
@@ -630,13 +672,17 @@ tr:nth-child(even) {
 
     .corte-linha {
         height: 8mm !important;
+        min-height: 8mm !important;
+        max-height: 8mm !important;
         flex: 0 0 8mm !important;
         border-top: 1px dashed #000 !important;
-        margin: 3mm 0 4mm !important;
-        padding-top: 1mm !important;
+        margin: 0 !important;
+        padding: 1mm 0 0 !important;
         text-align: center !important;
-        font-size: 7pt !important;
-        display: block !important;
+        font-size: 6.5pt !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
 
     body.print-relatorio > *:not(#reportModal) {
@@ -670,318 +716,764 @@ tr:nth-child(even) {
     body.print-relatorio #reportModal table {
         width: 100% !important;
     }
+
+    body.print-relatorio #reportModal .report-header {
+        display: flex !important;
+        margin-bottom: 8px !important;
+        padding-bottom: 6px !important;
+    }
+
+    body.print-relatorio #reportModal .report-counter {
+        display: block !important;
+    }
+
 }
+
+/* ================= CORREÇÃO DE IMPRESSÃO EM NAVEGADORES ================= */
+
+@media print {
+
+    body.print-comprovante .comprovante,
+    body.print-comprovante .comp-campo,
+    body.print-comprovante .comp-cabecalho,
+    body.print-comprovante .comp-turnos {
+        box-shadow: none !important;
+    }
+
+}
+
 </style>
 </head>
 
 <body>
 
+<!-- ================= LOGIN ================= -->
+
 <div id="loginOverlay">
+
     <div class="login-card">
+
         <h2>CADJOVEM</h2>
-        <input type="text" id="loginUsuario" placeholder="Usuário" autocomplete="off" value="cadjovem">
-        <input type="password" id="loginSenha" placeholder="Senha" autocomplete="new-password" onkeydown="if(event.key==='Enter') realizarLogin()">
-        <button onclick="realizarLogin()">Entrar</button>
+
+        <input
+            type="text"
+            id="loginUsuario"
+            placeholder="Usuário"
+            autocomplete="off"
+            value="cadjovem">
+
+        <input
+            type="password"
+            id="loginSenha"
+            placeholder="Senha"
+            autocomplete="new-password"
+            onkeydown="if(event.key==='Enter') realizarLogin()">
+
+        <button onclick="realizarLogin()">
+            Entrar
+        </button>
+
     </div>
+
 </div>
 
+<!-- ================= SISTEMA ================= -->
+
 <div class="container" id="mainContainer">
+
     <div class="header">
-        <h1>CADJOVEM - Matrícula de Alunos</h1>
+
+        <h1>
+            CADJOVEM - Matrícula de Alunos
+        </h1>
 
         <div class="header-actions">
 
             <div class="search-box">
-                <input type="text" id="inputBusca" list="listaAlunos" placeholder="BUSCAR ALUNO...">
+
+                <input
+                    type="text"
+                    id="inputBusca"
+                    list="listaAlunos"
+                    placeholder="BUSCAR ALUNO...">
+
                 <datalist id="listaAlunos"></datalist>
-                <button type="button" class="btn btn-search" onclick="executarBuscaAluno()">Buscar</button>
+
+                <button
+                    type="button"
+                    class="btn btn-search"
+                    onclick="executarBuscaAluno()">
+                    Buscar
+                </button>
+
             </div>
 
-            <input type="file" id="inputCsv" accept=".txt,.csv" style="display:none" onchange="processarArquivoCSV(this)">
+            <input
+                type="file"
+                id="inputCsv"
+                accept=".txt,.csv"
+                style="display:none"
+                onchange="processarArquivoCSV(this)">
 
-            <button type="button" class="btn btn-import" onclick="document.getElementById('inputCsv').click()">Importar</button>
-            <button type="button" class="btn btn-danger" onclick="limparBancoDados()">Limpar Dados</button>
-            <button type="button" class="btn btn-pass" onclick="abrirModalSenha()">Mudar Senha</button>
-            <button type="button" class="btn btn-logout" onclick="realizarLogout()">Sair</button>
+            <button
+                type="button"
+                class="btn btn-import"
+                onclick="document.getElementById('inputCsv').click()">
+                Importar
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-danger"
+                onclick="limparBancoDados()">
+                Limpar Dados
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-pass"
+                onclick="abrirModalSenha()">
+                Mudar Senha
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-logout"
+                onclick="realizarLogout()">
+                Sair
+            </button>
 
         </div>
+
     </div>
 
-    <form id="formMatricula" onsubmit="salvarRegistro(event)">
+    <!-- ================= FORMULÁRIO ================= -->
+
+    <form
+        id="formMatricula"
+        onsubmit="salvarRegistro(event)">
+
+        <!-- BLOCO 01 -->
 
         <div class="block">
-            <div class="block-title">Bloco 01 - Identificação</div>
+
+            <div class="block-title">
+                Bloco 01 - Identificação
+            </div>
 
             <div class="row">
+
                 <div class="field w-codigo primary-key">
-                    <label>Código:</label>
-                    <input type="text" id="codigo" placeholder="AUTO" readonly>
+
+                    <label>
+                        Código:
+                    </label>
+
+                    <input
+                        type="text"
+                        id="codigo"
+                        placeholder="AUTO"
+                        readonly>
+
                 </div>
 
                 <div class="field w-inclusao">
-                    <label>Data de Inclusão</label>
-                    <input type="date" id="data_inclusao">
+
+                    <label>
+                        Data de Inclusão
+                    </label>
+
+                    <input
+                        type="date"
+                        id="data_inclusao">
+
                 </div>
+
             </div>
 
             <div class="row">
+
                 <div class="field">
-                    <label>Nome do Aluno</label>
-                    <input type="text" id="nome_aluno" required>
+
+                    <label>
+                        Nome do Aluno
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nome_aluno"
+                        required>
+
                 </div>
+
             </div>
 
             <div class="row">
+
                 <div class="field w-medium">
-                    <label>Data de Nascimento</label>
-                    <input type="date" id="data_nascimento">
+
+                    <label>
+                        Data de Nascimento
+                    </label>
+
+                    <input
+                        type="date"
+                        id="data_nascimento">
+
                 </div>
 
                 <div class="field w-small">
-                    <label>Sexo:</label>
+
+                    <label>
+                        Sexo:
+                    </label>
+
                     <select id="sexo">
-                        <option value="M">M</option>
-                        <option value="F">F</option>
+
+                        <option value="M">
+                            M
+                        </option>
+
+                        <option value="F">
+                            F
+                        </option>
+
                     </select>
+
                 </div>
 
                 <div class="field">
-                    <label>Estado Civil</label>
+
+                    <label>
+                        Estado Civil
+                    </label>
+
                     <select id="estado_civil">
-                        <option value="SOLTEIRA">SOLTEIRA</option>
-                        <option value="SOLTEIRO">SOLTEIRO</option>
-                        <option value="CASADA">CASADA</option>
-                        <option value="CASADO">CASADO</option>
-                        <option value="DIVORCIADA">DIVORCIADA</option>
-                        <option value="DIVORCIADO">DIVORCIADO</option>
-                        <option value="VIÚVA">VIÚVA</option>
-                        <option value="VIÚVO">VIÚVO</option>
-                        <option value="UNIÃO ESTÁVEL">UNIÃO ESTÁVEL</option>
+
+                        <option value="SOLTEIRA">
+                            SOLTEIRA
+                        </option>
+
+                        <option value="SOLTEIRO">
+                            SOLTEIRO
+                        </option>
+
+                        <option value="CASADA">
+                            CASADA
+                        </option>
+
+                        <option value="CASADO">
+                            CASADO
+                        </option>
+
+                        <option value="DIVORCIADA">
+                            DIVORCIADA
+                        </option>
+
+                        <option value="DIVORCIADO">
+                            DIVORCIADO
+                        </option>
+
+                        <option value="VIÚVA">
+                            VIÚVA
+                        </option>
+
+                        <option value="VIÚVO">
+                            VIÚVO
+                        </option>
+
+                        <option value="UNIÃO ESTÁVEL">
+                            UNIÃO ESTÁVEL
+                        </option>
+
                     </select>
+
                 </div>
+
             </div>
 
             <div class="row">
+
                 <div class="field">
-                    <label>Nome do Pai</label>
-                    <input type="text" id="nome_pai">
+
+                    <label>
+                        Nome do Pai
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nome_pai">
+
                 </div>
+
             </div>
 
             <div class="row">
+
                 <div class="field">
-                    <label>Nome da Mãe</label>
-                    <input type="text" id="nome_mae">
+
+                    <label>
+                        Nome da Mãe
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nome_mae">
+
                 </div>
+
             </div>
+
         </div>
 
+        <!-- BLOCO 02 -->
+
         <div class="block">
-            <div class="block-title">Bloco 02 - Endereço e Documento</div>
+
+            <div class="block-title">
+                Bloco 02 - Endereço e Documento
+            </div>
 
             <div class="row">
+
                 <div class="field">
-                    <label>Endereço</label>
-                    <input type="text" id="endereco">
+
+                    <label>
+                        Endereço
+                    </label>
+
+                    <input
+                        type="text"
+                        id="endereco">
+
                 </div>
 
                 <div class="field w-small">
-                    <label>Nº</label>
-                    <input type="text" id="numero">
+
+                    <label>
+                        Nº
+                    </label>
+
+                    <input
+                        type="text"
+                        id="numero">
+
                 </div>
+
             </div>
 
             <div class="row">
+
                 <div class="field">
-                    <label>Bairro</label>
-                    <input type="text" id="bairro">
+
+                    <label>
+                        Bairro
+                    </label>
+
+                    <input
+                        type="text"
+                        id="bairro">
+
                 </div>
 
                 <div class="field">
-                    <label>Cidade</label>
-                    <input type="text" id="cidade" value="ITAPETIM">
+
+                    <label>
+                        Cidade
+                    </label>
+
+                    <input
+                        type="text"
+                        id="cidade"
+                        value="ITAPETIM">
+
                 </div>
+
             </div>
 
             <div class="row">
+
                 <div class="field w-uf">
-                    <label>Estado</label>
-                    <input type="text" id="estado" maxlength="2" value="PE">
+
+                    <label>
+                        Estado
+                    </label>
+
+                    <input
+                        type="text"
+                        id="estado"
+                        maxlength="2"
+                        value="PE">
+
                 </div>
 
                 <div class="field w-cep">
-                    <label>CEP</label>
-                    <input type="text" id="cep" maxlength="9">
+
+                    <label>
+                        CEP
+                    </label>
+
+                    <input
+                        type="text"
+                        id="cep"
+                        maxlength="9">
+
                 </div>
 
                 <div class="field w-tel">
-                    <label>Telefone</label>
-                    <input type="text" id="telefone">
+
+                    <label>
+                        Telefone
+                    </label>
+
+                    <input
+                        type="text"
+                        id="telefone">
+
                 </div>
 
                 <div class="field">
-                    <label>RG ou CPF</label>
-                    <input type="text" id="documento">
+
+                    <label>
+                        RG ou CPF
+                    </label>
+
+                    <input
+                        type="text"
+                        id="documento">
+
                 </div>
+
             </div>
+
         </div>
 
-        <div class="block">
-            <div class="block-title">Bloco 03 - Qualificação</div>
+        <!-- BLOCO 03 -->
 
-            <div class="row">
-                <div class="field">
-                    <label>Participa de Grupos Jovem? Qual?</label>
-                    <input type="text" id="grupos_jovem">
-                </div>
+        <div class="block">
+
+            <div class="block-title">
+                Bloco 03 - Qualificação
             </div>
 
             <div class="row">
+
+                <div class="field">
+
+                    <label>
+                        Participa de Grupos Jovem? Qual?
+                    </label>
+
+                    <input
+                        type="text"
+                        id="grupos_jovem">
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
                 <div class="field w-medium">
-                    <label>Estuda Atualmente?</label>
+
+                    <label>
+                        Estuda Atualmente?
+                    </label>
+
                     <select id="estuda">
-                        <option value="SIM">SIM</option>
-                        <option value="NÃO">NÃO</option>
+
+                        <option value="SIM">
+                            SIM
+                        </option>
+
+                        <option value="NÃO">
+                            NÃO
+                        </option>
+
                     </select>
+
                 </div>
 
                 <div class="field">
-                    <label>Escola:</label>
-                    <input type="text" id="escola">
+
+                    <label>
+                        Escola:
+                    </label>
+
+                    <input
+                        type="text"
+                        id="escola">
+
                 </div>
+
             </div>
 
             <div class="row">
+
                 <div class="field">
-                    <label>Série:</label>
-                    <input type="text" id="serie">
+
+                    <label>
+                        Série:
+                    </label>
+
+                    <input
+                        type="text"
+                        id="serie">
+
                 </div>
+
             </div>
 
             <div class="row">
+
                 <div class="field">
-                    <label>Grau de Escolaridade:</label>
-                    <input type="text" id="escolaridade">
+
+                    <label>
+                        Grau de Escolaridade:
+                    </label>
+
+                    <input
+                        type="text"
+                        id="escolaridade">
+
                 </div>
+
             </div>
 
             <div class="row">
+
                 <div class="field w-medium">
-                    <label>Trabalha Atualmente?</label>
+
+                    <label>
+                        Trabalha Atualmente?
+                    </label>
+
                     <select id="trabalha_opcao">
-                        <option value="SIM">SIM</option>
-                        <option value="NÃO">NÃO</option>
+
+                        <option value="SIM">
+                            SIM
+                        </option>
+
+                        <option value="NÃO">
+                            NÃO
+                        </option>
+
                     </select>
+
                 </div>
 
                 <div class="field">
-                    <label>Onde Trabalha?</label>
-                    <input type="text" id="trabalho_local">
+
+                    <label>
+                        Onde Trabalha?
+                    </label>
+
+                    <input
+                        type="text"
+                        id="trabalho_local">
+
                 </div>
+
             </div>
+
         </div>
 
+        <!-- BLOCO 04 -->
+
         <div class="block">
-            <div class="block-title">Bloco 04 - Objetivo</div>
+
+            <div class="block-title">
+                Bloco 04 - Objetivo
+            </div>
 
             <div class="row">
+
                 <div class="field">
-                    <label>Curso ou Atividade:</label>
+
+                    <label>
+                        Curso ou Atividade:
+                    </label>
 
                     <select id="curso">
-                        <option value="">-- SELECIONE --</option>
-                        <option>INFORMÁTICA BÁSICA</option>
-                        <option>MANUTENÇÃO DE COMPUTADORE</option>
-                        <option>OFFICE AVANÇADO</option>
-                        <option>PROGRAMAÇÃO DE SISTEMA</option>
-                        <option>CAPOEIRA</option>
-                        <option>INICIALIZAÇÃO NA COMPUTAÇÃO</option>
-                        <option>NFORMÁTICA INTERMEDIARIA</option>
-                        <option>TÉCNICO EM INFORMÁTICA</option>
-                        <option>WEB DESINGNAR</option>
+
+                        <option value="">
+                            -- SELECIONE --
+                        </option>
+
+                        <option value="INFORMÁTICA BÁSICA">
+                            INFORMÁTICA BÁSICA
+                        </option>
+
+                        <option value="MANUTENÇÃO DE COMPUTADORES">
+                            MANUTENÇÃO DE COMPUTADORES
+                        </option>
+
+                        <option value="OFFICE AVANÇADO">
+                            OFFICE AVANÇADO
+                        </option>
+
+                        <option value="PROGRAMAÇÃO DE SISTEMA">
+                            PROGRAMAÇÃO DE SISTEMA
+                        </option>
+
+                        <option value="CAPOEIRA">
+                            CAPOEIRA
+                        </option>
+
+                        <option value="INICIALIZAÇÃO NA COMPUTAÇÃO">
+                            INICIALIZAÇÃO NA COMPUTAÇÃO
+                        </option>
+
+                        <option value="INFORMÁTICA INTERMEDIÁRIA">
+                            INFORMÁTICA INTERMEDIÁRIA
+                        </option>
+
+                        <option value="TÉCNICO EM INFORMÁTICA">
+                            TÉCNICO EM INFORMÁTICA
+                        </option>
+
+                        <option value="WEB DESIGNER">
+                            WEB DESIGNER
+                        </option>
+
                     </select>
 
                 </div>
+
             </div>
 
             <div class="row">
+
                 <div class="field">
 
-                    <label>Preferência por Turno:</label>
+                    <label>
+                        Preferência por Turno:
+                    </label>
 
                     <div class="turnos">
 
                         <label>
-                            <input type="checkbox" name="turno" value="MANHÃ">
+                            <input
+                                type="checkbox"
+                                name="turno"
+                                value="MANHÃ">
                             MANHÃ
                         </label>
 
                         <label>
-                            <input type="checkbox" name="turno" value="TARDE">
+                            <input
+                                type="checkbox"
+                                name="turno"
+                                value="TARDE">
                             TARDE
                         </label>
 
                         <label>
-                            <input type="checkbox" name="turno" value="NOITE">
+                            <input
+                                type="checkbox"
+                                name="turno"
+                                value="NOITE">
                             NOITE
                         </label>
 
                     </div>
+
                 </div>
+
             </div>
+
         </div>
 
+        <!-- BLOCO 05 -->
+
         <div class="block">
-            <div class="block-title">Bloco 05 - Referências do Programa</div>
+
+            <div class="block-title">
+                Bloco 05 - Referências do Programa
+            </div>
 
             <div class="row">
+
                 <div class="field">
 
-                    <label>Nome do Professor:</label>
+                    <label>
+                        Nome do Professor:
+                    </label>
 
                     <select id="professor">
-                        <option value="">-- SELECIONE --</option>
-                        <option value="JONES NUNES">JONES NUNES</option>
-                        <option value="LEANDRO JONH DA SILVA">LEANDRO JONH DA SILVA</option>
-                        <option value="LUCINALDO CLEMENTE DA SILVA">LUCINALDO CLEMENTE DA SILVA</option>
+
+                        <option value="">
+                            -- SELECIONE --
+                        </option>
+
+                        <option value="JONES NUNES">
+                            JONES NUNES
+                        </option>
+
+                        <option value="LEANDRO JONH DA SILVA">
+                            LEANDRO JONH DA SILVA
+                        </option>
+
+                        <option value="LUCINALDO CLEMENTE DA SILVA">
+                            LUCINALDO CLEMENTE DA SILVA
+                        </option>
+
                     </select>
 
                 </div>
+
             </div>
 
             <div class="row">
+
                 <div class="field">
 
-                    <label>Coordenador:</label>
+                    <label>
+                        Coordenador:
+                    </label>
 
                     <input
                         type="text"
                         id="coordenador"
                         value="BENONE HENRIQUE DE SOUSA"
-                        readonly
-                    >
+                        readonly>
 
                 </div>
+
             </div>
 
             <div class="row">
 
                 <div class="field w-medium">
-                    <label>Início das Aulas:</label>
-                    <input type="date" id="inicio_aulas">
+
+                    <label>
+                        Início das Aulas:
+                    </label>
+
+                    <input
+                        type="date"
+                        id="inicio_aulas">
+
                 </div>
 
                 <div class="field w-medium">
-                    <label>Horário das Aulas:</label>
+
+                    <label>
+                        Horário das Aulas:
+                    </label>
+
                     <input
                         type="text"
                         id="horario_aulas"
-                        placeholder="Ex: 08:00 AS 10:00"
-                    >
+                        placeholder="Ex: 08:00 AS 10:00">
+
                 </div>
 
             </div>
+
         </div>
+
+        <!-- BOTÕES -->
 
         <div class="form-buttons">
 
@@ -1016,20 +1508,42 @@ tr:nth-child(even) {
 
     </form>
 
+    <!-- ================= REGISTROS ================= -->
+
     <div class="records-section">
 
-        <h2>Registros Salvos</h2>
+        <h2>
+            Registros Salvos
+        </h2>
 
         <table>
 
             <thead>
+
                 <tr>
-                    <th>Código</th>
-                    <th>Data Inclusão</th>
-                    <th>Nome do Aluno</th>
-                    <th>Telefone</th>
-                    <th>Curso</th>
+
+                    <th>
+                        Código
+                    </th>
+
+                    <th>
+                        Data Inclusão
+                    </th>
+
+                    <th>
+                        Nome do Aluno
+                    </th>
+
+                    <th>
+                        Telefone
+                    </th>
+
+                    <th>
+                        Curso
+                    </th>
+
                 </tr>
+
             </thead>
 
             <tbody id="tabelaRegistros"></tbody>
@@ -1048,11 +1562,25 @@ tr:nth-child(even) {
 
         <div class="report-header">
 
-            <h2>Relatório de Alunos por Curso</h2>
+            <div>
+
+                <h2>
+                    Relatório de Alunos por Curso
+                </h2>
+
+                <div
+                    id="contadorRelatorio"
+                    class="report-counter">
+                    TOTAL DE REGISTROS: 0
+                </div>
+
+            </div>
 
             <div class="no-print report-top-actions">
 
-                <label>Filtrar Curso:</label>
+                <label>
+                    Filtrar Curso:
+                </label>
 
                 <select
                     id="filtroCursoRelatorio"
@@ -1080,21 +1608,56 @@ tr:nth-child(even) {
         <table>
 
             <thead>
+
                 <tr>
-                    <th>Código</th>
-                    <th>Data Inclusão</th>
-                    <th>Nome do Aluno</th>
-                    <th>Endereço</th>
-                    <th>Nº</th>
-                    <th>Bairro</th>
-                    <th>Cidade</th>
-                    <th>Telefone</th>
-                    <th>Curso</th>
-                    <th>Status</th>
+
+                    <th>
+                        Código
+                    </th>
+
+                    <th>
+                        Data Inclusão
+                    </th>
+
+                    <th>
+                        Nome do Aluno
+                    </th>
+
+                    <th>
+                        Endereço
+                    </th>
+
+                    <th>
+                        Nº
+                    </th>
+
+                    <th>
+                        Bairro
+                    </th>
+
+                    <th>
+                        Cidade
+                    </th>
+
+                    <th>
+                        Telefone
+                    </th>
+
+                    <th>
+                        Curso
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
                 </tr>
+
             </thead>
 
-            <tbody id="tabelaRelatorioCorpo"></tbody>
+            <tbody
+                id="tabelaRelatorioCorpo">
+            </tbody>
 
         </table>
 
@@ -1106,30 +1669,50 @@ tr:nth-child(even) {
 
 <div id="passwordModal" class="modal">
 
-    <div class="report-content" style="max-width:400px">
+    <div
+        class="report-content"
+        style="max-width:400px">
 
         <div class="report-header">
-            <h2>Alterar Senha de Acesso</h2>
+
+            <h2>
+                Alterar Senha de Acesso
+            </h2>
+
         </div>
 
-        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+        <div
+            style="
+                display:flex;
+                flex-direction:column;
+                gap:12px;
+                margin-bottom:20px;
+            ">
 
             <div>
-                <label>Senha de Administrador:</label>
+
+                <label>
+                    Senha de Administrador:
+                </label>
 
                 <input
                     type="password"
                     id="admSenhaCheck"
                     style="width:100%;padding:8px">
+
             </div>
 
             <div>
-                <label>Nova Senha do Sistema:</label>
+
+                <label>
+                    Nova Senha do Sistema:
+                </label>
 
                 <input
                     type="password"
                     id="novaSenhaInput"
                     style="width:100%;padding:8px">
+
             </div>
 
         </div>
@@ -1156,25 +1739,27 @@ tr:nth-child(even) {
 
 </div>
 
+<!-- ================= IMPRESSÃO ================= -->
+
 <div id="comprovantePrint"></div>
 
 <script>
 
 /* =========================================================
-   CURSOS
+   CURSOS OFICIAIS
    ========================================================= */
 
 const LISTA_CURSOS_OFICIAIS = [
 
     "INFORMÁTICA BÁSICA",
-    "MANUTENÇÃO DE COMPUTADORE",
+    "MANUTENÇÃO DE COMPUTADORES",
     "OFFICE AVANÇADO",
     "PROGRAMAÇÃO DE SISTEMA",
     "CAPOEIRA",
     "INICIALIZAÇÃO NA COMPUTAÇÃO",
-    "NFORMÁTICA INTERMEDIARIA",
+    "INFORMÁTICA INTERMEDIÁRIA",
     "TÉCNICO EM INFORMÁTICA",
-    "WEB DESINGNAR"
+    "WEB DESIGNER"
 
 ];
 
@@ -1196,17 +1781,32 @@ const LISTA_PROFESSORES_OFICIAIS = [
 
 const ALIASES_CURSOS = {
 
-    "MANUTENÇÃO DE COMPUTADORES":
-        "MANUTENÇÃO DE COMPUTADORE",
+    "MANUTENÇÃO DE COMPUTADORE":
+        "MANUTENÇÃO DE COMPUTADORES",
+
+    "MANUTENÇÃO DE COMPUTADOR":
+        "MANUTENÇÃO DE COMPUTADORES",
 
     "INFORMÁTICA INTERMEDIARIA":
-        "NFORMÁTICA INTERMEDIARIA",
+        "INFORMÁTICA INTERMEDIÁRIA",
 
-    "WEB DESIGNER":
-        "WEB DESINGNAR",
+    "NFORMÁTICA INTERMEDIARIA":
+        "INFORMÁTICA INTERMEDIÁRIA",
+
+    "NFORMÁTICA INTERMEDIÁRIA":
+        "INFORMÁTICA INTERMEDIÁRIA",
+
+    "WEB DESINGNAR":
+        "WEB DESIGNER",
+
+    "WEB DESIGNAR":
+        "WEB DESIGNER",
 
     "WEB DESINGNER":
-        "WEB DESINGNAR"
+        "WEB DESIGNER",
+
+    "WEB DESING":
+        "WEB DESIGNER"
 
 };
 
@@ -1216,24 +1816,30 @@ const ALIASES_CURSOS = {
 
 const ALIASES_PROFESSORES = {
 
-    /* Leandro */
-    "LEANDRO JONH":
-        "LEANDRO JONH DA SILVA",
+    "JONES":
+        "JONES NUNES",
 
-    "LEANDO JONH":
-        "LEANDRO JONH DA SILVA",
-
-    "LEANDRO JONH DA SILVA":
-        "LEANDRO JONH DA SILVA",
-
-    /* Jones */
     "JONES NUNES":
         "JONES NUNES",
 
     "JONES NUNES DA SILVA":
         "JONES NUNES",
 
-    /* Lucinaldo */
+    "LEANDRO":
+        "LEANDRO JONH DA SILVA",
+
+    "LEANDO JONH":
+        "LEANDRO JONH DA SILVA",
+
+    "LEANDRO JONH":
+        "LEANDRO JONH DA SILVA",
+
+    "LEANDRO JONH DA SILVA":
+        "LEANDRO JONH DA SILVA",
+
+    "LUCINALDO":
+        "LUCINALDO CLEMENTE DA SILVA",
+
     "LUCINALDO CLEMENTE":
         "LUCINALDO CLEMENTE DA SILVA",
 
@@ -1243,52 +1849,73 @@ const ALIASES_PROFESSORES = {
 };
 
 /* =========================================================
-   BANCO LOCAL ATUAL
+   BANCO LOCAL
    ========================================================= */
 
 let alunosSalvos =
-    JSON.parse(localStorage.getItem('alunos_db')) || [];
+    JSON.parse(
+        localStorage.getItem('alunos_db')
+    ) || [];
 
 /* =========================================================
    CORREÇÃO AUTOMÁTICA DOS DADOS EXISTENTES
    ========================================================= */
 
-alunosSalvos = alunosSalvos.map(a => {
+alunosSalvos =
+    alunosSalvos.map(a => {
 
-    const b = { ...a };
+        const b = { ...a };
 
-    Object.keys(b).forEach(k => {
+        Object.keys(b).forEach(k => {
 
-        if (typeof b[k] === 'string') {
+            if (
+                typeof b[k] === 'string'
+            ) {
 
-            b[k] = repararTextoCodificacao(b[k]);
+                b[k] =
+                    repararTextoCodificacao(
+                        b[k]
+                    );
+
+            }
+
+        });
+
+        if (b.curso) {
+
+            b.curso =
+                normalizarCurso(
+                    b.curso
+                );
 
         }
 
+        if (b.professor) {
+
+            b.professor =
+                normalizarProfessor(
+                    b.professor
+                );
+
+        }
+
+        return b;
+
     });
 
-    if (b.curso) {
-
-        b.curso = normalizarCurso(b.curso);
-
-    }
-
-    if (b.professor) {
-
-        b.professor = normalizarProfessor(b.professor);
-
-    }
-
-    return b;
-
-});
+localStorage.setItem(
+    'alunos_db',
+    JSON.stringify(alunosSalvos)
+);
 
 /* =========================================================
    SENHA
    ========================================================= */
 
 let senhaSistema =
-    localStorage.getItem('sistema_senha') || 'juventudes';
+    localStorage.getItem(
+        'sistema_senha'
+    ) || 'juventudes';
 
 const COORDENADOR_PADRAO =
     'BENONE HENRIQUE DE SOUSA';
@@ -1300,11 +1927,26 @@ const COORDENADOR_PADRAO =
 function esc(valor) {
 
     return String(valor ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
+        .replace(
+            /&/g,
+            '&amp;'
+        )
+        .replace(
+            /</g,
+            '&lt;'
+        )
+        .replace(
+            />/g,
+            '&gt;'
+        )
+        .replace(
+            /"/g,
+            '&quot;'
+        )
+        .replace(
+            /'/g,
+            '&#39;'
+        );
 
 }
 
@@ -1316,15 +1958,22 @@ function formatarDataBR(dataIso) {
 
     if (!dataIso) return '';
 
-    const partes = dataIso.split('-');
+    const texto =
+        String(dataIso).trim();
 
-    if (partes.length === 3) {
+    const partes =
+        texto.split('-');
+
+    if (
+        partes.length === 3 &&
+        /^\d{4}$/.test(partes[0])
+    ) {
 
         return `${partes[2]}/${partes[1]}/${partes[0]}`;
 
     }
 
-    return dataIso;
+    return texto;
 
 }
 
@@ -1335,9 +1984,15 @@ function formatarDataBR(dataIso) {
 function realizarLogin() {
 
     const senhaDigitada =
-        document.getElementById('loginSenha').value;
+        document.getElementById(
+            'loginSenha'
+        ).value;
 
-    if (!localStorage.getItem('sistema_senha')) {
+    if (
+        !localStorage.getItem(
+            'sistema_senha'
+        )
+    ) {
 
         localStorage.setItem(
             'sistema_senha',
@@ -1347,11 +2002,15 @@ function realizarLogin() {
     }
 
     senhaSistema =
-        localStorage.getItem('sistema_senha');
+        localStorage.getItem(
+            'sistema_senha'
+        );
 
     const usuario =
         (
-            document.getElementById('loginUsuario').value || ''
+            document.getElementById(
+                'loginUsuario'
+            ).value || ''
         )
         .trim()
         .toLowerCase();
@@ -1375,7 +2034,9 @@ function realizarLogin() {
 
     } else {
 
-        alert('Senha incorreta! A senha padrão é: juventudes');
+        alert(
+            'Senha incorreta!'
+        );
 
     }
 
@@ -1408,14 +2069,21 @@ function realizarLogout() {
 function preencherDataAtual() {
 
     const dataInclusao =
-        document.getElementById('data_inclusao');
+        document.getElementById(
+            'data_inclusao'
+        );
 
-    if (!dataInclusao.value) {
+    if (
+        !dataInclusao.value
+    ) {
 
         const hoje =
-            new Date().toISOString().split('T')[0];
+            new Date()
+                .toISOString()
+                .split('T')[0];
 
-        dataInclusao.value = hoje;
+        dataInclusao.value =
+            hoje;
 
     }
 
@@ -1439,15 +2107,18 @@ function limparFormulario() {
 
     document.getElementById(
         'cidade'
-    ).value = 'ITAPETIM';
+    ).value =
+        'ITAPETIM';
 
     document.getElementById(
         'estado'
-    ).value = 'PE';
+    ).value =
+        'PE';
 
     document.getElementById(
         'coordenador'
-    ).value = COORDENADOR_PADRAO;
+    ).value =
+        COORDENADOR_PADRAO;
 
 }
 
@@ -1473,7 +2144,9 @@ function salvarRegistro(event) {
     event.preventDefault();
 
     let codigo =
-        document.getElementById('codigo').value;
+        document.getElementById(
+            'codigo'
+        ).value;
 
     const turnosSelecionados =
         Array.from(
@@ -1481,13 +2154,16 @@ function salvarRegistro(event) {
                 'input[name="turno"]:checked'
             )
         )
-        .map(el => el.value)
+        .map(
+            el => el.value
+        )
         .join(', ');
 
     const alunoObj = {
 
         codigo:
-            codigo || gerarCodigoUnico(),
+            codigo ||
+            gerarCodigoUnico(),
 
         data_inclusao:
             document.getElementById(
@@ -1569,21 +2245,18 @@ function salvarRegistro(event) {
             document.getElementById(
                 'cep'
             ).value
-            .toUpperCase()
             .trim(),
 
         telefone:
             document.getElementById(
                 'telefone'
             ).value
-            .toUpperCase()
             .trim(),
 
         documento:
             document.getElementById(
                 'documento'
             ).value
-            .toUpperCase()
             .trim(),
 
         grupos_jovem:
@@ -1667,28 +2340,37 @@ function salvarRegistro(event) {
 
     const index =
         alunosSalvos.findIndex(
-            a => a.codigo === alunoObj.codigo
+            a =>
+                a.codigo ===
+                alunoObj.codigo
         );
 
     if (index >= 0) {
 
-        alunosSalvos[index] = alunoObj;
+        alunosSalvos[index] =
+            alunoObj;
 
     } else {
 
-        alunosSalvos.push(alunoObj);
+        alunosSalvos.push(
+            alunoObj
+        );
 
     }
 
     localStorage.setItem(
         'alunos_db',
-        JSON.stringify(alunosSalvos)
+        JSON.stringify(
+            alunosSalvos
+        )
     );
 
     atualizarTabelaRegistros();
     atualizarDatalistBusca();
 
-    alert('Registro salvo com sucesso!');
+    alert(
+        'Registro salvo com sucesso!'
+    );
 
     limparFormulario();
 
@@ -1707,41 +2389,65 @@ function atualizarTabelaRegistros() {
 
     tbody.innerHTML = '';
 
-    alunosSalvos.forEach(aluno => {
+    alunosSalvos.forEach(
+        aluno => {
 
-        const tr =
-            document.createElement('tr');
+            const tr =
+                document.createElement(
+                    'tr'
+                );
 
-        tr.innerHTML = `
+            tr.innerHTML = `
 
-            <td>${esc(aluno.codigo || '')}</td>
+                <td>
+                    ${esc(
+                        aluno.codigo || ''
+                    )}
+                </td>
 
-            <td>
-                ${esc(
-                    formatarDataBR(
-                        aluno.data_inclusao
-                    )
-                )}
-            </td>
+                <td>
+                    ${esc(
+                        formatarDataBR(
+                            aluno.data_inclusao
+                        )
+                    )}
+                </td>
 
-            <td>${esc(aluno.nome_aluno || '')}</td>
+                <td>
+                    ${esc(
+                        aluno.nome_aluno || ''
+                    )}
+                </td>
 
-            <td>${esc(aluno.telefone || '')}</td>
+                <td>
+                    ${esc(
+                        aluno.telefone || ''
+                    )}
+                </td>
 
-            <td>${esc(aluno.curso || '')}</td>
+                <td>
+                    ${esc(
+                        normalizarCurso(
+                            aluno.curso || ''
+                        )
+                    )}
+                </td>
 
-        `;
+            `;
 
-        tr.style.cursor = 'pointer';
+            tr.style.cursor =
+                'pointer';
 
-        tr.onclick = () =>
-            carregarAlunoNoFormulario(
-                aluno.codigo
-            );
+            tr.onclick =
+                () =>
+                    carregarAlunoNoFormulario(
+                        aluno.codigo
+                    );
 
-        tbody.appendChild(tr);
+            tbody.appendChild(tr);
 
-    });
+        }
+    );
 
 }
 
@@ -1758,17 +2464,23 @@ function atualizarDatalistBusca() {
 
     datalist.innerHTML = '';
 
-    alunosSalvos.forEach(aluno => {
+    alunosSalvos.forEach(
+        aluno => {
 
-        const option =
-            document.createElement('option');
+            const option =
+                document.createElement(
+                    'option'
+                );
 
-        option.value =
-            aluno.nome_aluno;
+            option.value =
+                aluno.nome_aluno;
 
-        datalist.appendChild(option);
+            datalist.appendChild(
+                option
+            );
 
-    });
+        }
+    );
 
 }
 
@@ -1788,20 +2500,22 @@ function executarBuscaAluno() {
     if (!termo) return;
 
     const aluno =
-        alunosSalvos.find(a =>
+        alunosSalvos.find(
+            a =>
 
-            (
-                a.nome_aluno &&
-                a.nome_aluno
-                    .toUpperCase()
-                    .includes(termo)
-            )
+                (
+                    a.nome_aluno &&
+                    a.nome_aluno
+                        .toUpperCase()
+                        .includes(termo)
+                )
 
-            ||
+                ||
 
-            String(a.codigo || '')
+                String(
+                    a.codigo || ''
+                )
                 .toUpperCase() === termo
-
         );
 
     if (aluno) {
@@ -1812,7 +2526,9 @@ function executarBuscaAluno() {
 
     } else {
 
-        alert('Aluno não encontrado!');
+        alert(
+            'Aluno não encontrado!'
+        );
 
     }
 
@@ -1822,81 +2538,101 @@ function executarBuscaAluno() {
    CARREGAR ALUNO
    ========================================================= */
 
-function carregarAlunoNoFormulario(codigo) {
+function carregarAlunoNoFormulario(
+    codigo
+) {
 
     const aluno =
         alunosSalvos.find(
-            a => a.codigo === codigo
+            a =>
+                a.codigo ===
+                codigo
         );
 
     if (!aluno) return;
 
     document.getElementById(
         'codigo'
-    ).value = aluno.codigo || '';
+    ).value =
+        aluno.codigo || '';
 
     document.getElementById(
         'data_inclusao'
-    ).value = aluno.data_inclusao || '';
+    ).value =
+        aluno.data_inclusao || '';
 
     document.getElementById(
         'nome_aluno'
-    ).value = aluno.nome_aluno || '';
+    ).value =
+        aluno.nome_aluno || '';
 
     document.getElementById(
         'data_nascimento'
-    ).value = aluno.data_nascimento || '';
+    ).value =
+        aluno.data_nascimento || '';
 
     document.getElementById(
         'sexo'
-    ).value = aluno.sexo || 'M';
+    ).value =
+        aluno.sexo || 'M';
 
     document.getElementById(
         'estado_civil'
     ).value =
-        aluno.estado_civil || 'SOLTEIRA';
+        aluno.estado_civil ||
+        'SOLTEIRA';
 
     document.getElementById(
         'nome_pai'
-    ).value = aluno.nome_pai || '';
+    ).value =
+        aluno.nome_pai || '';
 
     document.getElementById(
         'nome_mae'
-    ).value = aluno.nome_mae || '';
+    ).value =
+        aluno.nome_mae || '';
 
     document.getElementById(
         'endereco'
-    ).value = aluno.endereco || '';
+    ).value =
+        aluno.endereco || '';
 
     document.getElementById(
         'numero'
-    ).value = aluno.numero || '';
+    ).value =
+        aluno.numero || '';
 
     document.getElementById(
         'bairro'
-    ).value = aluno.bairro || '';
+    ).value =
+        aluno.bairro || '';
 
     document.getElementById(
         'cidade'
     ).value =
-        aluno.cidade || 'ITAPETIM';
+        aluno.cidade ||
+        'ITAPETIM';
 
     document.getElementById(
         'estado'
     ).value =
-        aluno.estado || 'PE';
+        aluno.estado ||
+        'PE';
 
     document.getElementById(
         'cep'
-    ).value = aluno.cep || '';
+    ).value =
+        aluno.cep || '';
 
     document.getElementById(
         'telefone'
-    ).value = aluno.telefone || '';
+    ).value =
+        aluno.telefone || '';
 
     document.getElementById(
         'documento'
-    ).value = aluno.documento || '';
+    ).value =
+        aluno.documento || '';
 
     document.getElementById(
         'grupos_jovem'
@@ -1926,46 +2662,51 @@ function carregarAlunoNoFormulario(codigo) {
     document.getElementById(
         'trabalha_opcao'
     ).value =
-        aluno.trabalha_opcao || 'SIM';
+        aluno.trabalha_opcao ||
+        'SIM';
 
     document.getElementById(
         'trabalho_local'
     ).value =
         aluno.trabalho_local || '';
 
-    document.getElementById(
-        'curso'
-    ).value =
-        normalizarCurso(
-            aluno.curso || ''
-        );
+    /* CURSO */
+
+    definirCursoNoSelect(
+        aluno.curso || ''
+    );
+
+    /* TURNOS */
 
     document.querySelectorAll(
         'input[name="turno"]'
-    ).forEach(cb => {
+    ).forEach(
+        cb => {
 
-        cb.checked =
-            aluno.turnos &&
-            aluno.turnos
-                .toUpperCase()
-                .includes(
-                    cb.value.toUpperCase()
-                );
+            const turno =
+                cb.value
+                    .toUpperCase();
 
-    });
+            const turnosAluno =
+                (
+                    aluno.turnos ||
+                    ''
+                ).toUpperCase();
 
-    /*
-     * CORREÇÃO IMPORTANTE:
-     * Agora o nome do professor é normalizado
-     * antes de ser colocado no SELECT.
-     */
+            cb.checked =
+                turnosAluno
+                    .includes(
+                        turno
+                    );
 
-    document.getElementById(
-        'professor'
-    ).value =
-        normalizarProfessor(
-            aluno.professor || ''
-        );
+        }
+    );
+
+    /* PROFESSOR */
+
+    definirProfessorNoSelect(
+        aluno.professor || ''
+    );
 
     document.getElementById(
         'coordenador'
@@ -1983,8 +2724,11 @@ function carregarAlunoNoFormulario(codigo) {
         aluno.horario_aulas || '';
 
     window.scrollTo({
+
         top: 0,
+
         behavior: 'smooth'
+
     });
 
 }
@@ -2027,7 +2771,8 @@ function abrirModalSenha() {
 
     document.getElementById(
         'passwordModal'
-    ).style.display = 'block';
+    ).style.display =
+        'block';
 
 }
 
@@ -2035,7 +2780,8 @@ function fecharModalSenha() {
 
     document.getElementById(
         'passwordModal'
-    ).style.display = 'none';
+    ).style.display =
+        'none';
 
     document.getElementById(
         'admSenhaCheck'
@@ -2059,11 +2805,16 @@ function salvarNovaSenha() {
             'novaSenhaInput'
         ).value;
 
-    if (admSenha === senhaSistema) {
+    if (
+        admSenha === senhaSistema
+    ) {
 
-        if (novaSenha.trim() !== '') {
+        if (
+            novaSenha.trim() !== ''
+        ) {
 
-            senhaSistema = novaSenha;
+            senhaSistema =
+                novaSenha;
 
             localStorage.setItem(
                 'sistema_senha',
@@ -2108,23 +2859,33 @@ function abrirModalRelatorio() {
     select.innerHTML =
         '<option value="">-- TODOS OS CURSOS --</option>';
 
-    LISTA_CURSOS_OFICIAIS.forEach(curso => {
+    LISTA_CURSOS_OFICIAIS.forEach(
+        curso => {
 
-        const opt =
-            document.createElement('option');
+            const opt =
+                document.createElement(
+                    'option'
+                );
 
-        opt.value = curso;
-        opt.textContent = curso;
+            opt.value =
+                curso;
 
-        select.appendChild(opt);
+            opt.textContent =
+                curso;
 
-    });
+            select.appendChild(
+                opt
+            );
+
+        }
+    );
 
     renderizarRelatorio();
 
     document.getElementById(
         'reportModal'
-    ).style.display = 'block';
+    ).style.display =
+        'block';
 
 }
 
@@ -2132,20 +2893,39 @@ function fecharModalRelatorio() {
 
     document.getElementById(
         'reportModal'
-    ).style.display = 'none';
+    ).style.display =
+        'none';
 
 }
 
 /* =========================================================
-   CORREÇÃO DE CODIFICAÇÃO
+   REPARAR CODIFICAÇÃO
    ========================================================= */
 
-function repararTextoCodificacao(valor) {
+function repararTextoCodificacao(
+    valor
+) {
 
     let texto =
-        (valor ?? '').toString();
+        (valor ?? '')
+            .toString();
 
-    if (/[ÃÂâð]/.test(texto)) {
+    if (!texto) return '';
+
+    /*
+     * Corrige textos que chegaram como:
+     * Ã§
+     * Ã£
+     * Ã©
+     * Ãµ
+     * Â
+     */
+
+    if (
+        /(?:Ã.|Â.|â.|ð.)/.test(
+            texto
+        )
+    ) {
 
         try {
 
@@ -2153,21 +2933,27 @@ function repararTextoCodificacao(valor) {
                 Uint8Array.from(
                     texto,
                     ch =>
-                        ch.charCodeAt(0) & 0xFF
+                        ch.charCodeAt(0) &
+                        0xFF
                 );
 
             const corrigido =
                 new TextDecoder(
                     'utf-8',
-                    { fatal: true }
-                ).decode(bytes);
+                    {
+                        fatal: true
+                    }
+                ).decode(
+                    bytes
+                );
 
             if (
                 corrigido &&
                 corrigido !== texto
             ) {
 
-                texto = corrigido;
+                texto =
+                    corrigido;
 
             }
 
@@ -2180,25 +2966,47 @@ function repararTextoCodificacao(valor) {
 }
 
 /* =========================================================
+   CHAVE DE COMPARAÇÃO
+   ========================================================= */
+
+function chaveGenerica(
+    valor
+) {
+
+    return repararTextoCodificacao(
+        valor
+    )
+    .toString()
+    .trim()
+    .toUpperCase()
+    .normalize('NFD')
+    .replace(
+        /[\u0300-\u036f]/g,
+        ''
+    )
+    .replace(
+        /[^A-Z0-9]+/g,
+        ' '
+    )
+    .replace(
+        /\s+/g,
+        ' '
+    )
+    .trim();
+
+}
+
+/* =========================================================
    CHAVE DO CURSO
    ========================================================= */
 
-function chaveCurso(valor) {
+function chaveCurso(
+    valor
+) {
 
-    return repararTextoCodificacao(valor)
-        .toString()
-        .trim()
-        .toUpperCase()
-        .normalize('NFD')
-        .replace(
-            /[\u0300-\u036f]/g,
-            ''
-        )
-        .replace(
-            /[^A-Z0-9]+/g,
-            ' '
-        )
-        .trim();
+    return chaveGenerica(
+        valor
+    );
 
 }
 
@@ -2206,40 +3014,128 @@ function chaveCurso(valor) {
    NORMALIZAR CURSO
    ========================================================= */
 
-function normalizarCurso(valor) {
+function normalizarCurso(
+    valor
+) {
 
     const texto =
-        repararTextoCodificacao(valor)
-            .trim()
-            .toUpperCase();
-
-    const chave =
-        chaveCurso(texto);
-
-    const alias =
-        ALIASES_CURSOS[texto];
-
-    if (alias) return alias;
-
-    const oficial =
-        LISTA_CURSOS_OFICIAIS.find(
-            curso =>
-                chaveCurso(curso) === chave
+        repararTextoCodificacao(
+            valor
+        )
+        .trim()
+        .toUpperCase()
+        .replace(
+            /\s+/g,
+            ' '
         );
 
-    if (oficial) return oficial;
+    if (!texto) return '';
 
-    const aliasOficial =
+    const chave =
+        chaveCurso(
+            texto
+        );
+
+    /*
+     * Primeiro procura alias exato.
+     */
+
+    const aliasDireto =
+        ALIASES_CURSOS[
+            texto
+        ];
+
+    if (aliasDireto) {
+
+        return aliasDireto;
+
+    }
+
+    /*
+     * Procura alias ignorando acentos.
+     */
+
+    const aliasEncontrado =
         Object.entries(
             ALIASES_CURSOS
         ).find(
             ([origem]) =>
-                chaveCurso(origem) === chave
+                chaveCurso(
+                    origem
+                ) === chave
         );
 
-    return aliasOficial
-        ? aliasOficial[1]
-        : texto;
+    if (
+        aliasEncontrado
+    ) {
+
+        return aliasEncontrado[1];
+
+    }
+
+    /*
+     * Procura curso oficial.
+     */
+
+    const oficial =
+        LISTA_CURSOS_OFICIAIS.find(
+            curso =>
+                chaveCurso(
+                    curso
+                ) === chave
+        );
+
+    if (oficial) {
+
+        return oficial;
+
+    }
+
+    /*
+     * Compatibilidade adicional
+     * para pequenas diferenças.
+     */
+
+    if (
+        chave.includes(
+            'MANUTENCAO'
+        ) &&
+        chave.includes(
+            'COMPUTADOR'
+        )
+    ) {
+
+        return 'MANUTENÇÃO DE COMPUTADORES';
+
+    }
+
+    if (
+        chave.includes(
+            'INFORMATICA'
+        ) &&
+        chave.includes(
+            'INTERMEDIARIA'
+        )
+    ) {
+
+        return 'INFORMÁTICA INTERMEDIÁRIA';
+
+    }
+
+    if (
+        chave.includes(
+            'WEB'
+        ) &&
+        chave.includes(
+            'DESIGN'
+        )
+    ) {
+
+        return 'WEB DESIGNER';
+
+    }
+
+    return texto;
 
 }
 
@@ -2247,92 +3143,128 @@ function normalizarCurso(valor) {
    NORMALIZAR PROFESSOR
    ========================================================= */
 
-function normalizarProfessor(valor) {
+function normalizarProfessor(
+    valor
+) {
 
     let texto =
-        repararTextoCodificacao(valor)
-            .toString()
-            .trim()
-            .toUpperCase()
-            .replace(/\s+/g, ' ');
+        repararTextoCodificacao(
+            valor
+        )
+        .toString()
+        .trim()
+        .toUpperCase()
+        .replace(
+            /\s+/g,
+            ' '
+        );
 
     if (!texto) return '';
 
-    /*
-     * Remove acentos para facilitar a comparação.
-     */
-
     const chave =
-        texto
-            .normalize('NFD')
-            .replace(
-                /[\u0300-\u036f]/g,
-                ''
-            );
-
-    /*
-     * Primeiro verifica os aliases conhecidos.
-     */
-
-    const alias =
-        ALIASES_PROFESSORES[texto];
-
-    if (alias) return alias;
-
-    /*
-     * Depois compara ignorando acentos.
-     */
-
-    const professorOficial =
-        LISTA_PROFESSORES_OFICIAIS.find(
-            professor => {
-
-                const chaveOficial =
-                    professor
-                        .normalize('NFD')
-                        .replace(
-                            /[\u0300-\u036f]/g,
-                            ''
-                        );
-
-                return chaveOficial === chave;
-
-            }
+        chaveGenerica(
+            texto
         );
 
-    if (professorOficial) {
+    /*
+     * Alias direto.
+     */
 
-        return professorOficial;
+    if (
+        ALIASES_PROFESSORES[
+            texto
+        ]
+    ) {
+
+        return ALIASES_PROFESSORES[
+            texto
+        ];
 
     }
 
     /*
-     * Comparação por partes:
-     * permite reconhecer um nome abreviado
-     * mesmo que venha com pequenas diferenças.
+     * Alias ignorando acentos.
+     */
+
+    const alias =
+        Object.entries(
+            ALIASES_PROFESSORES
+        ).find(
+            ([origem]) =>
+                chaveGenerica(
+                    origem
+                ) === chave
+        );
+
+    if (alias) {
+
+        return alias[1];
+
+    }
+
+    /*
+     * Comparação exata.
+     */
+
+    const oficial =
+        LISTA_PROFESSORES_OFICIAIS.find(
+            professor =>
+                chaveGenerica(
+                    professor
+                ) === chave
+        );
+
+    if (oficial) {
+
+        return oficial;
+
+    }
+
+    /*
+     * Leandro.
      */
 
     if (
-        chave.includes('LEANDRO') &&
-        chave.includes('JONH')
+        chave.includes(
+            'LEANDRO'
+        ) &&
+        chave.includes(
+            'JONH'
+        )
     ) {
 
         return 'LEANDRO JONH DA SILVA';
 
     }
 
+    /*
+     * Jones.
+     */
+
     if (
-        chave.includes('JONES') &&
-        chave.includes('NUNES')
+        chave.includes(
+            'JONES'
+        ) &&
+        chave.includes(
+            'NUNES'
+        )
     ) {
 
         return 'JONES NUNES';
 
     }
 
+    /*
+     * Lucinaldo.
+     */
+
     if (
-        chave.includes('LUCINALDO') &&
-        chave.includes('CLEMENTE')
+        chave.includes(
+            'LUCINALDO'
+        ) &&
+        chave.includes(
+            'CLEMENTE'
+        )
     ) {
 
         return 'LUCINALDO CLEMENTE DA SILVA';
@@ -2340,11 +3272,163 @@ function normalizarProfessor(valor) {
     }
 
     /*
-     * Se aparecer futuramente um professor
-     * desconhecido, não apagamos a informação.
+     * Caso desconhecido:
+     * preserva o texto.
      */
 
     return texto;
+
+}
+
+/* =========================================================
+   COLOCAR CURSO NO SELECT
+   ========================================================= */
+
+function definirCursoNoSelect(
+    valor
+) {
+
+    const select =
+        document.getElementById(
+            'curso'
+        );
+
+    const curso =
+        normalizarCurso(
+            valor
+        );
+
+    if (!curso) {
+
+        select.value = '';
+
+        return;
+
+    }
+
+    /*
+     * Primeiro procura uma opção oficial.
+     */
+
+    const opcao =
+        Array.from(
+            select.options
+        ).find(
+            option =>
+                chaveCurso(
+                    option.value
+                ) ===
+                chaveCurso(
+                    curso
+                )
+        );
+
+    if (opcao) {
+
+        select.value =
+            opcao.value;
+
+        return;
+
+    }
+
+    /*
+     * Se for um curso novo/desconhecido,
+     * cria temporariamente a opção para
+     * que o dado não desapareça.
+     */
+
+    const novaOpcao =
+        document.createElement(
+            'option'
+        );
+
+    novaOpcao.value =
+        curso;
+
+    novaOpcao.textContent =
+        curso;
+
+    select.appendChild(
+        novaOpcao
+    );
+
+    select.value =
+        curso;
+
+}
+
+/* =========================================================
+   COLOCAR PROFESSOR NO SELECT
+   ========================================================= */
+
+function definirProfessorNoSelect(
+    valor
+) {
+
+    const select =
+        document.getElementById(
+            'professor'
+        );
+
+    const professor =
+        normalizarProfessor(
+            valor
+        );
+
+    if (!professor) {
+
+        select.value = '';
+
+        return;
+
+    }
+
+    const opcao =
+        Array.from(
+            select.options
+        ).find(
+            option =>
+                chaveGenerica(
+                    option.value
+                ) ===
+                chaveGenerica(
+                    professor
+                )
+        );
+
+    if (opcao) {
+
+        select.value =
+            opcao.value;
+
+        return;
+
+    }
+
+    /*
+     * Se surgir um professor que não está
+     * cadastrado na lista oficial, ele não
+     * desaparece: criamos uma opção.
+     */
+
+    const novaOpcao =
+        document.createElement(
+            'option'
+        );
+
+    novaOpcao.value =
+        professor;
+
+    novaOpcao.textContent =
+        professor;
+
+    select.appendChild(
+        novaOpcao
+    );
+
+    select.value =
+        professor;
 
 }
 
@@ -2369,94 +3453,150 @@ function renderizarRelatorio() {
     tbody.innerHTML = '';
 
     const filtrados =
-        alunosSalvos.filter(a => {
+        alunosSalvos.filter(
+            a => {
 
-            if (!filtro) return true;
+                if (!filtro) {
 
-            return (
-                chaveCurso(
-                    normalizarCurso(
-                        a.curso
-                    )
-                ) === filtro
-            );
+                    return true;
 
-        });
+                }
 
-    if (filtrados.length === 0) {
+                return (
+                    chaveCurso(
+                        normalizarCurso(
+                            a.curso
+                        )
+                    ) ===
+                    filtro
+                );
+
+            }
+        );
+
+    /*
+     * CONTADOR
+     */
+
+    const contador =
+        document.getElementById(
+            'contadorRelatorio'
+        );
+
+    contador.textContent =
+        `TOTAL DE REGISTROS: ${filtrados.length}`;
+
+    if (
+        filtrados.length === 0
+    ) {
 
         const tr =
-            document.createElement('tr');
+            document.createElement(
+                'tr'
+            );
 
-        tr.innerHTML =
-            '<td colspan="10" style="text-align:center;padding:15px;color:#64748b;">Nenhum aluno encontrado para este curso.</td>';
+        tr.innerHTML = `
 
-        tbody.appendChild(tr);
+            <td
+                colspan="10"
+                style="
+                    text-align:center;
+                    padding:15px;
+                    color:#64748b;
+                ">
+                Nenhum aluno encontrado para este curso.
+            </td>
+
+        `;
+
+        tbody.appendChild(
+            tr
+        );
 
         return;
 
     }
 
-    filtrados.forEach(aluno => {
+    filtrados.forEach(
+        aluno => {
 
-        const tr =
-            document.createElement('tr');
+            const tr =
+                document.createElement(
+                    'tr'
+                );
 
-        tr.innerHTML = `
+            tr.innerHTML = `
 
-            <td>
-                ${esc(aluno.codigo)}
-            </td>
+                <td>
+                    ${esc(
+                        aluno.codigo || ''
+                    )}
+                </td>
 
-            <td>
-                ${esc(
-                    formatarDataBR(
-                        aluno.data_inclusao
-                    )
-                )}
-            </td>
+                <td>
+                    ${esc(
+                        formatarDataBR(
+                            aluno.data_inclusao
+                        )
+                    )}
+                </td>
 
-            <td>
-                ${esc(aluno.nome_aluno)}
-            </td>
+                <td>
+                    ${esc(
+                        aluno.nome_aluno || ''
+                    )}
+                </td>
 
-            <td>
-                ${esc(aluno.endereco)}
-            </td>
+                <td>
+                    ${esc(
+                        aluno.endereco || ''
+                    )}
+                </td>
 
-            <td>
-                ${esc(aluno.numero)}
-            </td>
+                <td>
+                    ${esc(
+                        aluno.numero || ''
+                    )}
+                </td>
 
-            <td>
-                ${esc(aluno.bairro)}
-            </td>
+                <td>
+                    ${esc(
+                        aluno.bairro || ''
+                    )}
+                </td>
 
-            <td>
-                ${esc(aluno.cidade)}
-            </td>
+                <td>
+                    ${esc(
+                        aluno.cidade || ''
+                    )}
+                </td>
 
-            <td>
-                ${esc(aluno.telefone)}
-            </td>
+                <td>
+                    ${esc(
+                        aluno.telefone || ''
+                    )}
+                </td>
 
-            <td>
-                ${esc(
-                    normalizarCurso(
-                        aluno.curso
-                    )
-                )}
-            </td>
+                <td>
+                    ${esc(
+                        normalizarCurso(
+                            aluno.curso
+                        )
+                    )}
+                </td>
 
-            <td>
-                MATRICULADO
-            </td>
+                <td>
+                    MATRICULADO
+                </td>
 
-        `;
+            `;
 
-        tbody.appendChild(tr);
+            tbody.appendChild(
+                tr
+            );
 
-    });
+        }
+    );
 
 }
 
@@ -2464,28 +3604,38 @@ function renderizarRelatorio() {
    TURNOS
    ========================================================= */
 
-function obterTurnos(aluno) {
+function obterTurnos(
+    aluno
+) {
 
     const raw =
-        (aluno.turnos || '')
-            .toUpperCase();
+        (
+            aluno.turnos || ''
+        )
+        .toUpperCase();
 
     return {
 
         manha:
-            raw.includes('MANHÃ')
-                ? 'X'
-                : '',
+            raw.includes(
+                'MANHÃ'
+            )
+            ? 'X'
+            : '',
 
         tarde:
-            raw.includes('TARDE')
-                ? 'X'
-                : '',
+            raw.includes(
+                'TARDE'
+            )
+            ? 'X'
+            : '',
 
         noite:
-            raw.includes('NOITE')
-                ? 'X'
-                : ''
+            raw.includes(
+                'NOITE'
+            )
+            ? 'X'
+            : ''
 
     };
 
@@ -2502,7 +3652,9 @@ function gerarHTMLViaComprovante(
 ) {
 
     const turnos =
-        obterTurnos(aluno);
+        obterTurnos(
+            aluno
+        );
 
     return `
 
@@ -2536,10 +3688,14 @@ function gerarHTMLViaComprovante(
 
                 <div class="comp-ident">
 
-                    <span>CÓDIGO</span>
+                    <span>
+                        CÓDIGO
+                    </span>
 
                     <strong>
-                        ${esc(aluno.codigo || '')}
+                        ${esc(
+                            aluno.codigo || ''
+                        )}
                     </strong>
 
                 </div>
@@ -2549,30 +3705,47 @@ function gerarHTMLViaComprovante(
             <div class="comp-linha">
 
                 <div class="comp-campo w-codigo-print">
-                    <b>CÓDIGO:</b>
+
+                    <b>
+                        CÓDIGO:
+                    </b>
+
                     <span>
-                        ${esc(aluno.codigo || '')}
+                        ${esc(
+                            aluno.codigo || ''
+                        )}
                     </span>
+
                 </div>
 
                 <div class="comp-campo w-data-print">
-                    <b>DATA DA MATRÍCULA:</b>
+
+                    <b>
+                        DATA DA MATRÍCULA:
+                    </b>
+
                     <span>
                         ${esc(
                             formatarDataBR(
                                 aluno.data_inclusao
-                            ) || ''
+                            )
                         )}
                     </span>
+
                 </div>
 
                 <div class="comp-campo flex-1">
-                    <b>NOME DO ALUNO:</b>
+
+                    <b>
+                        NOME DO ALUNO:
+                    </b>
+
                     <span>
                         ${esc(
                             aluno.nome_aluno || ''
                         )}
                     </span>
+
                 </div>
 
             </div>
@@ -2580,30 +3753,45 @@ function gerarHTMLViaComprovante(
             <div class="comp-linha">
 
                 <div class="comp-campo flex-3">
-                    <b>ENDEREÇO:</b>
+
+                    <b>
+                        ENDEREÇO:
+                    </b>
+
                     <span>
                         ${esc(
                             aluno.endereco || ''
                         )}
                     </span>
+
                 </div>
 
                 <div class="comp-campo w-num-print">
-                    <b>Nº:</b>
+
+                    <b>
+                        Nº:
+                    </b>
+
                     <span>
                         ${esc(
                             aluno.numero || ''
                         )}
                     </span>
+
                 </div>
 
                 <div class="comp-campo flex-2">
-                    <b>BAIRRO:</b>
+
+                    <b>
+                        BAIRRO:
+                    </b>
+
                     <span>
                         ${esc(
                             aluno.bairro || ''
                         )}
                     </span>
+
                 </div>
 
             </div>
@@ -2611,39 +3799,59 @@ function gerarHTMLViaComprovante(
             <div class="comp-linha">
 
                 <div class="comp-campo flex-2">
-                    <b>CIDADE:</b>
+
+                    <b>
+                        CIDADE:
+                    </b>
+
                     <span>
                         ${esc(
                             aluno.cidade || ''
                         )}
                     </span>
+
                 </div>
 
                 <div class="comp-campo w-uf-print">
-                    <b>UF:</b>
+
+                    <b>
+                        UF:
+                    </b>
+
                     <span>
                         ${esc(
                             aluno.estado || ''
                         )}
                     </span>
+
                 </div>
 
                 <div class="comp-campo w-cep-print">
-                    <b>CEP:</b>
+
+                    <b>
+                        CEP:
+                    </b>
+
                     <span>
                         ${esc(
                             aluno.cep || ''
                         )}
                     </span>
+
                 </div>
 
                 <div class="comp-campo flex-2">
-                    <b>TELEFONE:</b>
+
+                    <b>
+                        TELEFONE:
+                    </b>
+
                     <span>
                         ${esc(
                             aluno.telefone || ''
                         )}
                     </span>
+
                 </div>
 
             </div>
@@ -2651,41 +3859,61 @@ function gerarHTMLViaComprovante(
             <div class="comp-linha">
 
                 <div class="comp-campo flex-1">
-                    <b>DATA DE NASCIMENTO:</b>
+
+                    <b>
+                        DATA DE NASCIMENTO:
+                    </b>
+
                     <span>
                         ${esc(
                             formatarDataBR(
                                 aluno.data_nascimento
-                            ) || ''
+                            )
                         )}
                     </span>
+
                 </div>
 
                 <div class="comp-campo w-sexo-print">
-                    <b>SEXO:</b>
+
+                    <b>
+                        SEXO:
+                    </b>
+
                     <span>
                         ${esc(
                             aluno.sexo || ''
                         )}
                     </span>
+
                 </div>
 
                 <div class="comp-campo flex-2">
-                    <b>ESTADO CIVIL:</b>
+
+                    <b>
+                        ESTADO CIVIL:
+                    </b>
+
                     <span>
                         ${esc(
                             aluno.estado_civil || ''
                         )}
                     </span>
+
                 </div>
 
                 <div class="comp-campo flex-2">
-                    <b>RG OU CPF:</b>
+
+                    <b>
+                        RG OU CPF:
+                    </b>
+
                     <span>
                         ${esc(
                             aluno.documento || ''
                         )}
                     </span>
+
                 </div>
 
             </div>
@@ -2693,14 +3921,19 @@ function gerarHTMLViaComprovante(
             <div class="comp-linha">
 
                 <div class="comp-campo flex-1">
-                    <b>CURSO OU ATIVIDADE:</b>
+
+                    <b>
+                        CURSO OU ATIVIDADE:
+                    </b>
+
                     <span>
                         ${esc(
                             normalizarCurso(
                                 aluno.curso
-                            ) || ''
+                            )
                         )}
                     </span>
+
                 </div>
 
                 <div class="comp-turnos">
@@ -2711,17 +3944,23 @@ function gerarHTMLViaComprovante(
 
                     <label>
                         MANHÃ
-                        <i>${turnos.manha}</i>
+                        <i>
+                            ${turnos.manha}
+                        </i>
                     </label>
 
                     <label>
                         TARDE
-                        <i>${turnos.tarde}</i>
+                        <i>
+                            ${turnos.tarde}
+                        </i>
                     </label>
 
                     <label>
                         NOITE
-                        <i>${turnos.noite}</i>
+                        <i>
+                            ${turnos.noite}
+                        </i>
                     </label>
 
                 </div>
@@ -2731,34 +3970,49 @@ function gerarHTMLViaComprovante(
             <div class="comp-linha">
 
                 <div class="comp-campo flex-2">
-                    <b>PROFESSOR:</b>
+
+                    <b>
+                        PROFESSOR:
+                    </b>
+
                     <span>
                         ${esc(
                             normalizarProfessor(
                                 aluno.professor
-                            ) || ''
+                            )
                         )}
                     </span>
+
                 </div>
 
                 <div class="comp-campo flex-2">
-                    <b>INÍCIO DAS AULAS:</b>
+
+                    <b>
+                        INÍCIO DAS AULAS:
+                    </b>
+
                     <span>
                         ${esc(
                             formatarDataBR(
                                 aluno.inicio_aulas
-                            ) || ''
+                            )
                         )}
                     </span>
+
                 </div>
 
                 <div class="comp-campo flex-2">
-                    <b>HORÁRIO:</b>
+
+                    <b>
+                        HORÁRIO:
+                    </b>
+
                     <span>
                         ${esc(
                             aluno.horario_aulas || ''
                         )}
                     </span>
+
                 </div>
 
             </div>
@@ -2789,7 +4043,9 @@ function gerarHTMLViaComprovante(
                     <div class="linha-assinatura"></div>
 
                     <strong>
-                        ${esc(assinaturaTexto)}
+                        ${esc(
+                            assinaturaTexto
+                        )}
                     </strong>
 
                 </div>
@@ -2815,7 +4071,9 @@ function imprimirComprovante() {
 
     let aluno =
         alunosSalvos.find(
-            a => a.codigo === codigo
+            a =>
+                a.codigo ===
+                codigo
         );
 
     const turnosSelecionados =
@@ -2824,7 +4082,10 @@ function imprimirComprovante() {
                 'input[name="turno"]:checked'
             )
         )
-        .map(el => el.value)
+        .map(
+            el =>
+                el.value
+        )
         .join(', ');
 
     if (!aluno) {
@@ -2849,7 +4110,8 @@ function imprimirComprovante() {
         aluno = {
 
             codigo:
-                codigo || 'PROVISÓRIO',
+                codigo ||
+                'PROVISÓRIO',
 
             data_inclusao:
                 document.getElementById(
@@ -2961,13 +4223,33 @@ function imprimirComprovante() {
 
         };
 
-    } else if (
-        !aluno.turnos &&
-        turnosSelecionados
-    ) {
+    } else {
 
-        aluno.turnos =
-            turnosSelecionados;
+        /*
+         * Se o aluno já existe, usa os dados do banco.
+         * Caso o turno esteja vazio, aproveita o turno
+         * marcado no formulário.
+         */
+
+        if (
+            !aluno.turnos &&
+            turnosSelecionados
+        ) {
+
+            aluno.turnos =
+                turnosSelecionados;
+
+        }
+
+        aluno.curso =
+            normalizarCurso(
+                aluno.curso
+            );
+
+        aluno.professor =
+            normalizarProfessor(
+                aluno.professor
+            );
 
     }
 
@@ -2987,7 +4269,9 @@ function imprimirComprovante() {
             )}
 
             <div class="corte-linha">
-                <span>CORTE AQUI</span>
+                <span>
+                    CORTE AQUI
+                </span>
             </div>
 
             ${gerarHTMLViaComprovante(
@@ -3042,15 +4326,27 @@ function imprimirRelatorio() {
    LIMPAR VALOR CSV
    ========================================================= */
 
-function limparValorCSV(valor) {
+function limparValorCSV(
+    valor
+) {
 
     return repararTextoCodificacao(
-        (valor ?? '').toString()
+        (valor ?? '')
+            .toString()
     )
-    .replace(/^\uFEFF/, '')
+    .replace(
+        /^\uFEFF/,
+        ''
+    )
     .trim()
-    .replace(/^"(.*)"$/, '$1')
-    .replace(/""/g, '"')
+    .replace(
+        /^"(.*)"$/,
+        '$1'
+    )
+    .replace(
+        /""/g,
+        '"'
+    )
     .trim();
 
 }
@@ -3059,12 +4355,16 @@ function limparValorCSV(valor) {
    SEPARAR CSV POR ;
    ========================================================= */
 
-function separarCSVSemicolon(linha) {
+function separarCSVSemicolon(
+    linha
+) {
 
     const resultado = [];
 
     let atual = '';
-    let dentroAspas = false;
+
+    let dentroAspas =
+        false;
 
     for (
         let i = 0;
@@ -3072,9 +4372,12 @@ function separarCSVSemicolon(linha) {
         i++
     ) {
 
-        const ch = linha[i];
+        const ch =
+            linha[i];
 
-        if (ch === '"') {
+        if (
+            ch === '"'
+        ) {
 
             if (
                 dentroAspas &&
@@ -3082,6 +4385,7 @@ function separarCSVSemicolon(linha) {
             ) {
 
                 atual += '"';
+
                 i++;
 
             } else {
@@ -3097,7 +4401,9 @@ function separarCSVSemicolon(linha) {
         ) {
 
             resultado.push(
-                limparValorCSV(atual)
+                limparValorCSV(
+                    atual
+                )
             );
 
             atual = '';
@@ -3111,7 +4417,9 @@ function separarCSVSemicolon(linha) {
     }
 
     resultado.push(
-        limparValorCSV(atual)
+        limparValorCSV(
+            atual
+        )
     );
 
     return resultado;
@@ -3119,18 +4427,24 @@ function separarCSVSemicolon(linha) {
 }
 
 /* =========================================================
-   CONVERTER DATA ACCESS PARA ISO
+   CONVERTER DATA ACCESS
    ========================================================= */
 
-function converterDataAccessParaISO(valor) {
+function converterDataAccessParaISO(
+    valor
+) {
 
     const texto =
-        limparValorCSV(valor);
+        limparValorCSV(
+            valor
+        );
 
     if (!texto) return '';
 
     const somenteData =
-        texto.split(/\s+/)[0];
+        texto.split(
+            /\s+/
+        )[0];
 
     let m =
         somenteData.match(
@@ -3140,15 +4454,23 @@ function converterDataAccessParaISO(valor) {
     if (m) {
 
         let dia =
-            m[1].padStart(2, '0');
+            m[1].padStart(
+                2,
+                '0'
+            );
 
         let mes =
-            m[2].padStart(2, '0');
+            m[2].padStart(
+                2,
+                '0'
+            );
 
         let ano =
             m[3];
 
-        if (ano.length === 2) {
+        if (
+            ano.length === 2
+        ) {
 
             ano =
                 Number(ano) > 50
@@ -3180,16 +4502,22 @@ function converterDataAccessParaISO(valor) {
    TRABALHO
    ========================================================= */
 
-function extrairTrabalho(valor) {
+function extrairTrabalho(
+    valor
+) {
 
     const texto =
-        limparValorCSV(valor);
+        limparValorCSV(
+            valor
+        );
 
     if (!texto) {
 
         return {
+
             opcao: '',
             local: ''
+
         };
 
     }
@@ -3217,7 +4545,9 @@ function extrairTrabalho(valor) {
     }
 
     if (
-        upper.startsWith('SIM')
+        upper.startsWith(
+            'SIM'
+        )
     ) {
 
         const resto =
@@ -3240,8 +4570,12 @@ function extrairTrabalho(valor) {
     }
 
     if (
-        upper.startsWith('NÃO') ||
-        upper.startsWith('NAO')
+        upper.startsWith(
+            'NÃO'
+        ) ||
+        upper.startsWith(
+            'NAO'
+        )
     ) {
 
         return {
@@ -3276,21 +4610,23 @@ function extrairTrabalho(valor) {
    SALVAR ALUNO IMPORTADO
    ========================================================= */
 
-function salvarAlunoImportado(colunas) {
+function salvarAlunoImportado(
+    colunas
+) {
 
     /*
      * Ordem REAL da tabela Access:
      *
-     * 0 Código
-     * 1 Data de Inclusão
-     * 2 Nome
-     * 3 Data de Nascimento
-     * 4 Sexo
-     * 5 Estado Civil
-     * 6 Pai
-     * 7 Mãe
-     * 8 Endereço
-     * 9 Nº
+     * 0  Código
+     * 1  Data de Inclusão
+     * 2  Nome
+     * 3  Data de Nascimento
+     * 4  Sexo
+     * 5  Estado Civil
+     * 6  Pai
+     * 7  Mãe
+     * 8  Endereço
+     * 9  Nº
      * 10 Bairro
      * 11 Cidade
      * 12 Estado
@@ -3347,7 +4683,9 @@ function salvarAlunoImportado(colunas) {
         .toUpperCase() === 'X'
     ) {
 
-        turnos.push('MANHÃ');
+        turnos.push(
+            'MANHÃ'
+        );
 
     }
 
@@ -3358,7 +4696,9 @@ function salvarAlunoImportado(colunas) {
         .toUpperCase() === 'X'
     ) {
 
-        turnos.push('TARDE');
+        turnos.push(
+            'TARDE'
+        );
 
     }
 
@@ -3369,7 +4709,9 @@ function salvarAlunoImportado(colunas) {
         .toUpperCase() === 'X'
     ) {
 
-        turnos.push('NOITE');
+        turnos.push(
+            'NOITE'
+        );
 
     }
 
@@ -3476,7 +4818,8 @@ function salvarAlunoImportado(colunas) {
             ).toUpperCase(),
 
         trabalha_opcao:
-            trabalho.opcao || 'NÃO',
+            trabalho.opcao ||
+            'NÃO',
 
         trabalho_local:
             trabalho.local,
@@ -3487,13 +4830,9 @@ function salvarAlunoImportado(colunas) {
             ),
 
         turnos:
-            turnos.join(', '),
-
-        /*
-         * CORREÇÃO PRINCIPAL:
-         * O professor passa pela função de
-         * normalização antes de ser armazenado.
-         */
+            turnos.join(
+                ', '
+            ),
 
         professor:
             normalizarProfessor(
@@ -3520,21 +4859,23 @@ function salvarAlunoImportado(colunas) {
     };
 
     const idx =
-        alunosSalvos.findIndex(a =>
+        alunosSalvos.findIndex(
+            a =>
 
-            (
-                codigo &&
-                a.codigo === codigo
-            )
+                (
+                    codigo &&
+                    a.codigo ===
+                    codigo
+                )
 
-            ||
+                ||
 
-            (
-                a.nome_aluno &&
-                a.nome_aluno
-                    .toUpperCase() === nome
-            )
-
+                (
+                    a.nome_aluno &&
+                    a.nome_aluno
+                        .toUpperCase() ===
+                    nome
+                )
         );
 
     if (idx >= 0) {
@@ -3549,7 +4890,9 @@ function salvarAlunoImportado(colunas) {
 
     } else {
 
-        alunosSalvos.push(aluno);
+        alunosSalvos.push(
+            aluno
+        );
 
     }
 
@@ -3580,7 +4923,9 @@ function gerarCodigoNumerico() {
 
         (
             numeros.length
-                ? Math.max(...numeros)
+                ? Math.max(
+                    ...numeros
+                )
                 : 1000
         ) + 1
 
@@ -3589,10 +4934,12 @@ function gerarCodigoNumerico() {
 }
 
 /* =========================================================
-   PROCESSAR ARQUIVO CSV/TXT
+   PROCESSAR TXT / CSV
    ========================================================= */
 
-function processarArquivoCSV(input) {
+function processarArquivoCSV(
+    input
+) {
 
     const file =
         input.files[0];
@@ -3613,10 +4960,8 @@ function processarArquivoCSV(input) {
             let conteudo = '';
 
             /*
-             * Access pode exportar:
-             * UTF-8
-             * UTF-16
-             * Windows-1252
+             * Detecta UTF-8,
+             * UTF-16 e Windows-1252.
              */
 
             try {
@@ -3629,7 +4974,9 @@ function processarArquivoCSV(input) {
                     conteudo =
                         new TextDecoder(
                             'utf-16le'
-                        ).decode(bytes);
+                        ).decode(
+                            bytes
+                        );
 
                 } else if (
                     bytes[0] === 0xFE &&
@@ -3639,15 +4986,21 @@ function processarArquivoCSV(input) {
                     conteudo =
                         new TextDecoder(
                             'utf-16be'
-                        ).decode(bytes);
+                        ).decode(
+                            bytes
+                        );
 
                 } else {
 
                     conteudo =
                         new TextDecoder(
                             'utf-8',
-                            { fatal: true }
-                        ).decode(bytes);
+                            {
+                                fatal: true
+                            }
+                        ).decode(
+                            bytes
+                        );
 
                 }
 
@@ -3656,9 +5009,16 @@ function processarArquivoCSV(input) {
                 conteudo =
                     new TextDecoder(
                         'windows-1252'
-                    ).decode(bytes);
+                    ).decode(
+                        bytes
+                    );
 
             }
+
+            conteudo =
+                repararTextoCodificacao(
+                    conteudo
+                );
 
             conteudo =
                 conteudo.replace(
@@ -3668,7 +5028,9 @@ function processarArquivoCSV(input) {
 
             const linhas =
                 conteudo
-                    .split(/\r?\n/)
+                    .split(
+                        /\r?\n/
+                    )
                     .filter(
                         l =>
                             l.trim() !== ''
@@ -3678,7 +5040,10 @@ function processarArquivoCSV(input) {
             let ignorados = 0;
 
             linhas.forEach(
-                (linha, index) => {
+                (
+                    linha,
+                    index
+                ) => {
 
                     const colunas =
                         separarCSVSemicolon(
@@ -3688,8 +5053,10 @@ function processarArquivoCSV(input) {
                     const pareceCabecalho =
                         colunas.some(
                             c =>
-                                /CÓDIGO|CODIGO|NOME DO ALUNO|DATA DE INCLUSÃO/i
-                                    .test(c)
+                                /CÓDIGO|CODIGO|NOME DO ALUNO|DATA DE INCLUSÃO|DATA DE INCLUSAO/i
+                                    .test(
+                                        c
+                                    )
                         );
 
                     if (
@@ -3728,6 +5095,34 @@ function processarArquivoCSV(input) {
                 }
             );
 
+            /*
+             * Salva o banco já normalizado.
+             */
+
+            alunosSalvos =
+                alunosSalvos.map(
+                    aluno => {
+
+                        const novo =
+                            {
+                                ...aluno
+                            };
+
+                        novo.curso =
+                            normalizarCurso(
+                                novo.curso
+                            );
+
+                        novo.professor =
+                            normalizarProfessor(
+                                novo.professor
+                            );
+
+                        return novo;
+
+                    }
+                );
+
             localStorage.setItem(
                 'alunos_db',
                 JSON.stringify(
@@ -3741,8 +5136,11 @@ function processarArquivoCSV(input) {
             alert(
 
                 `Importação concluída!
+
 Linhas encontradas: ${linhas.length}
+
 Registros processados: ${importados}
+
 Linhas ignoradas: ${ignorados}`
 
             );
@@ -3762,7 +5160,9 @@ Linhas ignoradas: ${ignorados}`
 
         };
 
-    reader.readAsArrayBuffer(file);
+    reader.readAsArrayBuffer(
+        file
+    );
 
 }
 
@@ -3770,4 +5170,3 @@ Linhas ignoradas: ${ignorados}`
 
 </body>
 </html>
-```
