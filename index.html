@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -375,8 +376,7 @@ tr:nth-child(even) {
     background: white;
 }
 
-
-/* ================= COMPROVANTE ESTILO ACCESS ================= */
+/* ================= COMPROVANTE ================= */
 
 #comprovantePrint {
     display: none;
@@ -559,6 +559,7 @@ tr:nth-child(even) {
     line-height: 1;
     color: #000;
 }
+
 /* ================= RESPONSIVO ================= */
 
 @media(max-width:700px) {
@@ -687,44 +688,55 @@ tr:nth-child(even) {
 <div class="container" id="mainContainer">
     <div class="header">
         <h1>CADJOVEM - Matrícula de Alunos</h1>
+
         <div class="header-actions">
+
             <div class="search-box">
                 <input type="text" id="inputBusca" list="listaAlunos" placeholder="BUSCAR ALUNO...">
                 <datalist id="listaAlunos"></datalist>
                 <button type="button" class="btn btn-search" onclick="executarBuscaAluno()">Buscar</button>
             </div>
+
             <input type="file" id="inputCsv" accept=".txt,.csv" style="display:none" onchange="processarArquivoCSV(this)">
+
             <button type="button" class="btn btn-import" onclick="document.getElementById('inputCsv').click()">Importar</button>
             <button type="button" class="btn btn-danger" onclick="limparBancoDados()">Limpar Dados</button>
             <button type="button" class="btn btn-pass" onclick="abrirModalSenha()">Mudar Senha</button>
             <button type="button" class="btn btn-logout" onclick="realizarLogout()">Sair</button>
+
         </div>
     </div>
 
     <form id="formMatricula" onsubmit="salvarRegistro(event)">
+
         <div class="block">
             <div class="block-title">Bloco 01 - Identificação</div>
+
             <div class="row">
                 <div class="field w-codigo primary-key">
                     <label>Código:</label>
                     <input type="text" id="codigo" placeholder="AUTO" readonly>
                 </div>
+
                 <div class="field w-inclusao">
                     <label>Data de Inclusão</label>
                     <input type="date" id="data_inclusao">
                 </div>
             </div>
+
             <div class="row">
                 <div class="field">
                     <label>Nome do Aluno</label>
                     <input type="text" id="nome_aluno" required>
                 </div>
             </div>
+
             <div class="row">
                 <div class="field w-medium">
                     <label>Data de Nascimento</label>
                     <input type="date" id="data_nascimento">
                 </div>
+
                 <div class="field w-small">
                     <label>Sexo:</label>
                     <select id="sexo">
@@ -732,6 +744,7 @@ tr:nth-child(even) {
                         <option value="F">F</option>
                     </select>
                 </div>
+
                 <div class="field">
                     <label>Estado Civil</label>
                     <select id="estado_civil">
@@ -747,12 +760,14 @@ tr:nth-child(even) {
                     </select>
                 </div>
             </div>
+
             <div class="row">
                 <div class="field">
                     <label>Nome do Pai</label>
                     <input type="text" id="nome_pai">
                 </div>
             </div>
+
             <div class="row">
                 <div class="field">
                     <label>Nome da Mãe</label>
@@ -763,39 +778,47 @@ tr:nth-child(even) {
 
         <div class="block">
             <div class="block-title">Bloco 02 - Endereço e Documento</div>
+
             <div class="row">
                 <div class="field">
                     <label>Endereço</label>
                     <input type="text" id="endereco">
                 </div>
+
                 <div class="field w-small">
                     <label>Nº</label>
                     <input type="text" id="numero">
                 </div>
             </div>
+
             <div class="row">
                 <div class="field">
                     <label>Bairro</label>
                     <input type="text" id="bairro">
                 </div>
+
                 <div class="field">
                     <label>Cidade</label>
                     <input type="text" id="cidade" value="ITAPETIM">
                 </div>
             </div>
+
             <div class="row">
                 <div class="field w-uf">
                     <label>Estado</label>
                     <input type="text" id="estado" maxlength="2" value="PE">
                 </div>
+
                 <div class="field w-cep">
                     <label>CEP</label>
                     <input type="text" id="cep" maxlength="9">
                 </div>
+
                 <div class="field w-tel">
                     <label>Telefone</label>
                     <input type="text" id="telefone">
                 </div>
+
                 <div class="field">
                     <label>RG ou CPF</label>
                     <input type="text" id="documento">
@@ -805,12 +828,14 @@ tr:nth-child(even) {
 
         <div class="block">
             <div class="block-title">Bloco 03 - Qualificação</div>
+
             <div class="row">
                 <div class="field">
                     <label>Participa de Grupos Jovem? Qual?</label>
                     <input type="text" id="grupos_jovem">
                 </div>
             </div>
+
             <div class="row">
                 <div class="field w-medium">
                     <label>Estuda Atualmente?</label>
@@ -819,23 +844,27 @@ tr:nth-child(even) {
                         <option value="NÃO">NÃO</option>
                     </select>
                 </div>
+
                 <div class="field">
                     <label>Escola:</label>
                     <input type="text" id="escola">
                 </div>
             </div>
+
             <div class="row">
                 <div class="field">
                     <label>Série:</label>
                     <input type="text" id="serie">
                 </div>
             </div>
+
             <div class="row">
                 <div class="field">
                     <label>Grau de Escolaridade:</label>
                     <input type="text" id="escolaridade">
                 </div>
             </div>
+
             <div class="row">
                 <div class="field w-medium">
                     <label>Trabalha Atualmente?</label>
@@ -844,6 +873,7 @@ tr:nth-child(even) {
                         <option value="NÃO">NÃO</option>
                     </select>
                 </div>
+
                 <div class="field">
                     <label>Onde Trabalha?</label>
                     <input type="text" id="trabalho_local">
@@ -853,9 +883,11 @@ tr:nth-child(even) {
 
         <div class="block">
             <div class="block-title">Bloco 04 - Objetivo</div>
+
             <div class="row">
                 <div class="field">
                     <label>Curso ou Atividade:</label>
+
                     <select id="curso">
                         <option value="">-- SELECIONE --</option>
                         <option>INFORMÁTICA BÁSICA</option>
@@ -868,15 +900,32 @@ tr:nth-child(even) {
                         <option>TÉCNICO EM INFORMÁTICA</option>
                         <option>WEB DESINGNAR</option>
                     </select>
+
                 </div>
             </div>
+
             <div class="row">
                 <div class="field">
+
                     <label>Preferência por Turno:</label>
+
                     <div class="turnos">
-                        <label><input type="checkbox" name="turno" value="MANHÃ"> MANHÃ</label>
-                        <label><input type="checkbox" name="turno" value="TARDE"> TARDE</label>
-                        <label><input type="checkbox" name="turno" value="NOITE"> NOITE</label>
+
+                        <label>
+                            <input type="checkbox" name="turno" value="MANHÃ">
+                            MANHÃ
+                        </label>
+
+                        <label>
+                            <input type="checkbox" name="turno" value="TARDE">
+                            TARDE
+                        </label>
+
+                        <label>
+                            <input type="checkbox" name="turno" value="NOITE">
+                            NOITE
+                        </label>
+
                     </div>
                 </div>
             </div>
@@ -884,46 +933,95 @@ tr:nth-child(even) {
 
         <div class="block">
             <div class="block-title">Bloco 05 - Referências do Programa</div>
+
             <div class="row">
                 <div class="field">
+
                     <label>Nome do Professor:</label>
+
                     <select id="professor">
                         <option value="">-- SELECIONE --</option>
                         <option value="JONES NUNES">JONES NUNES</option>
                         <option value="LEANDRO JONH DA SILVA">LEANDRO JONH DA SILVA</option>
                         <option value="LUCINALDO CLEMENTE DA SILVA">LUCINALDO CLEMENTE DA SILVA</option>
                     </select>
+
                 </div>
             </div>
+
             <div class="row">
                 <div class="field">
+
                     <label>Coordenador:</label>
-                    <input type="text" id="coordenador" value="BENONE HENRIQUE DE SOUSA" readonly>
+
+                    <input
+                        type="text"
+                        id="coordenador"
+                        value="BENONE HENRIQUE DE SOUSA"
+                        readonly
+                    >
+
                 </div>
             </div>
+
             <div class="row">
+
                 <div class="field w-medium">
                     <label>Início das Aulas:</label>
                     <input type="date" id="inicio_aulas">
                 </div>
+
                 <div class="field w-medium">
                     <label>Horário das Aulas:</label>
-                    <input type="text" id="horario_aulas" placeholder="Ex: 08:00 AS 10:00">
+                    <input
+                        type="text"
+                        id="horario_aulas"
+                        placeholder="Ex: 08:00 AS 10:00"
+                    >
                 </div>
+
             </div>
         </div>
 
         <div class="form-buttons">
-            <button type="button" class="btn btn-report" onclick="abrirModalRelatorio()">Relatório por Curso</button>
-            <button type="button" class="btn btn-comprovante" onclick="imprimirComprovante()">Imprimir Comprovante - 2 Vias</button>
-            <button type="button" class="btn btn-clear" onclick="limparFormulario()">Limpar</button>
-            <button type="submit" class="btn btn-submit">Salvar Registro</button>
+
+            <button
+                type="button"
+                class="btn btn-report"
+                onclick="abrirModalRelatorio()">
+                Relatório por Curso
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-comprovante"
+                onclick="imprimirComprovante()">
+                Imprimir Comprovante - 2 Vias
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-clear"
+                onclick="limparFormulario()">
+                Limpar
+            </button>
+
+            <button
+                type="submit"
+                class="btn btn-submit">
+                Salvar Registro
+            </button>
+
         </div>
+
     </form>
 
     <div class="records-section">
+
         <h2>Registros Salvos</h2>
+
         <table>
+
             <thead>
                 <tr>
                     <th>Código</th>
@@ -933,23 +1031,54 @@ tr:nth-child(even) {
                     <th>Curso</th>
                 </tr>
             </thead>
+
             <tbody id="tabelaRegistros"></tbody>
+
         </table>
+
     </div>
+
 </div>
 
+<!-- ================= RELATÓRIO ================= -->
+
 <div id="reportModal" class="modal">
+
     <div class="report-content">
+
         <div class="report-header">
+
             <h2>Relatório de Alunos por Curso</h2>
+
             <div class="no-print report-top-actions">
+
                 <label>Filtrar Curso:</label>
-                <select id="filtroCursoRelatorio" onchange="renderizarRelatorio()"></select>
-                <button type="button" class="btn btn-print" onclick="imprimirRelatorio()">Imprimir</button>
-                <button type="button" class="btn btn-clear" onclick="fecharModalRelatorio()">Sair</button>
+
+                <select
+                    id="filtroCursoRelatorio"
+                    onchange="renderizarRelatorio()">
+                </select>
+
+                <button
+                    type="button"
+                    class="btn btn-print"
+                    onclick="imprimirRelatorio()">
+                    Imprimir
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-clear"
+                    onclick="fecharModalRelatorio()">
+                    Sair
+                </button>
+
             </div>
+
         </div>
+
         <table>
+
             <thead>
                 <tr>
                     <th>Código</th>
@@ -964,37 +1093,79 @@ tr:nth-child(even) {
                     <th>Status</th>
                 </tr>
             </thead>
+
             <tbody id="tabelaRelatorioCorpo"></tbody>
+
         </table>
+
     </div>
+
 </div>
 
+<!-- ================= SENHA ================= -->
+
 <div id="passwordModal" class="modal">
+
     <div class="report-content" style="max-width:400px">
+
         <div class="report-header">
             <h2>Alterar Senha de Acesso</h2>
         </div>
+
         <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+
             <div>
                 <label>Senha de Administrador:</label>
-                <input type="password" id="admSenhaCheck" style="width:100%;padding:8px">
+
+                <input
+                    type="password"
+                    id="admSenhaCheck"
+                    style="width:100%;padding:8px">
             </div>
+
             <div>
                 <label>Nova Senha do Sistema:</label>
-                <input type="password" id="novaSenhaInput" style="width:100%;padding:8px">
+
+                <input
+                    type="password"
+                    id="novaSenhaInput"
+                    style="width:100%;padding:8px">
             </div>
+
         </div>
+
         <div class="form-buttons">
-            <button type="button" class="btn btn-submit" onclick="salvarNovaSenha()">Salvar Nova Senha</button>
-            <button type="button" class="btn btn-clear" onclick="fecharModalSenha()">Cancelar</button>
+
+            <button
+                type="button"
+                class="btn btn-submit"
+                onclick="salvarNovaSenha()">
+                Salvar Nova Senha
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-clear"
+                onclick="fecharModalSenha()">
+                Cancelar
+            </button>
+
         </div>
+
     </div>
+
 </div>
 
 <div id="comprovantePrint"></div>
 
 <script>
+
+/* =========================================================
+   CURSOS
+   ========================================================= */
+
 const LISTA_CURSOS_OFICIAIS = [
+
     "INFORMÁTICA BÁSICA",
     "MANUTENÇÃO DE COMPUTADORE",
     "OFFICE AVANÇADO",
@@ -1004,755 +1175,2599 @@ const LISTA_CURSOS_OFICIAIS = [
     "NFORMÁTICA INTERMEDIARIA",
     "TÉCNICO EM INFORMÁTICA",
     "WEB DESINGNAR"
+
 ];
 
-// Variações encontradas em bases antigas/Access que devem ser tratadas
-// como equivalentes aos nomes oficiais acima.
+/* =========================================================
+   PROFESSORES OFICIAIS
+   ========================================================= */
+
+const LISTA_PROFESSORES_OFICIAIS = [
+
+    "JONES NUNES",
+    "LEANDRO JONH DA SILVA",
+    "LUCINALDO CLEMENTE DA SILVA"
+
+];
+
+/* =========================================================
+   ALIASES DE CURSOS
+   ========================================================= */
+
 const ALIASES_CURSOS = {
-    "MANUTENÇÃO DE COMPUTADORES": "MANUTENÇÃO DE COMPUTADORE",
-    "INFORMÁTICA INTERMEDIARIA": "NFORMÁTICA INTERMEDIARIA",
-    "WEB DESIGNER": "WEB DESINGNAR",
-    "WEB DESINGNER": "WEB DESINGNAR"
+
+    "MANUTENÇÃO DE COMPUTADORES":
+        "MANUTENÇÃO DE COMPUTADORE",
+
+    "INFORMÁTICA INTERMEDIARIA":
+        "NFORMÁTICA INTERMEDIARIA",
+
+    "WEB DESIGNER":
+        "WEB DESINGNAR",
+
+    "WEB DESINGNER":
+        "WEB DESINGNAR"
+
 };
 
-let alunosSalvos = JSON.parse(localStorage.getItem('alunos_db')) || [];
+/* =========================================================
+   ALIASES DE PROFESSORES
+   ========================================================= */
+
+const ALIASES_PROFESSORES = {
+
+    /* Leandro */
+    "LEANDRO JONH":
+        "LEANDRO JONH DA SILVA",
+
+    "LEANDO JONH":
+        "LEANDRO JONH DA SILVA",
+
+    "LEANDRO JONH DA SILVA":
+        "LEANDRO JONH DA SILVA",
+
+    /* Jones */
+    "JONES NUNES":
+        "JONES NUNES",
+
+    "JONES NUNES DA SILVA":
+        "JONES NUNES",
+
+    /* Lucinaldo */
+    "LUCINALDO CLEMENTE":
+        "LUCINALDO CLEMENTE DA SILVA",
+
+    "LUCINALDO CLEMENTE DA SILVA":
+        "LUCINALDO CLEMENTE DA SILVA"
+
+};
+
+/* =========================================================
+   BANCO LOCAL ATUAL
+   ========================================================= */
+
+let alunosSalvos =
+    JSON.parse(localStorage.getItem('alunos_db')) || [];
+
+/* =========================================================
+   CORREÇÃO AUTOMÁTICA DOS DADOS EXISTENTES
+   ========================================================= */
+
 alunosSalvos = alunosSalvos.map(a => {
+
     const b = { ...a };
-    Object.keys(b).forEach(k => { if (typeof b[k] === 'string') b[k] = repararTextoCodificacao(b[k]); });
-    if (b.curso) b.curso = normalizarCurso(b.curso);
+
+    Object.keys(b).forEach(k => {
+
+        if (typeof b[k] === 'string') {
+
+            b[k] = repararTextoCodificacao(b[k]);
+
+        }
+
+    });
+
+    if (b.curso) {
+
+        b.curso = normalizarCurso(b.curso);
+
+    }
+
+    if (b.professor) {
+
+        b.professor = normalizarProfessor(b.professor);
+
+    }
+
     return b;
+
 });
-let senhaSistema = localStorage.getItem('sistema_senha') || 'juventudes';
-const COORDENADOR_PADRAO = 'BENONE HENRIQUE DE SOUSA';
+
+/* =========================================================
+   SENHA
+   ========================================================= */
+
+let senhaSistema =
+    localStorage.getItem('sistema_senha') || 'juventudes';
+
+const COORDENADOR_PADRAO =
+    'BENONE HENRIQUE DE SOUSA';
+
+/* =========================================================
+   ESCAPE HTML
+   ========================================================= */
 
 function esc(valor) {
+
     return String(valor ?? '')
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
+
 }
+
+/* =========================================================
+   DATA
+   ========================================================= */
 
 function formatarDataBR(dataIso) {
+
     if (!dataIso) return '';
+
     const partes = dataIso.split('-');
+
     if (partes.length === 3) {
+
         return `${partes[2]}/${partes[1]}/${partes[0]}`;
+
     }
+
     return dataIso;
+
 }
 
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
 function realizarLogin() {
-    const senhaDigitada = document.getElementById('loginSenha').value;
+
+    const senhaDigitada =
+        document.getElementById('loginSenha').value;
 
     if (!localStorage.getItem('sistema_senha')) {
-        localStorage.setItem('sistema_senha', 'juventudes');
+
+        localStorage.setItem(
+            'sistema_senha',
+            'juventudes'
+        );
+
     }
-    senhaSistema = localStorage.getItem('sistema_senha');
 
-    const usuario = (document.getElementById('loginUsuario').value || '').trim().toLowerCase();
+    senhaSistema =
+        localStorage.getItem('sistema_senha');
 
-    if (usuario === 'cadjovem' && senhaDigitada === senhaSistema) {
-        document.getElementById('loginOverlay').style.display = 'none';
-        document.getElementById('mainContainer').style.display = 'block';
+    const usuario =
+        (
+            document.getElementById('loginUsuario').value || ''
+        )
+        .trim()
+        .toLowerCase();
+
+    if (
+        usuario === 'cadjovem' &&
+        senhaDigitada === senhaSistema
+    ) {
+
+        document.getElementById(
+            'loginOverlay'
+        ).style.display = 'none';
+
+        document.getElementById(
+            'mainContainer'
+        ).style.display = 'block';
+
         atualizarTabelaRegistros();
         atualizarDatalistBusca();
         preencherDataAtual();
+
     } else {
+
         alert('Senha incorreta! A senha padrão é: juventudes');
+
     }
+
 }
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
 
 function realizarLogout() {
-    document.getElementById('mainContainer').style.display = 'none';
-    document.getElementById('loginOverlay').style.display = 'flex';
-    document.getElementById('loginSenha').value = '';
+
+    document.getElementById(
+        'mainContainer'
+    ).style.display = 'none';
+
+    document.getElementById(
+        'loginOverlay'
+    ).style.display = 'flex';
+
+    document.getElementById(
+        'loginSenha'
+    ).value = '';
+
 }
+
+/* =========================================================
+   DATA ATUAL
+   ========================================================= */
 
 function preencherDataAtual() {
-    const dataInclusao = document.getElementById('data_inclusao');
+
+    const dataInclusao =
+        document.getElementById('data_inclusao');
+
     if (!dataInclusao.value) {
-        const hoje = new Date().toISOString().split('T')[0];
+
+        const hoje =
+            new Date().toISOString().split('T')[0];
+
         dataInclusao.value = hoje;
+
     }
+
 }
+
+/* =========================================================
+   LIMPAR FORMULÁRIO
+   ========================================================= */
 
 function limparFormulario() {
-    document.getElementById('formMatricula').reset();
-    document.getElementById('codigo').value = '';
+
+    document.getElementById(
+        'formMatricula'
+    ).reset();
+
+    document.getElementById(
+        'codigo'
+    ).value = '';
+
     preencherDataAtual();
-    document.getElementById('cidade').value = 'ITAPETIM';
-    document.getElementById('estado').value = 'PE';
-    document.getElementById('coordenador').value = COORDENADOR_PADRAO;
+
+    document.getElementById(
+        'cidade'
+    ).value = 'ITAPETIM';
+
+    document.getElementById(
+        'estado'
+    ).value = 'PE';
+
+    document.getElementById(
+        'coordenador'
+    ).value = COORDENADOR_PADRAO;
+
 }
+
+/* =========================================================
+   CÓDIGO
+   ========================================================= */
 
 function gerarCodigoUnico() {
-    return 'CAD-' + Date.now().toString().slice(-6);
+
+    return 'CAD-' +
+        Date.now()
+            .toString()
+            .slice(-6);
+
 }
+
+/* =========================================================
+   SALVAR REGISTRO
+   ========================================================= */
 
 function salvarRegistro(event) {
+
     event.preventDefault();
-    let codigo = document.getElementById('codigo').value;
-    const turnosSelecionados = Array.from(document.querySelectorAll('input[name="turno"]:checked')).map(el => el.value).join(', ');
+
+    let codigo =
+        document.getElementById('codigo').value;
+
+    const turnosSelecionados =
+        Array.from(
+            document.querySelectorAll(
+                'input[name="turno"]:checked'
+            )
+        )
+        .map(el => el.value)
+        .join(', ');
 
     const alunoObj = {
-        codigo: codigo || gerarCodigoUnico(),
-        data_inclusao: document.getElementById('data_inclusao').value,
-        nome_aluno: document.getElementById('nome_aluno').value.toUpperCase().trim(),
-        data_nascimento: document.getElementById('data_nascimento').value,
-        sexo: document.getElementById('sexo').value,
-        estado_civil: document.getElementById('estado_civil').value,
-        nome_pai: document.getElementById('nome_pai').value.toUpperCase().trim(),
-        nome_mae: document.getElementById('nome_mae').value.toUpperCase().trim(),
-        endereco: document.getElementById('endereco').value.toUpperCase().trim(),
-        numero: document.getElementById('numero').value.toUpperCase().trim(),
-        bairro: document.getElementById('bairro').value.toUpperCase().trim(),
-        cidade: document.getElementById('cidade').value.toUpperCase().trim(),
-        estado: document.getElementById('estado').value.toUpperCase().trim(),
-        cep: document.getElementById('cep').value.toUpperCase().trim(),
-        telefone: document.getElementById('telefone').value.toUpperCase().trim(),
-        documento: document.getElementById('documento').value.toUpperCase().trim(),
-        grupos_jovem: document.getElementById('grupos_jovem').value.toUpperCase().trim(),
-        estuda: document.getElementById('estuda').value,
-        escola: document.getElementById('escola').value.toUpperCase().trim(),
-        serie: document.getElementById('serie').value.toUpperCase().trim(),
-        escolaridade: document.getElementById('escolaridade').value.toUpperCase().trim(),
-        trabalha_opcao: document.getElementById('trabalha_opcao').value,
-        trabalho_local: document.getElementById('trabalho_local').value.toUpperCase().trim(),
-        curso: normalizarCurso(document.getElementById('curso').value),
-        turnos: turnosSelecionados,
-        professor: document.getElementById('professor').value,
-        coordenador: COORDENADOR_PADRAO,
-        inicio_aulas: document.getElementById('inicio_aulas').value,
-        horario_aulas: document.getElementById('horario_aulas').value.toUpperCase().trim()
+
+        codigo:
+            codigo || gerarCodigoUnico(),
+
+        data_inclusao:
+            document.getElementById(
+                'data_inclusao'
+            ).value,
+
+        nome_aluno:
+            document.getElementById(
+                'nome_aluno'
+            ).value
+            .toUpperCase()
+            .trim(),
+
+        data_nascimento:
+            document.getElementById(
+                'data_nascimento'
+            ).value,
+
+        sexo:
+            document.getElementById(
+                'sexo'
+            ).value,
+
+        estado_civil:
+            document.getElementById(
+                'estado_civil'
+            ).value,
+
+        nome_pai:
+            document.getElementById(
+                'nome_pai'
+            ).value
+            .toUpperCase()
+            .trim(),
+
+        nome_mae:
+            document.getElementById(
+                'nome_mae'
+            ).value
+            .toUpperCase()
+            .trim(),
+
+        endereco:
+            document.getElementById(
+                'endereco'
+            ).value
+            .toUpperCase()
+            .trim(),
+
+        numero:
+            document.getElementById(
+                'numero'
+            ).value
+            .toUpperCase()
+            .trim(),
+
+        bairro:
+            document.getElementById(
+                'bairro'
+            ).value
+            .toUpperCase()
+            .trim(),
+
+        cidade:
+            document.getElementById(
+                'cidade'
+            ).value
+            .toUpperCase()
+            .trim(),
+
+        estado:
+            document.getElementById(
+                'estado'
+            ).value
+            .toUpperCase()
+            .trim(),
+
+        cep:
+            document.getElementById(
+                'cep'
+            ).value
+            .toUpperCase()
+            .trim(),
+
+        telefone:
+            document.getElementById(
+                'telefone'
+            ).value
+            .toUpperCase()
+            .trim(),
+
+        documento:
+            document.getElementById(
+                'documento'
+            ).value
+            .toUpperCase()
+            .trim(),
+
+        grupos_jovem:
+            document.getElementById(
+                'grupos_jovem'
+            ).value
+            .toUpperCase()
+            .trim(),
+
+        estuda:
+            document.getElementById(
+                'estuda'
+            ).value,
+
+        escola:
+            document.getElementById(
+                'escola'
+            ).value
+            .toUpperCase()
+            .trim(),
+
+        serie:
+            document.getElementById(
+                'serie'
+            ).value
+            .toUpperCase()
+            .trim(),
+
+        escolaridade:
+            document.getElementById(
+                'escolaridade'
+            ).value
+            .toUpperCase()
+            .trim(),
+
+        trabalha_opcao:
+            document.getElementById(
+                'trabalha_opcao'
+            ).value,
+
+        trabalho_local:
+            document.getElementById(
+                'trabalho_local'
+            ).value
+            .toUpperCase()
+            .trim(),
+
+        curso:
+            normalizarCurso(
+                document.getElementById(
+                    'curso'
+                ).value
+            ),
+
+        turnos:
+            turnosSelecionados,
+
+        professor:
+            normalizarProfessor(
+                document.getElementById(
+                    'professor'
+                ).value
+            ),
+
+        coordenador:
+            COORDENADOR_PADRAO,
+
+        inicio_aulas:
+            document.getElementById(
+                'inicio_aulas'
+            ).value,
+
+        horario_aulas:
+            document.getElementById(
+                'horario_aulas'
+            ).value
+            .toUpperCase()
+            .trim()
+
     };
 
-    const index = alunosSalvos.findIndex(a => a.codigo === alunoObj.codigo);
+    const index =
+        alunosSalvos.findIndex(
+            a => a.codigo === alunoObj.codigo
+        );
+
     if (index >= 0) {
+
         alunosSalvos[index] = alunoObj;
+
     } else {
+
         alunosSalvos.push(alunoObj);
+
     }
 
-    localStorage.setItem('alunos_db', JSON.stringify(alunosSalvos));
+    localStorage.setItem(
+        'alunos_db',
+        JSON.stringify(alunosSalvos)
+    );
+
     atualizarTabelaRegistros();
     atualizarDatalistBusca();
+
     alert('Registro salvo com sucesso!');
+
     limparFormulario();
+
 }
+
+/* =========================================================
+   TABELA
+   ========================================================= */
 
 function atualizarTabelaRegistros() {
-    const tbody = document.getElementById('tabelaRegistros');
+
+    const tbody =
+        document.getElementById(
+            'tabelaRegistros'
+        );
+
     tbody.innerHTML = '';
+
     alunosSalvos.forEach(aluno => {
-        const tr = document.createElement('tr');
+
+        const tr =
+            document.createElement('tr');
+
         tr.innerHTML = `
-            <td>${aluno.codigo || ''}</td>
-            <td>${formatarDataBR(aluno.data_inclusao) || ''}</td>
-            <td>${aluno.nome_aluno || ''}</td>
-            <td>${aluno.telefone || ''}</td>
-            <td>${aluno.curso || ''}</td>
+
+            <td>${esc(aluno.codigo || '')}</td>
+
+            <td>
+                ${esc(
+                    formatarDataBR(
+                        aluno.data_inclusao
+                    )
+                )}
+            </td>
+
+            <td>${esc(aluno.nome_aluno || '')}</td>
+
+            <td>${esc(aluno.telefone || '')}</td>
+
+            <td>${esc(aluno.curso || '')}</td>
+
         `;
+
         tr.style.cursor = 'pointer';
-        tr.onclick = () => carregarAlunoNoFormulario(aluno.codigo);
+
+        tr.onclick = () =>
+            carregarAlunoNoFormulario(
+                aluno.codigo
+            );
+
         tbody.appendChild(tr);
+
     });
+
 }
+
+/* =========================================================
+   DATALIST
+   ========================================================= */
 
 function atualizarDatalistBusca() {
-    const datalist = document.getElementById('listaAlunos');
+
+    const datalist =
+        document.getElementById(
+            'listaAlunos'
+        );
+
     datalist.innerHTML = '';
+
     alunosSalvos.forEach(aluno => {
-        const option = document.createElement('option');
-        option.value = aluno.nome_aluno;
+
+        const option =
+            document.createElement('option');
+
+        option.value =
+            aluno.nome_aluno;
+
         datalist.appendChild(option);
+
     });
+
 }
+
+/* =========================================================
+   BUSCAR ALUNO
+   ========================================================= */
 
 function executarBuscaAluno() {
-    const termo = document.getElementById('inputBusca').value.toUpperCase().trim();
+
+    const termo =
+        document.getElementById(
+            'inputBusca'
+        ).value
+        .toUpperCase()
+        .trim();
+
     if (!termo) return;
-    const aluno = alunosSalvos.find(a => (a.nome_aluno && a.nome_aluno.toUpperCase().includes(termo)) || String(a.codigo || '').toUpperCase() === termo);
+
+    const aluno =
+        alunosSalvos.find(a =>
+
+            (
+                a.nome_aluno &&
+                a.nome_aluno
+                    .toUpperCase()
+                    .includes(termo)
+            )
+
+            ||
+
+            String(a.codigo || '')
+                .toUpperCase() === termo
+
+        );
+
     if (aluno) {
-        carregarAlunoNoFormulario(aluno.codigo);
+
+        carregarAlunoNoFormulario(
+            aluno.codigo
+        );
+
     } else {
+
         alert('Aluno não encontrado!');
+
     }
+
 }
+
+/* =========================================================
+   CARREGAR ALUNO
+   ========================================================= */
 
 function carregarAlunoNoFormulario(codigo) {
-    const aluno = alunosSalvos.find(a => a.codigo === codigo);
+
+    const aluno =
+        alunosSalvos.find(
+            a => a.codigo === codigo
+        );
+
     if (!aluno) return;
 
-    document.getElementById('codigo').value = aluno.codigo || '';
-    document.getElementById('data_inclusao').value = aluno.data_inclusao || '';
-    document.getElementById('nome_aluno').value = aluno.nome_aluno || '';
-    document.getElementById('data_nascimento').value = aluno.data_nascimento || '';
-    document.getElementById('sexo').value = aluno.sexo || 'M';
-    document.getElementById('estado_civil').value = aluno.estado_civil || 'SOLTEIRA';
-    document.getElementById('nome_pai').value = aluno.nome_pai || '';
-    document.getElementById('nome_mae').value = aluno.nome_mae || '';
-    document.getElementById('endereco').value = aluno.endereco || '';
-    document.getElementById('numero').value = aluno.numero || '';
-    document.getElementById('bairro').value = aluno.bairro || '';
-    document.getElementById('cidade').value = aluno.cidade || 'ITAPETIM';
-    document.getElementById('estado').value = aluno.estado || 'PE';
-    document.getElementById('cep').value = aluno.cep || '';
-    document.getElementById('telefone').value = aluno.telefone || '';
-    document.getElementById('documento').value = aluno.documento || '';
-    document.getElementById('grupos_jovem').value = aluno.grupos_jovem || '';
-    document.getElementById('estuda').value = aluno.estuda || 'SIM';
-    document.getElementById('escola').value = aluno.escola || '';
-    document.getElementById('serie').value = aluno.serie || '';
-    document.getElementById('escolaridade').value = aluno.escolaridade || '';
-    document.getElementById('trabalha_opcao').value = aluno.trabalha_opcao || 'SIM';
-    document.getElementById('trabalho_local').value = aluno.trabalho_local || '';
-    document.getElementById('curso').value = normalizarCurso(aluno.curso || '');
-    
-    document.querySelectorAll('input[name="turno"]').forEach(cb => {
-        cb.checked = aluno.turnos && aluno.turnos.includes(cb.value);
+    document.getElementById(
+        'codigo'
+    ).value = aluno.codigo || '';
+
+    document.getElementById(
+        'data_inclusao'
+    ).value = aluno.data_inclusao || '';
+
+    document.getElementById(
+        'nome_aluno'
+    ).value = aluno.nome_aluno || '';
+
+    document.getElementById(
+        'data_nascimento'
+    ).value = aluno.data_nascimento || '';
+
+    document.getElementById(
+        'sexo'
+    ).value = aluno.sexo || 'M';
+
+    document.getElementById(
+        'estado_civil'
+    ).value =
+        aluno.estado_civil || 'SOLTEIRA';
+
+    document.getElementById(
+        'nome_pai'
+    ).value = aluno.nome_pai || '';
+
+    document.getElementById(
+        'nome_mae'
+    ).value = aluno.nome_mae || '';
+
+    document.getElementById(
+        'endereco'
+    ).value = aluno.endereco || '';
+
+    document.getElementById(
+        'numero'
+    ).value = aluno.numero || '';
+
+    document.getElementById(
+        'bairro'
+    ).value = aluno.bairro || '';
+
+    document.getElementById(
+        'cidade'
+    ).value =
+        aluno.cidade || 'ITAPETIM';
+
+    document.getElementById(
+        'estado'
+    ).value =
+        aluno.estado || 'PE';
+
+    document.getElementById(
+        'cep'
+    ).value = aluno.cep || '';
+
+    document.getElementById(
+        'telefone'
+    ).value = aluno.telefone || '';
+
+    document.getElementById(
+        'documento'
+    ).value = aluno.documento || '';
+
+    document.getElementById(
+        'grupos_jovem'
+    ).value =
+        aluno.grupos_jovem || '';
+
+    document.getElementById(
+        'estuda'
+    ).value =
+        aluno.estuda || 'SIM';
+
+    document.getElementById(
+        'escola'
+    ).value =
+        aluno.escola || '';
+
+    document.getElementById(
+        'serie'
+    ).value =
+        aluno.serie || '';
+
+    document.getElementById(
+        'escolaridade'
+    ).value =
+        aluno.escolaridade || '';
+
+    document.getElementById(
+        'trabalha_opcao'
+    ).value =
+        aluno.trabalha_opcao || 'SIM';
+
+    document.getElementById(
+        'trabalho_local'
+    ).value =
+        aluno.trabalho_local || '';
+
+    document.getElementById(
+        'curso'
+    ).value =
+        normalizarCurso(
+            aluno.curso || ''
+        );
+
+    document.querySelectorAll(
+        'input[name="turno"]'
+    ).forEach(cb => {
+
+        cb.checked =
+            aluno.turnos &&
+            aluno.turnos
+                .toUpperCase()
+                .includes(
+                    cb.value.toUpperCase()
+                );
+
     });
 
-    document.getElementById('professor').value = aluno.professor || '';
-    document.getElementById('coordenador').value = COORDENADOR_PADRAO;
-    document.getElementById('inicio_aulas').value = aluno.inicio_aulas || '';
-    document.getElementById('horario_aulas').value = aluno.horario_aulas || '';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    /*
+     * CORREÇÃO IMPORTANTE:
+     * Agora o nome do professor é normalizado
+     * antes de ser colocado no SELECT.
+     */
+
+    document.getElementById(
+        'professor'
+    ).value =
+        normalizarProfessor(
+            aluno.professor || ''
+        );
+
+    document.getElementById(
+        'coordenador'
+    ).value =
+        COORDENADOR_PADRAO;
+
+    document.getElementById(
+        'inicio_aulas'
+    ).value =
+        aluno.inicio_aulas || '';
+
+    document.getElementById(
+        'horario_aulas'
+    ).value =
+        aluno.horario_aulas || '';
+
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+
 }
 
+/* =========================================================
+   LIMPAR BANCO
+   ========================================================= */
+
 function limparBancoDados() {
-    if (confirm('Deseja realmente apagar todos os registros salvos?')) {
-        localStorage.removeItem('alunos_db');
+
+    if (
+        confirm(
+            'Deseja realmente apagar todos os registros salvos?'
+        )
+    ) {
+
+        localStorage.removeItem(
+            'alunos_db'
+        );
+
         alunosSalvos = [];
+
         atualizarTabelaRegistros();
         atualizarDatalistBusca();
         limparFormulario();
-        alert('Banco de dados limpo com sucesso.');
+
+        alert(
+            'Banco de dados limpo com sucesso.'
+        );
+
     }
+
 }
 
+/* =========================================================
+   SENHA
+   ========================================================= */
+
 function abrirModalSenha() {
-    document.getElementById('passwordModal').style.display = 'block';
+
+    document.getElementById(
+        'passwordModal'
+    ).style.display = 'block';
+
 }
 
 function fecharModalSenha() {
-    document.getElementById('passwordModal').style.display = 'none';
-    document.getElementById('admSenhaCheck').value = '';
-    document.getElementById('novaSenhaInput').value = '';
+
+    document.getElementById(
+        'passwordModal'
+    ).style.display = 'none';
+
+    document.getElementById(
+        'admSenhaCheck'
+    ).value = '';
+
+    document.getElementById(
+        'novaSenhaInput'
+    ).value = '';
+
 }
 
 function salvarNovaSenha() {
-    const admSenha = document.getElementById('admSenhaCheck').value;
-    const novaSenha = document.getElementById('novaSenhaInput').value;
+
+    const admSenha =
+        document.getElementById(
+            'admSenhaCheck'
+        ).value;
+
+    const novaSenha =
+        document.getElementById(
+            'novaSenhaInput'
+        ).value;
 
     if (admSenha === senhaSistema) {
+
         if (novaSenha.trim() !== '') {
+
             senhaSistema = novaSenha;
-            localStorage.setItem('sistema_senha', senhaSistema);
-            alert('Senha alterada com sucesso!');
+
+            localStorage.setItem(
+                'sistema_senha',
+                senhaSistema
+            );
+
+            alert(
+                'Senha alterada com sucesso!'
+            );
+
             fecharModalSenha();
+
         } else {
-            alert('A nova senha não pode ser vazia.');
+
+            alert(
+                'A nova senha não pode ser vazia.'
+            );
+
         }
+
     } else {
-        alert('Senha de administrador incorreta!');
+
+        alert(
+            'Senha de administrador incorreta!'
+        );
+
     }
+
 }
 
+/* =========================================================
+   RELATÓRIO
+   ========================================================= */
+
 function abrirModalRelatorio() {
-    const select = document.getElementById('filtroCursoRelatorio');
-    select.innerHTML = '<option value="">-- TODOS OS CURSOS --</option>';
+
+    const select =
+        document.getElementById(
+            'filtroCursoRelatorio'
+        );
+
+    select.innerHTML =
+        '<option value="">-- TODOS OS CURSOS --</option>';
+
     LISTA_CURSOS_OFICIAIS.forEach(curso => {
-        const opt = document.createElement('option');
+
+        const opt =
+            document.createElement('option');
+
         opt.value = curso;
         opt.textContent = curso;
+
         select.appendChild(opt);
+
     });
+
     renderizarRelatorio();
-    document.getElementById('reportModal').style.display = 'block';
+
+    document.getElementById(
+        'reportModal'
+    ).style.display = 'block';
+
 }
 
 function fecharModalRelatorio() {
-    document.getElementById('reportModal').style.display = 'none';
+
+    document.getElementById(
+        'reportModal'
+    ).style.display = 'none';
+
 }
+
+/* =========================================================
+   CORREÇÃO DE CODIFICAÇÃO
+   ========================================================= */
 
 function repararTextoCodificacao(valor) {
-    let texto = (valor ?? '').toString();
 
-    // Corrige mojibake típico de arquivos Windows/ANSI que foram lidos como UTF-8.
-    // Só tenta a conversão quando há sinais claros desse problema.
+    let texto =
+        (valor ?? '').toString();
+
     if (/[ÃÂâð]/.test(texto)) {
+
         try {
-            const bytes = Uint8Array.from(texto, ch => ch.charCodeAt(0) & 0xFF);
-            const corrigido = new TextDecoder('utf-8', { fatal: true }).decode(bytes);
-            if (corrigido && corrigido !== texto) texto = corrigido;
+
+            const bytes =
+                Uint8Array.from(
+                    texto,
+                    ch =>
+                        ch.charCodeAt(0) & 0xFF
+                );
+
+            const corrigido =
+                new TextDecoder(
+                    'utf-8',
+                    { fatal: true }
+                ).decode(bytes);
+
+            if (
+                corrigido &&
+                corrigido !== texto
+            ) {
+
+                texto = corrigido;
+
+            }
+
         } catch (_) {}
+
     }
+
     return texto;
+
 }
 
+/* =========================================================
+   CHAVE DO CURSO
+   ========================================================= */
+
 function chaveCurso(valor) {
+
     return repararTextoCodificacao(valor)
         .toString()
         .trim()
         .toUpperCase()
         .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^A-Z0-9]+/g, ' ')
+        .replace(
+            /[\u0300-\u036f]/g,
+            ''
+        )
+        .replace(
+            /[^A-Z0-9]+/g,
+            ' '
+        )
         .trim();
+
 }
+
+/* =========================================================
+   NORMALIZAR CURSO
+   ========================================================= */
 
 function normalizarCurso(valor) {
-    const texto = repararTextoCodificacao(valor).trim().toUpperCase();
-    const chave = chaveCurso(texto);
 
-    // Primeiro aplica os nomes/variações conhecidas. Depois compara pela chave
-    // sem acentos, permitindo filtrar mesmo que a base antiga tenha pequenas
-    // diferenças de acentuação ou espaçamento.
-    const alias = ALIASES_CURSOS[texto];
+    const texto =
+        repararTextoCodificacao(valor)
+            .trim()
+            .toUpperCase();
+
+    const chave =
+        chaveCurso(texto);
+
+    const alias =
+        ALIASES_CURSOS[texto];
+
     if (alias) return alias;
 
-    const oficial = LISTA_CURSOS_OFICIAIS.find(curso => chaveCurso(curso) === chave);
+    const oficial =
+        LISTA_CURSOS_OFICIAIS.find(
+            curso =>
+                chaveCurso(curso) === chave
+        );
+
     if (oficial) return oficial;
 
-    const aliasOficial = Object.entries(ALIASES_CURSOS).find(([origem]) => chaveCurso(origem) === chave);
-    return aliasOficial ? aliasOficial[1] : texto;
+    const aliasOficial =
+        Object.entries(
+            ALIASES_CURSOS
+        ).find(
+            ([origem]) =>
+                chaveCurso(origem) === chave
+        );
+
+    return aliasOficial
+        ? aliasOficial[1]
+        : texto;
+
 }
 
+/* =========================================================
+   NORMALIZAR PROFESSOR
+   ========================================================= */
+
+function normalizarProfessor(valor) {
+
+    let texto =
+        repararTextoCodificacao(valor)
+            .toString()
+            .trim()
+            .toUpperCase()
+            .replace(/\s+/g, ' ');
+
+    if (!texto) return '';
+
+    /*
+     * Remove acentos para facilitar a comparação.
+     */
+
+    const chave =
+        texto
+            .normalize('NFD')
+            .replace(
+                /[\u0300-\u036f]/g,
+                ''
+            );
+
+    /*
+     * Primeiro verifica os aliases conhecidos.
+     */
+
+    const alias =
+        ALIASES_PROFESSORES[texto];
+
+    if (alias) return alias;
+
+    /*
+     * Depois compara ignorando acentos.
+     */
+
+    const professorOficial =
+        LISTA_PROFESSORES_OFICIAIS.find(
+            professor => {
+
+                const chaveOficial =
+                    professor
+                        .normalize('NFD')
+                        .replace(
+                            /[\u0300-\u036f]/g,
+                            ''
+                        );
+
+                return chaveOficial === chave;
+
+            }
+        );
+
+    if (professorOficial) {
+
+        return professorOficial;
+
+    }
+
+    /*
+     * Comparação por partes:
+     * permite reconhecer um nome abreviado
+     * mesmo que venha com pequenas diferenças.
+     */
+
+    if (
+        chave.includes('LEANDRO') &&
+        chave.includes('JONH')
+    ) {
+
+        return 'LEANDRO JONH DA SILVA';
+
+    }
+
+    if (
+        chave.includes('JONES') &&
+        chave.includes('NUNES')
+    ) {
+
+        return 'JONES NUNES';
+
+    }
+
+    if (
+        chave.includes('LUCINALDO') &&
+        chave.includes('CLEMENTE')
+    ) {
+
+        return 'LUCINALDO CLEMENTE DA SILVA';
+
+    }
+
+    /*
+     * Se aparecer futuramente um professor
+     * desconhecido, não apagamos a informação.
+     */
+
+    return texto;
+
+}
+
+/* =========================================================
+   RENDERIZAR RELATÓRIO
+   ========================================================= */
+
 function renderizarRelatorio() {
-    const filtro = chaveCurso(document.getElementById('filtroCursoRelatorio').value);
-    const tbody = document.getElementById('tabelaRelatorioCorpo');
+
+    const filtro =
+        chaveCurso(
+            document.getElementById(
+                'filtroCursoRelatorio'
+            ).value
+        );
+
+    const tbody =
+        document.getElementById(
+            'tabelaRelatorioCorpo'
+        );
+
     tbody.innerHTML = '';
 
-    const filtrados = alunosSalvos.filter(a => {
-        if (!filtro) return true;
-        return chaveCurso(normalizarCurso(a.curso)) === filtro;
-    });
+    const filtrados =
+        alunosSalvos.filter(a => {
+
+            if (!filtro) return true;
+
+            return (
+                chaveCurso(
+                    normalizarCurso(
+                        a.curso
+                    )
+                ) === filtro
+            );
+
+        });
 
     if (filtrados.length === 0) {
-        const tr = document.createElement('tr');
-        tr.innerHTML = '<td colspan="10" style="text-align:center;padding:15px;color:#64748b;">Nenhum aluno encontrado para este curso.</td>';
+
+        const tr =
+            document.createElement('tr');
+
+        tr.innerHTML =
+            '<td colspan="10" style="text-align:center;padding:15px;color:#64748b;">Nenhum aluno encontrado para este curso.</td>';
+
         tbody.appendChild(tr);
+
         return;
+
     }
 
     filtrados.forEach(aluno => {
-        const tr = document.createElement('tr');
+
+        const tr =
+            document.createElement('tr');
+
         tr.innerHTML = `
-            <td>${esc(aluno.codigo)}</td>
-            <td>${esc(formatarDataBR(aluno.data_inclusao))}</td>
-            <td>${esc(aluno.nome_aluno)}</td>
-            <td>${esc(aluno.endereco)}</td>
-            <td>${esc(aluno.numero)}</td>
-            <td>${esc(aluno.bairro)}</td>
-            <td>${esc(aluno.cidade)}</td>
-            <td>${esc(aluno.telefone)}</td>
-            <td>${esc(normalizarCurso(aluno.curso))}</td>
-            <td>MATRICULADO</td>
+
+            <td>
+                ${esc(aluno.codigo)}
+            </td>
+
+            <td>
+                ${esc(
+                    formatarDataBR(
+                        aluno.data_inclusao
+                    )
+                )}
+            </td>
+
+            <td>
+                ${esc(aluno.nome_aluno)}
+            </td>
+
+            <td>
+                ${esc(aluno.endereco)}
+            </td>
+
+            <td>
+                ${esc(aluno.numero)}
+            </td>
+
+            <td>
+                ${esc(aluno.bairro)}
+            </td>
+
+            <td>
+                ${esc(aluno.cidade)}
+            </td>
+
+            <td>
+                ${esc(aluno.telefone)}
+            </td>
+
+            <td>
+                ${esc(
+                    normalizarCurso(
+                        aluno.curso
+                    )
+                )}
+            </td>
+
+            <td>
+                MATRICULADO
+            </td>
+
         `;
+
         tbody.appendChild(tr);
+
     });
+
 }
+
+/* =========================================================
+   TURNOS
+   ========================================================= */
 
 function obterTurnos(aluno) {
-    const raw = (aluno.turnos || '').toUpperCase();
+
+    const raw =
+        (aluno.turnos || '')
+            .toUpperCase();
+
     return {
-        manha: raw.includes('MANHÃ') ? 'X' : '',
-        tarde: raw.includes('TARDE') ? 'X' : '',
-        noite: raw.includes('NOITE') ? 'X' : ''
+
+        manha:
+            raw.includes('MANHÃ')
+                ? 'X'
+                : '',
+
+        tarde:
+            raw.includes('TARDE')
+                ? 'X'
+                : '',
+
+        noite:
+            raw.includes('NOITE')
+                ? 'X'
+                : ''
+
     };
+
 }
 
-function gerarHTMLViaComprovante(aluno, viaTitulo, assinaturaTexto) {
-    const turnos = obterTurnos(aluno);
+/* =========================================================
+   HTML DO COMPROVANTE
+   ========================================================= */
+
+function gerarHTMLViaComprovante(
+    aluno,
+    viaTitulo,
+    assinaturaTexto
+) {
+
+    const turnos =
+        obterTurnos(aluno);
 
     return `
+
         <section class="comprovante">
+
             <div class="comp-cabecalho">
+
                 <div class="comp-orgao">
-                    <strong>PREFEITURA DE ITAPETIM</strong>
-                    <span>CASA DAS JUVENTUDES</span>
+
+                    <strong>
+                        PREFEITURA DE ITAPETIM
+                    </strong>
+
+                    <span>
+                        CASA DAS JUVENTUDES
+                    </span>
+
                 </div>
+
                 <div class="comp-titulo">
-                    <strong>COMPROVANTE DE MATRÍCULA DO ALUNO</strong>
-                    <small>${esc(viaTitulo)}</small>
+
+                    <strong>
+                        COMPROVANTE DE MATRÍCULA DO ALUNO
+                    </strong>
+
+                    <small>
+                        ${esc(viaTitulo)}
+                    </small>
+
                 </div>
+
                 <div class="comp-ident">
+
                     <span>CÓDIGO</span>
-                    <strong>${esc(aluno.codigo || '')}</strong>
+
+                    <strong>
+                        ${esc(aluno.codigo || '')}
+                    </strong>
+
                 </div>
+
             </div>
 
             <div class="comp-linha">
-                <div class="comp-campo w-codigo-print"><b>CÓDIGO:</b><span>${esc(aluno.codigo || '')}</span></div>
-                <div class="comp-campo w-data-print"><b>DATA DA MATRÍCULA:</b><span>${esc(formatarDataBR(aluno.data_inclusao) || '')}</span></div>
-                <div class="comp-campo flex-1"><b>NOME DO ALUNO:</b><span>${esc(aluno.nome_aluno || '')}</span></div>
+
+                <div class="comp-campo w-codigo-print">
+                    <b>CÓDIGO:</b>
+                    <span>
+                        ${esc(aluno.codigo || '')}
+                    </span>
+                </div>
+
+                <div class="comp-campo w-data-print">
+                    <b>DATA DA MATRÍCULA:</b>
+                    <span>
+                        ${esc(
+                            formatarDataBR(
+                                aluno.data_inclusao
+                            ) || ''
+                        )}
+                    </span>
+                </div>
+
+                <div class="comp-campo flex-1">
+                    <b>NOME DO ALUNO:</b>
+                    <span>
+                        ${esc(
+                            aluno.nome_aluno || ''
+                        )}
+                    </span>
+                </div>
+
             </div>
 
             <div class="comp-linha">
-                <div class="comp-campo flex-3"><b>ENDEREÇO:</b><span>${esc(aluno.endereco || '')}</span></div>
-                <div class="comp-campo w-num-print"><b>Nº:</b><span>${esc(aluno.numero || '')}</span></div>
-                <div class="comp-campo flex-2"><b>BAIRRO:</b><span>${esc(aluno.bairro || '')}</span></div>
+
+                <div class="comp-campo flex-3">
+                    <b>ENDEREÇO:</b>
+                    <span>
+                        ${esc(
+                            aluno.endereco || ''
+                        )}
+                    </span>
+                </div>
+
+                <div class="comp-campo w-num-print">
+                    <b>Nº:</b>
+                    <span>
+                        ${esc(
+                            aluno.numero || ''
+                        )}
+                    </span>
+                </div>
+
+                <div class="comp-campo flex-2">
+                    <b>BAIRRO:</b>
+                    <span>
+                        ${esc(
+                            aluno.bairro || ''
+                        )}
+                    </span>
+                </div>
+
             </div>
 
             <div class="comp-linha">
-                <div class="comp-campo flex-2"><b>CIDADE:</b><span>${esc(aluno.cidade || '')}</span></div>
-                <div class="comp-campo w-uf-print"><b>UF:</b><span>${esc(aluno.estado || '')}</span></div>
-                <div class="comp-campo w-cep-print"><b>CEP:</b><span>${esc(aluno.cep || '')}</span></div>
-                <div class="comp-campo flex-2"><b>TELEFONE:</b><span>${esc(aluno.telefone || '')}</span></div>
+
+                <div class="comp-campo flex-2">
+                    <b>CIDADE:</b>
+                    <span>
+                        ${esc(
+                            aluno.cidade || ''
+                        )}
+                    </span>
+                </div>
+
+                <div class="comp-campo w-uf-print">
+                    <b>UF:</b>
+                    <span>
+                        ${esc(
+                            aluno.estado || ''
+                        )}
+                    </span>
+                </div>
+
+                <div class="comp-campo w-cep-print">
+                    <b>CEP:</b>
+                    <span>
+                        ${esc(
+                            aluno.cep || ''
+                        )}
+                    </span>
+                </div>
+
+                <div class="comp-campo flex-2">
+                    <b>TELEFONE:</b>
+                    <span>
+                        ${esc(
+                            aluno.telefone || ''
+                        )}
+                    </span>
+                </div>
+
             </div>
 
             <div class="comp-linha">
-                <div class="comp-campo flex-1"><b>DATA DE NASCIMENTO:</b><span>${esc(formatarDataBR(aluno.data_nascimento) || '')}</span></div>
-                <div class="comp-campo w-sexo-print"><b>SEXO:</b><span>${esc(aluno.sexo || '')}</span></div>
-                <div class="comp-campo flex-2"><b>ESTADO CIVIL:</b><span>${esc(aluno.estado_civil || '')}</span></div>
-                <div class="comp-campo flex-2"><b>RG OU CPF:</b><span>${esc(aluno.documento || '')}</span></div>
+
+                <div class="comp-campo flex-1">
+                    <b>DATA DE NASCIMENTO:</b>
+                    <span>
+                        ${esc(
+                            formatarDataBR(
+                                aluno.data_nascimento
+                            ) || ''
+                        )}
+                    </span>
+                </div>
+
+                <div class="comp-campo w-sexo-print">
+                    <b>SEXO:</b>
+                    <span>
+                        ${esc(
+                            aluno.sexo || ''
+                        )}
+                    </span>
+                </div>
+
+                <div class="comp-campo flex-2">
+                    <b>ESTADO CIVIL:</b>
+                    <span>
+                        ${esc(
+                            aluno.estado_civil || ''
+                        )}
+                    </span>
+                </div>
+
+                <div class="comp-campo flex-2">
+                    <b>RG OU CPF:</b>
+                    <span>
+                        ${esc(
+                            aluno.documento || ''
+                        )}
+                    </span>
+                </div>
+
             </div>
 
             <div class="comp-linha">
-                <div class="comp-campo flex-1"><b>CURSO OU ATIVIDADE:</b><span>${esc(normalizarCurso(aluno.curso) || '')}</span></div>
+
+                <div class="comp-campo flex-1">
+                    <b>CURSO OU ATIVIDADE:</b>
+                    <span>
+                        ${esc(
+                            normalizarCurso(
+                                aluno.curso
+                            ) || ''
+                        )}
+                    </span>
+                </div>
+
                 <div class="comp-turnos">
-                    <b>PREFERÊNCIA POR TURNO:</b>
-                    <label>MANHÃ <i>${turnos.manha}</i></label>
-                    <label>TARDE <i>${turnos.tarde}</i></label>
-                    <label>NOITE <i>${turnos.noite}</i></label>
+
+                    <b>
+                        PREFERÊNCIA POR TURNO:
+                    </b>
+
+                    <label>
+                        MANHÃ
+                        <i>${turnos.manha}</i>
+                    </label>
+
+                    <label>
+                        TARDE
+                        <i>${turnos.tarde}</i>
+                    </label>
+
+                    <label>
+                        NOITE
+                        <i>${turnos.noite}</i>
+                    </label>
+
                 </div>
+
             </div>
 
             <div class="comp-linha">
-                <div class="comp-campo flex-2"><b>PROFESSOR:</b><span>${esc(aluno.professor || '')}</span></div>
-                <div class="comp-campo flex-2"><b>INÍCIO DAS AULAS:</b><span>${esc(formatarDataBR(aluno.inicio_aulas) || '')}</span></div>
-                <div class="comp-campo flex-2"><b>HORÁRIO:</b><span>${esc(aluno.horario_aulas || '')}</span></div>
+
+                <div class="comp-campo flex-2">
+                    <b>PROFESSOR:</b>
+                    <span>
+                        ${esc(
+                            normalizarProfessor(
+                                aluno.professor
+                            ) || ''
+                        )}
+                    </span>
+                </div>
+
+                <div class="comp-campo flex-2">
+                    <b>INÍCIO DAS AULAS:</b>
+                    <span>
+                        ${esc(
+                            formatarDataBR(
+                                aluno.inicio_aulas
+                            ) || ''
+                        )}
+                    </span>
+                </div>
+
+                <div class="comp-campo flex-2">
+                    <b>HORÁRIO:</b>
+                    <span>
+                        ${esc(
+                            aluno.horario_aulas || ''
+                        )}
+                    </span>
+                </div>
+
             </div>
 
             <div class="comp-linha">
-                <div class="comp-campo flex-1"><b>COORDENADOR DO PROGRAMA:</b><span>${esc(aluno.coordenador || COORDENADOR_PADRAO)}</span></div>
+
+                <div class="comp-campo flex-1">
+
+                    <b>
+                        COORDENADOR DO PROGRAMA:
+                    </b>
+
+                    <span>
+                        ${esc(
+                            aluno.coordenador ||
+                            COORDENADOR_PADRAO
+                        )}
+                    </span>
+
+                </div>
+
             </div>
 
             <div class="comp-assinaturas">
+
                 <div class="assinatura">
+
                     <div class="linha-assinatura"></div>
-                    <strong>${esc(assinaturaTexto)}</strong>
+
+                    <strong>
+                        ${esc(assinaturaTexto)}
+                    </strong>
+
                 </div>
+
             </div>
+
         </section>
+
     `;
+
 }
 
-function imprimirComprovante() {
-    const codigo = document.getElementById('codigo').value.trim();
-    let aluno = alunosSalvos.find(a => a.codigo === codigo);
+/* =========================================================
+   IMPRIMIR COMPROVANTE
+   ========================================================= */
 
-    const turnosSelecionados = Array.from(document.querySelectorAll('input[name="turno"]:checked'))
-        .map(el => el.value).join(', ');
+function imprimirComprovante() {
+
+    const codigo =
+        document.getElementById(
+            'codigo'
+        ).value.trim();
+
+    let aluno =
+        alunosSalvos.find(
+            a => a.codigo === codigo
+        );
+
+    const turnosSelecionados =
+        Array.from(
+            document.querySelectorAll(
+                'input[name="turno"]:checked'
+            )
+        )
+        .map(el => el.value)
+        .join(', ');
 
     if (!aluno) {
-        const nome = document.getElementById('nome_aluno').value.toUpperCase().trim();
+
+        const nome =
+            document.getElementById(
+                'nome_aluno'
+            ).value
+            .toUpperCase()
+            .trim();
+
         if (!nome) {
-            alert('Selecione ou preencha um aluno antes de imprimir o comprovante.');
+
+            alert(
+                'Selecione ou preencha um aluno antes de imprimir o comprovante.'
+            );
+
             return;
+
         }
 
         aluno = {
-            codigo: codigo || 'PROVISÓRIO',
-            data_inclusao: document.getElementById('data_inclusao').value,
-            nome_aluno: nome,
-            data_nascimento: document.getElementById('data_nascimento').value,
-            sexo: document.getElementById('sexo').value,
-            estado_civil: document.getElementById('estado_civil').value,
-            endereco: document.getElementById('endereco').value.toUpperCase().trim(),
-            numero: document.getElementById('numero').value.toUpperCase().trim(),
-            bairro: document.getElementById('bairro').value.toUpperCase().trim(),
-            cidade: document.getElementById('cidade').value.toUpperCase().trim(),
-            estado: document.getElementById('estado').value.toUpperCase().trim(),
-            cep: document.getElementById('cep').value.trim(),
-            telefone: document.getElementById('telefone').value.trim(),
-            documento: document.getElementById('documento').value.trim(),
-            curso: normalizarCurso(document.getElementById('curso').value),
-            turnos: turnosSelecionados,
-            professor: document.getElementById('professor').value,
-            coordenador: COORDENADOR_PADRAO,
-            inicio_aulas: document.getElementById('inicio_aulas').value,
-            horario_aulas: document.getElementById('horario_aulas').value.toUpperCase().trim()
+
+            codigo:
+                codigo || 'PROVISÓRIO',
+
+            data_inclusao:
+                document.getElementById(
+                    'data_inclusao'
+                ).value,
+
+            nome_aluno:
+                nome,
+
+            data_nascimento:
+                document.getElementById(
+                    'data_nascimento'
+                ).value,
+
+            sexo:
+                document.getElementById(
+                    'sexo'
+                ).value,
+
+            estado_civil:
+                document.getElementById(
+                    'estado_civil'
+                ).value,
+
+            endereco:
+                document.getElementById(
+                    'endereco'
+                ).value
+                .toUpperCase()
+                .trim(),
+
+            numero:
+                document.getElementById(
+                    'numero'
+                ).value
+                .toUpperCase()
+                .trim(),
+
+            bairro:
+                document.getElementById(
+                    'bairro'
+                ).value
+                .toUpperCase()
+                .trim(),
+
+            cidade:
+                document.getElementById(
+                    'cidade'
+                ).value
+                .toUpperCase()
+                .trim(),
+
+            estado:
+                document.getElementById(
+                    'estado'
+                ).value
+                .toUpperCase()
+                .trim(),
+
+            cep:
+                document.getElementById(
+                    'cep'
+                ).value
+                .trim(),
+
+            telefone:
+                document.getElementById(
+                    'telefone'
+                ).value
+                .trim(),
+
+            documento:
+                document.getElementById(
+                    'documento'
+                ).value
+                .trim(),
+
+            curso:
+                normalizarCurso(
+                    document.getElementById(
+                        'curso'
+                    ).value
+                ),
+
+            turnos:
+                turnosSelecionados,
+
+            professor:
+                normalizarProfessor(
+                    document.getElementById(
+                        'professor'
+                    ).value
+                ),
+
+            coordenador:
+                COORDENADOR_PADRAO,
+
+            inicio_aulas:
+                document.getElementById(
+                    'inicio_aulas'
+                ).value,
+
+            horario_aulas:
+                document.getElementById(
+                    'horario_aulas'
+                ).value
+                .toUpperCase()
+                .trim()
+
         };
-    } else if (!aluno.turnos && turnosSelecionados) {
-        aluno.turnos = turnosSelecionados;
+
+    } else if (
+        !aluno.turnos &&
+        turnosSelecionados
+    ) {
+
+        aluno.turnos =
+            turnosSelecionados;
+
     }
 
-    const containerPrint = document.getElementById('comprovantePrint');
+    const containerPrint =
+        document.getElementById(
+            'comprovantePrint'
+        );
+
     containerPrint.innerHTML = `
+
         <div class="comprovante-wrapper-total">
-            ${gerarHTMLViaComprovante(aluno, 'VIA DA INSTITUIÇÃO', 'Assinatura do Coordenador')}
-            <div class="corte-linha"><span>CORTE AQUI</span></div>
-            ${gerarHTMLViaComprovante(aluno, 'VIA DO ALUNO', 'Assinatura do Aluno ou Responsável')}
+
+            ${gerarHTMLViaComprovante(
+                aluno,
+                'VIA DA INSTITUIÇÃO',
+                'Assinatura do Coordenador'
+            )}
+
+            <div class="corte-linha">
+                <span>CORTE AQUI</span>
+            </div>
+
+            ${gerarHTMLViaComprovante(
+                aluno,
+                'VIA DO ALUNO',
+                'Assinatura do Aluno ou Responsável'
+            )}
+
         </div>
+
     `;
 
-    document.body.classList.add('print-comprovante');
+    document.body.classList.add(
+        'print-comprovante'
+    );
+
     window.print();
+
 }
 
-window.addEventListener('afterprint', () => {
-    document.body.classList.remove('print-comprovante', 'print-relatorio');
-});
+/* =========================================================
+   APÓS IMPRESSÃO
+   ========================================================= */
+
+window.addEventListener(
+    'afterprint',
+    () => {
+
+        document.body.classList.remove(
+            'print-comprovante',
+            'print-relatorio'
+        );
+
+    }
+);
+
+/* =========================================================
+   IMPRIMIR RELATÓRIO
+   ========================================================= */
 
 function imprimirRelatorio() {
-    document.body.classList.add('print-relatorio');
+
+    document.body.classList.add(
+        'print-relatorio'
+    );
+
     window.print();
+
 }
+
+/* =========================================================
+   LIMPAR VALOR CSV
+   ========================================================= */
 
 function limparValorCSV(valor) {
-    return repararTextoCodificacao((valor ?? '').toString())
-        .replace(/^\uFEFF/, '')
-        .trim()
-        .replace(/^"(.*)"$/, '$1')
-        .replace(/""/g, '"')
-        .trim();
+
+    return repararTextoCodificacao(
+        (valor ?? '').toString()
+    )
+    .replace(/^\uFEFF/, '')
+    .trim()
+    .replace(/^"(.*)"$/, '$1')
+    .replace(/""/g, '"')
+    .trim();
+
 }
 
+/* =========================================================
+   SEPARAR CSV POR ;
+   ========================================================= */
+
 function separarCSVSemicolon(linha) {
+
     const resultado = [];
+
     let atual = '';
     let dentroAspas = false;
 
-    for (let i = 0; i < linha.length; i++) {
+    for (
+        let i = 0;
+        i < linha.length;
+        i++
+    ) {
+
         const ch = linha[i];
 
         if (ch === '"') {
-            if (dentroAspas && linha[i + 1] === '"') {
+
+            if (
+                dentroAspas &&
+                linha[i + 1] === '"'
+            ) {
+
                 atual += '"';
                 i++;
+
             } else {
-                dentroAspas = !dentroAspas;
+
+                dentroAspas =
+                    !dentroAspas;
+
             }
-        } else if (ch === ';' && !dentroAspas) {
-            resultado.push(limparValorCSV(atual));
+
+        } else if (
+            ch === ';' &&
+            !dentroAspas
+        ) {
+
+            resultado.push(
+                limparValorCSV(atual)
+            );
+
             atual = '';
+
         } else {
+
             atual += ch;
+
         }
+
     }
 
-    resultado.push(limparValorCSV(atual));
+    resultado.push(
+        limparValorCSV(atual)
+    );
+
     return resultado;
+
 }
 
+/* =========================================================
+   CONVERTER DATA ACCESS PARA ISO
+   ========================================================= */
+
 function converterDataAccessParaISO(valor) {
-    const texto = limparValorCSV(valor);
+
+    const texto =
+        limparValorCSV(valor);
+
     if (!texto) return '';
 
-    const somenteData = texto.split(/\s+/)[0];
+    const somenteData =
+        texto.split(/\s+/)[0];
 
-    let m = somenteData.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
+    let m =
+        somenteData.match(
+            /^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/
+        );
+
     if (m) {
-        let dia = m[1].padStart(2, '0');
-        let mes = m[2].padStart(2, '0');
-        let ano = m[3];
-        if (ano.length === 2) ano = Number(ano) > 50 ? '19' + ano : '20' + ano;
+
+        let dia =
+            m[1].padStart(2, '0');
+
+        let mes =
+            m[2].padStart(2, '0');
+
+        let ano =
+            m[3];
+
+        if (ano.length === 2) {
+
+            ano =
+                Number(ano) > 50
+                    ? '19' + ano
+                    : '20' + ano;
+
+        }
+
         return `${ano}-${mes}-${dia}`;
+
     }
 
-    m = somenteData.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
+    m =
+        somenteData.match(
+            /^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/
+        );
+
     if (m) {
+
         return `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
+
     }
 
     return '';
+
 }
+
+/* =========================================================
+   TRABALHO
+   ========================================================= */
 
 function extrairTrabalho(valor) {
-    const texto = limparValorCSV(valor);
-    if (!texto) return { opcao: '', local: '' };
 
-    const upper = texto.toUpperCase();
-    if (upper === 'SIM' || upper === 'NÃO' || upper === 'NAO') {
-        return { opcao: upper === 'NAO' ? 'NÃO' : upper, local: '' };
+    const texto =
+        limparValorCSV(valor);
+
+    if (!texto) {
+
+        return {
+            opcao: '',
+            local: ''
+        };
+
     }
 
-    if (upper.startsWith('SIM')) {
-        const resto = texto.replace(/^SIM\s*[,;:\-]?\s*/i, '').trim();
-        return { opcao: 'SIM', local: resto.toUpperCase() };
+    const upper =
+        texto.toUpperCase();
+
+    if (
+        upper === 'SIM' ||
+        upper === 'NÃO' ||
+        upper === 'NAO'
+    ) {
+
+        return {
+
+            opcao:
+                upper === 'NAO'
+                    ? 'NÃO'
+                    : upper,
+
+            local: ''
+
+        };
+
     }
 
-    if (upper.startsWith('NÃO') || upper.startsWith('NAO')) {
-        return { opcao: 'NÃO', local: texto.replace(/^N(?:ÃO|AO)\s*[,;:\-]?\s*/i, '').trim().toUpperCase() };
+    if (
+        upper.startsWith('SIM')
+    ) {
+
+        const resto =
+            texto
+                .replace(
+                    /^SIM\s*[,;:\-]?\s*/i,
+                    ''
+                )
+                .trim();
+
+        return {
+
+            opcao: 'SIM',
+
+            local:
+                resto.toUpperCase()
+
+        };
+
     }
 
-    return { opcao: 'SIM', local: texto.toUpperCase() };
-}
+    if (
+        upper.startsWith('NÃO') ||
+        upper.startsWith('NAO')
+    ) {
 
-function salvarAlunoImportado(colunas) {
-    // Ordem REAL da tabela Access ajustada:
-    // 0 Código
-    // 1 Data de Inclusão
-    // 2 Nome
-    // 3 Data de Nascimento
-    // 4 Sexo
-    // 5 Estado Civil
-    // 6 Pai
-    // 7 Mãe
-    // 8 Endereço
-    // 9 Nº
-    // 10 Bairro
-    // 11 Cidade
-    // 12 Estado
-    // 13 CEP
-    // 14 Telefone
-    // 15 RG/CPF
-    // 16 Grupos Jovem
-    // 17 Estuda
-    // 18 Escola
-    // 19 Série
-    // 20 Escolaridade
-    // 21 Trabalha / Onde
-    // 22 Curso
-    // 23 Manhã
-    // 24 Tarde
-    // 25 Noite
-    // 26 Professor
-    // 27 Coordenador
-    // 28 Início das Aulas
-    // 29 Horário das Aulas
+        return {
 
-    let codigo = limparValorCSV(colunas[0]);
-    const nome = limparValorCSV(colunas[2]).toUpperCase();
-    if (!nome) return false;
+            opcao: 'NÃO',
 
-    if (!codigo) codigo = gerarCodigoNumerico();
+            local:
+                texto
+                    .replace(
+                        /^N(?:ÃO|AO)\s*[,;:\-]?\s*/i,
+                        ''
+                    )
+                    .trim()
+                    .toUpperCase()
 
-    const trabalho = extrairTrabalho(colunas[21]);
-    const turnos = [];
-    if (limparValorCSV(colunas[23]).toUpperCase() === 'X') turnos.push('MANHÃ');
-    if (limparValorCSV(colunas[24]).toUpperCase() === 'X') turnos.push('TARDE');
-    if (limparValorCSV(colunas[25]).toUpperCase() === 'X') turnos.push('NOITE');
+        };
 
-    const aluno = {
-        codigo,
-        data_inclusao: converterDataAccessParaISO(colunas[1]),
-        nome_aluno: nome,
-        data_nascimento: converterDataAccessParaISO(colunas[3]),
-        sexo: limparValorCSV(colunas[4]).toUpperCase(),
-        estado_civil: limparValorCSV(colunas[5]).toUpperCase(),
-        nome_pai: limparValorCSV(colunas[6]).toUpperCase(),
-        nome_mae: limparValorCSV(colunas[7]).toUpperCase(),
-        endereco: limparValorCSV(colunas[8]).toUpperCase(),
-        numero: limparValorCSV(colunas[9]).toUpperCase(),
-        bairro: limparValorCSV(colunas[10]).toUpperCase(),
-        cidade: limparValorCSV(colunas[11]).toUpperCase(),
-        estado: limparValorCSV(colunas[12]).toUpperCase(),
-        cep: limparValorCSV(colunas[13]),
-        telefone: limparValorCSV(colunas[14]),
-        documento: limparValorCSV(colunas[15]),
-        grupos_jovem: limparValorCSV(colunas[16]).toUpperCase(),
-        estuda: limparValorCSV(colunas[17]).toUpperCase(),
-        escola: limparValorCSV(colunas[18]).toUpperCase(),
-        serie: limparValorCSV(colunas[19]).toUpperCase(),
-        escolaridade: limparValorCSV(colunas[20]).toUpperCase(),
-        trabalha_opcao: trabalho.opcao || 'NÃO',
-        trabalho_local: trabalho.local,
-        curso: normalizarCurso(colunas[22]),
-        turnos: turnos.join(', '),
-        professor: limparValorCSV(colunas[26]).toUpperCase(),
-        coordenador: limparValorCSV(colunas[27]).toUpperCase() || COORDENADOR_PADRAO,
-        inicio_aulas: converterDataAccessParaISO(colunas[28]),
-        horario_aulas: limparValorCSV(colunas[29]).toUpperCase()
+    }
+
+    return {
+
+        opcao: 'SIM',
+
+        local:
+            texto.toUpperCase()
+
     };
 
-    const idx = alunosSalvos.findIndex(a =>
-        (codigo && a.codigo === codigo) ||
-        (a.nome_aluno && a.nome_aluno.toUpperCase() === nome)
-    );
+}
+
+/* =========================================================
+   SALVAR ALUNO IMPORTADO
+   ========================================================= */
+
+function salvarAlunoImportado(colunas) {
+
+    /*
+     * Ordem REAL da tabela Access:
+     *
+     * 0 Código
+     * 1 Data de Inclusão
+     * 2 Nome
+     * 3 Data de Nascimento
+     * 4 Sexo
+     * 5 Estado Civil
+     * 6 Pai
+     * 7 Mãe
+     * 8 Endereço
+     * 9 Nº
+     * 10 Bairro
+     * 11 Cidade
+     * 12 Estado
+     * 13 CEP
+     * 14 Telefone
+     * 15 RG/CPF
+     * 16 Grupos Jovem
+     * 17 Estuda
+     * 18 Escola
+     * 19 Série
+     * 20 Escolaridade
+     * 21 Trabalha / Onde
+     * 22 Curso
+     * 23 Manhã
+     * 24 Tarde
+     * 25 Noite
+     * 26 Professor
+     * 27 Coordenador
+     * 28 Início das Aulas
+     * 29 Horário das Aulas
+     */
+
+    let codigo =
+        limparValorCSV(
+            colunas[0]
+        );
+
+    const nome =
+        limparValorCSV(
+            colunas[2]
+        )
+        .toUpperCase();
+
+    if (!nome) return false;
+
+    if (!codigo) {
+
+        codigo =
+            gerarCodigoNumerico();
+
+    }
+
+    const trabalho =
+        extrairTrabalho(
+            colunas[21]
+        );
+
+    const turnos = [];
+
+    if (
+        limparValorCSV(
+            colunas[23]
+        )
+        .toUpperCase() === 'X'
+    ) {
+
+        turnos.push('MANHÃ');
+
+    }
+
+    if (
+        limparValorCSV(
+            colunas[24]
+        )
+        .toUpperCase() === 'X'
+    ) {
+
+        turnos.push('TARDE');
+
+    }
+
+    if (
+        limparValorCSV(
+            colunas[25]
+        )
+        .toUpperCase() === 'X'
+    ) {
+
+        turnos.push('NOITE');
+
+    }
+
+    const aluno = {
+
+        codigo,
+
+        data_inclusao:
+            converterDataAccessParaISO(
+                colunas[1]
+            ),
+
+        nome_aluno:
+            nome,
+
+        data_nascimento:
+            converterDataAccessParaISO(
+                colunas[3]
+            ),
+
+        sexo:
+            limparValorCSV(
+                colunas[4]
+            ).toUpperCase(),
+
+        estado_civil:
+            limparValorCSV(
+                colunas[5]
+            ).toUpperCase(),
+
+        nome_pai:
+            limparValorCSV(
+                colunas[6]
+            ).toUpperCase(),
+
+        nome_mae:
+            limparValorCSV(
+                colunas[7]
+            ).toUpperCase(),
+
+        endereco:
+            limparValorCSV(
+                colunas[8]
+            ).toUpperCase(),
+
+        numero:
+            limparValorCSV(
+                colunas[9]
+            ).toUpperCase(),
+
+        bairro:
+            limparValorCSV(
+                colunas[10]
+            ).toUpperCase(),
+
+        cidade:
+            limparValorCSV(
+                colunas[11]
+            ).toUpperCase(),
+
+        estado:
+            limparValorCSV(
+                colunas[12]
+            ).toUpperCase(),
+
+        cep:
+            limparValorCSV(
+                colunas[13]
+            ),
+
+        telefone:
+            limparValorCSV(
+                colunas[14]
+            ),
+
+        documento:
+            limparValorCSV(
+                colunas[15]
+            ),
+
+        grupos_jovem:
+            limparValorCSV(
+                colunas[16]
+            ).toUpperCase(),
+
+        estuda:
+            limparValorCSV(
+                colunas[17]
+            ).toUpperCase(),
+
+        escola:
+            limparValorCSV(
+                colunas[18]
+            ).toUpperCase(),
+
+        serie:
+            limparValorCSV(
+                colunas[19]
+            ).toUpperCase(),
+
+        escolaridade:
+            limparValorCSV(
+                colunas[20]
+            ).toUpperCase(),
+
+        trabalha_opcao:
+            trabalho.opcao || 'NÃO',
+
+        trabalho_local:
+            trabalho.local,
+
+        curso:
+            normalizarCurso(
+                colunas[22]
+            ),
+
+        turnos:
+            turnos.join(', '),
+
+        /*
+         * CORREÇÃO PRINCIPAL:
+         * O professor passa pela função de
+         * normalização antes de ser armazenado.
+         */
+
+        professor:
+            normalizarProfessor(
+                colunas[26]
+            ),
+
+        coordenador:
+            limparValorCSV(
+                colunas[27]
+            ).toUpperCase()
+            ||
+            COORDENADOR_PADRAO,
+
+        inicio_aulas:
+            converterDataAccessParaISO(
+                colunas[28]
+            ),
+
+        horario_aulas:
+            limparValorCSV(
+                colunas[29]
+            ).toUpperCase()
+
+    };
+
+    const idx =
+        alunosSalvos.findIndex(a =>
+
+            (
+                codigo &&
+                a.codigo === codigo
+            )
+
+            ||
+
+            (
+                a.nome_aluno &&
+                a.nome_aluno
+                    .toUpperCase() === nome
+            )
+
+        );
 
     if (idx >= 0) {
-        alunosSalvos[idx] = { ...alunosSalvos[idx], ...aluno };
+
+        alunosSalvos[idx] = {
+
+            ...alunosSalvos[idx],
+
+            ...aluno
+
+        };
+
     } else {
+
         alunosSalvos.push(aluno);
+
     }
 
     return true;
+
 }
+
+/* =========================================================
+   GERAR CÓDIGO NUMÉRICO
+   ========================================================= */
 
 function gerarCodigoNumerico() {
-    const numeros = alunosSalvos
-        .map(a => parseInt(a.codigo, 10))
-        .filter(Number.isFinite);
 
-    return String((numeros.length ? Math.max(...numeros) : 1000) + 1);
-}
-
-function processarArquivoCSV(input) {
-    const file = input.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
-        const bytes = new Uint8Array(e.target.result);
-        let conteudo = '';
-
-        // Access pode exportar TXT/CSV em ANSI (Windows-1252), UTF-8 ou UTF-16.
-        // Detectamos BOM quando existir; sem BOM, tentamos UTF-8 e, se falhar,
-        // usamos Windows-1252, que preserva corretamente Ã, É, Ç, ÃO etc.
-        try {
-            if (bytes[0] === 0xFF && bytes[1] === 0xFE) {
-                conteudo = new TextDecoder('utf-16le').decode(bytes);
-            } else if (bytes[0] === 0xFE && bytes[1] === 0xFF) {
-                conteudo = new TextDecoder('utf-16be').decode(bytes);
-            } else {
-                conteudo = new TextDecoder('utf-8', { fatal: true }).decode(bytes);
-            }
-        } catch (_) {
-            conteudo = new TextDecoder('windows-1252').decode(bytes);
-        }
-
-        conteudo = conteudo.replace(/^\uFEFF/, '');
-        const linhas = conteudo.split(/\r?\n/).filter(l => l.trim() !== '');
-
-        let importados = 0;
-        let ignorados = 0;
-
-        linhas.forEach((linha, index) => {
-            const colunas = separarCSVSemicolon(linha);
-
-            // Ignora cabeçalho da tabela Access
-            const pareceCabecalho = colunas.some(c =>
-                /CÓDIGO|CODIGO|NOME DO ALUNO|DATA DE INCLUSÃO/i.test(c)
+    const numeros =
+        alunosSalvos
+            .map(
+                a =>
+                    parseInt(
+                        a.codigo,
+                        10
+                    )
+            )
+            .filter(
+                Number.isFinite
             );
 
-            if (index === 0 && pareceCabecalho) {
-                return;
+    return String(
+
+        (
+            numeros.length
+                ? Math.max(...numeros)
+                : 1000
+        ) + 1
+
+    );
+
+}
+
+/* =========================================================
+   PROCESSAR ARQUIVO CSV/TXT
+   ========================================================= */
+
+function processarArquivoCSV(input) {
+
+    const file =
+        input.files[0];
+
+    if (!file) return;
+
+    const reader =
+        new FileReader();
+
+    reader.onload =
+        function(e) {
+
+            const bytes =
+                new Uint8Array(
+                    e.target.result
+                );
+
+            let conteudo = '';
+
+            /*
+             * Access pode exportar:
+             * UTF-8
+             * UTF-16
+             * Windows-1252
+             */
+
+            try {
+
+                if (
+                    bytes[0] === 0xFF &&
+                    bytes[1] === 0xFE
+                ) {
+
+                    conteudo =
+                        new TextDecoder(
+                            'utf-16le'
+                        ).decode(bytes);
+
+                } else if (
+                    bytes[0] === 0xFE &&
+                    bytes[1] === 0xFF
+                ) {
+
+                    conteudo =
+                        new TextDecoder(
+                            'utf-16be'
+                        ).decode(bytes);
+
+                } else {
+
+                    conteudo =
+                        new TextDecoder(
+                            'utf-8',
+                            { fatal: true }
+                        ).decode(bytes);
+
+                }
+
+            } catch (_) {
+
+                conteudo =
+                    new TextDecoder(
+                        'windows-1252'
+                    ).decode(bytes);
+
             }
 
-            if (colunas.length < 30) {
-                ignorados++;
-                return;
-            }
+            conteudo =
+                conteudo.replace(
+                    /^\uFEFF/,
+                    ''
+                );
 
-            if (salvarAlunoImportado(colunas)) {
-                importados++;
-            } else {
-                ignorados++;
-            }
-        });
+            const linhas =
+                conteudo
+                    .split(/\r?\n/)
+                    .filter(
+                        l =>
+                            l.trim() !== ''
+                    );
 
-        localStorage.setItem('alunos_db', JSON.stringify(alunosSalvos));
-        atualizarTabelaRegistros();
-        atualizarDatalistBusca();
+            let importados = 0;
+            let ignorados = 0;
 
-        alert(`Importação concluída!\nLinhas encontradas: ${linhas.length}\nRegistros processados: ${importados}\nLinhas ignoradas: ${ignorados}`);
-        input.value = '';
-    };
+            linhas.forEach(
+                (linha, index) => {
 
-    reader.onerror = function() {
-        alert('Não foi possível ler o arquivo.');
-        input.value = '';
-    };
+                    const colunas =
+                        separarCSVSemicolon(
+                            linha
+                        );
+
+                    const pareceCabecalho =
+                        colunas.some(
+                            c =>
+                                /CÓDIGO|CODIGO|NOME DO ALUNO|DATA DE INCLUSÃO/i
+                                    .test(c)
+                        );
+
+                    if (
+                        index === 0 &&
+                        pareceCabecalho
+                    ) {
+
+                        return;
+
+                    }
+
+                    if (
+                        colunas.length < 30
+                    ) {
+
+                        ignorados++;
+
+                        return;
+
+                    }
+
+                    if (
+                        salvarAlunoImportado(
+                            colunas
+                        )
+                    ) {
+
+                        importados++;
+
+                    } else {
+
+                        ignorados++;
+
+                    }
+
+                }
+            );
+
+            localStorage.setItem(
+                'alunos_db',
+                JSON.stringify(
+                    alunosSalvos
+                )
+            );
+
+            atualizarTabelaRegistros();
+            atualizarDatalistBusca();
+
+            alert(
+
+                `Importação concluída!
+Linhas encontradas: ${linhas.length}
+Registros processados: ${importados}
+Linhas ignoradas: ${ignorados}`
+
+            );
+
+            input.value = '';
+
+        };
+
+    reader.onerror =
+        function() {
+
+            alert(
+                'Não foi possível ler o arquivo.'
+            );
+
+            input.value = '';
+
+        };
 
     reader.readAsArrayBuffer(file);
+
 }
 
 </script>
 
 </body>
 </html>
+```
