@@ -93,23 +93,47 @@
             gap: 10px;
             flex-wrap: wrap;
         }
-        button, label.btn-import {
-            padding: 10px 15px;
+        .btn-top-container {
+            background: #eef2f7;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            border: 1px solid #d0d7de;
+        }
+        .search-box {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        .search-box input {
+            padding: 7px;
             font-size: 12px;
+            width: 200px;
+        }
+        button, label.btn-import {
+            padding: 8px 12px;
+            font-size: 11px;
             font-weight: bold;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             color: white;
             display: inline-block;
+            text-align: center;
         }
-        .btn-salvar { background-color: #5cb85c; }
-        .btn-imprimir { background-color: #0275d8; }
+        .btn-salvar { background-color: #5cb85c; padding: 10px 20px; font-size: 12px; }
+        .btn-imprimir { background-color: #0275d8; padding: 10px 20px; font-size: 12px; }
         .btn-novo { background-color: #f0ad4e; color: #fff; }
         .btn-import { background-color: #0275d8; }
         .btn-relatorio { background-color: #6f42c1; }
         .btn-senha { background-color: #d9534f; }
         .btn-sair { background-color: #333; }
+        .btn-buscar { background-color: #0275d8; }
 
         /* Tela de Relatório */
         #reportScreen {
@@ -126,6 +150,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         .counter-badge {
             background-color: #1e3d59;
@@ -174,7 +200,7 @@
         /* Estilo de Impressão */
         @media print {
             body { background: white; padding: 0; }
-            #mainSystem, .btn-container, #loginScreen, #reportScreen, #passwordModal { display: none !important; }
+            #mainSystem, .btn-container, .btn-top-container, #loginScreen, #reportScreen, #passwordModal { display: none !important; }
             .print-area { display: block !important; }
         }
         .print-area { display: none; }
@@ -213,7 +239,7 @@
     <form id="loginForm" onsubmit="realizarLogin(event)">
         <div class="login-group">
             <label>Usuário:</label>
-            <input type="text" id="usuario" required placeholder="Digite o usuário (ex: cadjovem)" value="cadjovem">
+            <input type="text" id="usuario" required value="cadjovem">
         </div>
         <div class="login-group">
             <label>Senha:</label>
@@ -228,6 +254,23 @@
     <div class="container">
         <h1>CADJOVEM - MATRÍCULA DE ALUNOS</h1>
         
+        <!-- BARRA DE FERRAMENTAS SUPERIOR -->
+        <div class="btn-top-container">
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                <button type="button" class="btn-novo" onclick="novoRegistro()">Novo Registro</button>
+                <label class="btn-import">
+                    Importar <input type="file" id="csvFile" accept=".csv" style="display: none;" onchange="importarCSV(event)">
+                </label>
+                <button type="button" class="btn-relatorio" onclick="abrirRelatorio()">Relatório dos Cursos</button>
+                <button type="button" class="btn-senha" onclick="abrirModalSenha()">Nova Senha</button>
+                <button type="button" class="btn-sair" onclick="sairSistema()">Sair</button>
+            </div>
+            <div class="search-box">
+                <input type="text" id="inputBuscaAluno" placeholder="Buscar por Nome do Aluno...">
+                <button type="button" class="btn-buscar" onclick="buscarAlunoPorNome()">Buscar</button>
+            </div>
+        </div>
+
         <form id="cadForm">
             
             <!-- Bloco 01 - Identificação -->
@@ -417,16 +460,10 @@
                 </div>
             </fieldset>
 
+            <!-- Botões Inferiores Solicitados -->
             <div class="btn-container">
                 <button type="submit" class="btn-salvar">Salvar Registro</button>
-                <button type="button" class="btn-novo" onclick="novoRegistro()">Novo Registro</button>
-                <label class="btn-import">
-                    Importar <input type="file" id="csvFile" accept=".csv" style="display: none;" onchange="importarCSV(event)">
-                </label>
-                <button type="button" class="btn-relatorio" onclick="abrirRelatorio()">Relatório dos Cursos</button>
                 <button type="button" class="btn-imprimir" onclick="gerarComprovante()">Imprimir Registro</button>
-                <button type="button" class="btn-senha" onclick="abrirModalSenha()">Nova Senha</button>
-                <button type="button" class="btn-sair" onclick="sairSistema()">Sair</button>
             </div>
         </form>
     </div>
@@ -436,7 +473,25 @@
 <div id="reportScreen">
     <div class="report-header">
         <h2>Relatório Geral de Alunos e Cursos</h2>
-        <div class="counter-badge" id="contadorRegistros">Total de Registros: 0</div>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <div>
+                <label style="font-size: 11px; font-weight: bold; display: block; margin-bottom: 2px;">Filtrar por Curso:</label>
+                <select id="filtroCurso" onchange="filtrarRelatorio()" style="padding: 6px; font-size: 11px;">
+                    <option value="">TODOS OS CURSOS</option>
+                    <option value="INFORMÁTICA BÁSICA">INFORMÁTICA BÁSICA</option>
+                    <option value="MANUTENÇÃO DE COMPUTADORE">MANUTENÇÃO DE COMPUTADORE</option>
+                    <option value="OFFICE AVANÇADO">OFFICE AVANÇADO</option>
+                    <option value="PROGRAMAÇÃO DE SISTEMA">PROGRAMAÇÃO DE SISTEMA</option>
+                    <option value="CAPOEIRA">CAPOEIRA</option>
+                    <option value="JUDÔ">JUDÔ</option>
+                    <option value="INICIALIZAÇÃO NA COMPUTAÇÃO">INICIALIZAÇÃO NA COMPUTAÇÃO</option>
+                    <option value="NFORMÁTICA INTERMEDIARIA">NFORMÁTICA INTERMEDIARIA</option>
+                    <option value="TÉCNICO EM INFORMÁTICA">TÉCNICO EM INFORMÁTICA</option>
+                    <option value="WEB DESINGNAR">WEB DESINGNAR</option>
+                </select>
+            </div>
+            <div class="counter-badge" id="contadorRegistros">Total: 0</div>
+        </div>
     </div>
     <div style="overflow-x: auto; max-height: 400px;">
         <table class="report-table">
@@ -505,16 +560,13 @@
 </div>
 
 <script>
-    // Força a senha padrão correta solicitada (juventudes)
-    localStorage.setItem('cadjovem_senha', 'juventudes');
-
     function realizarLogin(e) {
         e.preventDefault();
         const user = document.getElementById('usuario').value.trim().toLowerCase();
         const pass = document.getElementById('senha').value;
-        const senhaSalva = localStorage.getItem('cadjovem_senha') || 'juventudes';
+        const senhaAtual = localStorage.getItem('cadjovem_senha') || 'juventudes';
 
-        if(user === "cadjovem" && pass === senhaSalva) {
+        if(user === "cadjovem" && pass === senhaAtual) {
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('mainSystem').style.display = 'block';
             atualizarProximoCodigo();
@@ -541,12 +593,23 @@
             return;
         }
 
-        aluno.codigo = registros.length + 1;
-        registros.push(aluno);
+        // Verifica se já existe pelo código atual ou se é novo
+        const codigoAtual = parseInt(document.getElementById('input_codigo').value);
+        const indexExistente = registros.findIndex(r => parseInt(r.codigo) === codigoAtual);
+
+        if(indexExistente >= 0) {
+            // Atualiza registro existente
+            aluno.codigo = codigoAtual;
+            registros[indexExistente] = aluno;
+            alert("Matrícula atualizada com sucesso!");
+        } else {
+            // Novo registro
+            aluno.codigo = registros.length + 1;
+            registros.push(aluno);
+            alert("Matrícula salva com sucesso!");
+        }
         
         localStorage.setItem('cadjovem_alunos', JSON.stringify(registros));
-        
-        alert("Matrícula salva com sucesso!");
         novoRegistro();
     });
 
@@ -554,6 +617,29 @@
         document.getElementById('cadForm').reset();
         document.querySelector('[name="nome_coordenador"]').value = "BENONE HENRIQUE DE SOUSA";
         atualizarProximoCodigo();
+    }
+
+    function buscarAlunoPorNome() {
+        const termo = document.getElementById('inputBuscaAluno').value.trim().toLowerCase();
+        if(!termo) {
+            alert("Digite o nome ou parte do nome do aluno para buscar.");
+            return;
+        }
+
+        const encontrado = registros.find(r => r.nome_aluno && r.nome_aluno.toLowerCase().includes(termo));
+        if(encontrado) {
+            // Preenche o formulário com os dados do aluno encontrado
+            document.getElementById('input_codigo').value = encontrado.codigo || '';
+            for (const key in encontrado) {
+                const campo = document.querySelector(`[name="${key}"]`);
+                if(campo) {
+                    campo.value = encontrado[key];
+                }
+            }
+            alert(`Aluno(a) "${encontrado.nome_aluno}" encontrado(a) e carregado(a) na tela!`);
+        } else {
+            alert("Nenhum aluno encontrado com esse nome.");
+        }
     }
 
     function sairSistema() {
@@ -587,11 +673,25 @@
     function abrirRelatorio() {
         document.getElementById('mainSystem').style.display = 'none';
         document.getElementById('reportScreen').style.display = 'block';
-        
+        document.getElementById('filtroCurso').value = '';
+        renderizarTabelaRelatorio(registros);
+    }
+
+    function filtrarRelatorio() {
+        const cursoSelecionado = document.getElementById('filtroCurso').value;
+        if(!cursoSelecionado) {
+            renderizarTabelaRelatorio(registros);
+        } else {
+            const filtrados = registros.filter(r => r.curso_atividade === cursoSelecionado);
+            renderizarTabelaRelatorio(filtrados);
+        }
+    }
+
+    function renderizarTabelaRelatorio(lista) {
         const tbody = document.getElementById('reportTableBody');
         tbody.innerHTML = '';
         
-        registros.forEach(aluno => {
+        lista.forEach(aluno => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${aluno.codigo || ''}</td>
@@ -604,7 +704,7 @@
             tbody.appendChild(tr);
         });
 
-        document.getElementById('contadorRegistros').innerText = `Total de Registros: ${registros.length}`;
+        document.getElementById('contadorRegistros').innerText = `Total: ${lista.length}`;
     }
 
     function fecharRelatorio() {
