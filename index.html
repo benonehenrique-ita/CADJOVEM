@@ -27,7 +27,7 @@
         .login-group input { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
         .btn-login { width: 100%; padding: 10px; background-color: #0275d8; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
 
-        /* Sistema Principal (Escondido até logar) */
+        /* Sistema Principal */
         #mainSystem { display: none; }
         .container {
             max-width: 1000px;
@@ -197,7 +197,7 @@
         }
         .modal-content h3 { color: #1e3d59; margin-top: 0; }
 
-        /* Estilo de Impressão Ajustado (Máximo 5.5 cm por via - Meia folha A4 superior) */
+        /* Estilo de Impressão (Max 5.5cm por via) */
         @media print {
             body { background: white; padding: 0; margin: 0; }
             #mainSystem, .btn-container, .btn-top-container, #loginScreen, #reportScreen, #passwordModal { display: none !important; }
@@ -256,7 +256,6 @@
     <div class="container">
         <h1>CADJOVEM - MATRÍCULA DE ALUNOS</h1>
         
-        <!-- BARRA DE FERRAMENTAS SUPERIOR -->
         <div class="btn-top-container">
             <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
                 <button type="button" class="btn-novo" onclick="novoRegistro()">Novo Registro</button>
@@ -274,8 +273,6 @@
         </div>
 
         <form id="cadForm">
-            
-            <!-- Bloco 01 - Identificação -->
             <fieldset>
                 <legend>Bloco 01 - Identificação</legend>
                 <div class="form-row">
@@ -320,7 +317,6 @@
                 </div>
             </fieldset>
 
-            <!-- Bloco 02 - Endereço e Documento -->
             <fieldset>
                 <legend>Bloco 02 - Endereço e Documento</legend>
                 <div class="form-row">
@@ -363,7 +359,6 @@
                 </div>
             </fieldset>
 
-            <!-- Bloco 03 - Qualificação -->
             <fieldset>
                 <legend>Bloco 03 - Qualificação</legend>
                 <div class="form-row">
@@ -400,7 +395,6 @@
                 </div>
             </fieldset>
 
-            <!-- Bloco 04 - Objetivo -->
             <fieldset>
                 <legend>Bloco 04 - Objetivo</legend>
                 <div class="form-row">
@@ -415,7 +409,7 @@
                             <option value="CAPOEIRA">CAPOEIRA</option>
                             <option value="JUDÔ">JUDÔ</option>
                             <option value="INICIALIZAÇÃO NA COMPUTAÇÃO">INICIALIZAÇÃO NA COMPUTAÇÃO</option>
-                            <option value="NFORMÁTICA INTERMEDIARIA">NFORMÁTICA INTERMEDIARIA</option>
+                            <option value="INFORMÁTICA INTERMEDIARIA">INFORMÁTICA INTERMEDIARIA</option>
                             <option value="TÉCNICO EM INFORMÁTICA">TÉCNICO EM INFORMÁTICA</option>
                             <option value="WEB DESIGNER">WEB DESIGNER</option>
                         </select>
@@ -431,7 +425,6 @@
                 </div>
             </fieldset>
 
-            <!-- Bloco 05 - Referências do Programa -->
             <fieldset>
                 <legend>Bloco 05 - Referências do Programa</legend>
                 <div class="form-row">
@@ -462,7 +455,6 @@
                 </div>
             </fieldset>
 
-            <!-- Botões Inferiores -->
             <div class="btn-container">
                 <button type="submit" class="btn-salvar">Salvar Registro</button>
                 <button type="button" class="btn-imprimir" onclick="gerarComprovante()">Imprimir Registro</button>
@@ -471,7 +463,7 @@
     </div>
 </div>
 
-<!-- TELA DE RELATÓRIO DOS CURSOS -->
+<!-- TELA DE RELATÓRIO -->
 <div id="reportScreen">
     <div class="report-header">
         <h2>Relatório Geral de Alunos e Cursos</h2>
@@ -487,7 +479,7 @@
                     <option value="CAPOEIRA">CAPOEIRA</option>
                     <option value="JUDÔ">JUDÔ</option>
                     <option value="INICIALIZAÇÃO NA COMPUTAÇÃO">INICIALIZAÇÃO NA COMPUTAÇÃO</option>
-                    <option value="NFORMÁTICA INTERMEDIARIA">NFORMÁTICA INTERMEDIARIA</option>
+                    <option value="INFORMÁTICA INTERMEDIARIA">INFORMÁTICA INTERMEDIARIA</option>
                     <option value="TÉCNICO EM INFORMÁTICA">TÉCNICO EM INFORMÁTICA</option>
                     <option value="WEB DESIGNER">WEB DESIGNER</option>
                 </select>
@@ -507,9 +499,7 @@
                     <th>Professor</th>
                 </tr>
             </thead>
-            <tbody id="reportTableBody">
-                <!-- Preenchido via JavaScript -->
-            </tbody>
+            <tbody id="reportTableBody"></tbody>
         </table>
     </div>
     <div style="text-align: right; margin-top: 15px;">
@@ -517,7 +507,7 @@
     </div>
 </div>
 
-<!-- MODAL DE NOVA SENHA -->
+<!-- MODAL SENHA -->
 <div id="passwordModal">
     <div class="modal-content">
         <h3>Alterar Senha de Acesso</h3>
@@ -532,7 +522,7 @@
     </div>
 </div>
 
-<!-- Área de Impressão Otimizada (Duas vias compactas na metade superior A4) -->
+<!-- IMPRESSÃO -->
 <div class="print-area" id="printArea">
     <div class="comprovante-via">
         <h3>PROJETO CADJOVEM - COMPROVANTE DE MATRÍCULA (1ª Via: Controle de Inscrição)</h3>
@@ -583,7 +573,6 @@
 
     document.getElementById('cadForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        
         const formData = new FormData(this);
         const aluno = {};
         formData.forEach((value, key) => { aluno[key] = value; });
@@ -618,7 +607,7 @@
 
     function normalizarTexto(texto) {
         if (!texto) return "";
-        return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+        return texto.toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().trim();
     }
 
     function tratarEnterBusca(e) {
@@ -694,7 +683,7 @@
             renderizarTabelaRelatorio(registros);
         } else {
             const cursoNorm = normalizarTexto(cursoSelecionado);
-            const filtrados = registros.filter(r => r.curso_atividade && normalizarTexto(r.curso_atividade) === cursoNorm);
+            const filtrados = registros.filter(r => r.curso_atividade && normalizarTexto(r.curso_atividade).includes(cursoNorm));
             renderizarTabelaRelatorio(filtrados);
         }
     }
@@ -729,7 +718,6 @@
         if (!file) return;
 
         const reader = new FileReader();
-        // Leitor configurado para decodificar corretamente acentuação (ISO-8859-1)
         reader.onload = function(e) {
             const conteudo = e.target.result;
             const linhas = conteudo.split('\n');
@@ -776,9 +764,10 @@
             registros = novosRegistros;
             localStorage.setItem('cadjovem_alunos', JSON.stringify(registros));
             atualizarProximoCodigo();
-            alert(`${registros.length} registros importados com sucesso com codificação corrigida!`);
+            alert(`${registros.length} registros importados com sucesso!`);
         };
-        reader.readAsText(file, 'ISO-8859-1');
+        // Forçado UTF-8 para eliminar definitivamente o problema dos caracteres corrompidos ()
+        reader.readAsText(file, 'UTF-8');
     }
 
     function gerarComprovante() {
