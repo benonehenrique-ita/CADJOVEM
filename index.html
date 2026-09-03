@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>CADJOVEM - Matrícula de Alunos</title>
+    <title>CADJOVEM - Sistema de Matrícula</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,6 +11,24 @@
             padding: 20px;
             color: #333;
         }
+        /* Tela de Login */
+        #loginScreen {
+            max-width: 400px;
+            background: #ffffff;
+            margin: 100px auto;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        #loginScreen h2 { color: #1e3d59; margin-bottom: 20px; }
+        .login-group { text-align: left; margin-bottom: 15px; }
+        .login-group label { display: block; font-size: 11px; font-weight: bold; margin-bottom: 5px; color: #444; }
+        .login-group input { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .btn-login { width: 100%; padding: 10px; background-color: #0275d8; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
+
+        /* Sistema Principal (Escondido até logar) */
+        #mainSystem { display: none; }
         .container {
             max-width: 1000px;
             background: #ffffff;
@@ -88,7 +106,7 @@
         /* Estilo de Impressão (2 Vias em Meia Folha A4) */
         @media print {
             body { background: white; padding: 0; }
-            .container, .btn-container { display: none; }
+            #mainSystem, .btn-container, #loginScreen { display: none; }
             .print-area { display: block !important; }
         }
         .print-area { display: none; }
@@ -121,204 +139,223 @@
 </head>
 <body>
 
-<div class="container">
-    <h1>CADJOVEM - MATRÍCULA DE ALUNOS</h1>
-    
-    <form id="cadForm">
-        
-        <!-- Bloco 01 - Identificação -->
-        <fieldset>
-            <legend>Bloco 01 - Identificação</legend>
-            <div class="form-row">
-                <div class="form-group" style="max-width: 100px;">
-                    <label>1º CÓDIGO</label>
-                    <input type="text" name="codigo" readonly value="1">
-                </div>
-                <div class="form-group" style="max-width: 150px;">
-                    <label>2º DATA DE INCLUSÃO</label>
-                    <input type="text" name="data_inclusao">
-                </div>
-                <div class="form-group full">
-                    <label>3º NOME DO ALUNO</label>
-                    <input type="text" name="nome_aluno" required>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>4º DATA DE NASCIMENTO</label>
-                    <input type="text" name="data_nascimento">
-                </div>
-                <div class="form-group">
-                    <label>5º SEXO</label>
-                    <input type="text" name="sexo">
-                </div>
-                <div class="form-group">
-                    <label>6º ESTADO CIVIL</label>
-                    <input type="text" name="estado_civil">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group full">
-                    <label>7º NOME DO PAI</label>
-                    <input type="text" name="nome_pai">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group full">
-                    <label>8º NOME DA MÃE</label>
-                    <input type="text" name="nome_mae">
-                </div>
-            </div>
-        </fieldset>
-
-        <!-- Bloco 02 - Endereço e Documento -->
-        <fieldset>
-            <legend>Bloco 02 - Endereço e Documento</legend>
-            <div class="form-row">
-                <div class="form-group" style="flex: 4;">
-                    <label>9º ENDEREÇO</label>
-                    <input type="text" name="endereco">
-                </div>
-                <div class="form-group" style="flex: 1;">
-                    <label>10º Nº</label>
-                    <input type="text" name="numero">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>11º BAIRRO</label>
-                    <input type="text" name="bairro">
-                </div>
-                <div class="form-group">
-                    <label>12º CIDADE</label>
-                    <input type="text" name="cidade">
-                </div>
-                <div class="form-group" style="max-width: 80px;">
-                    <label>13º ESTADO</label>
-                    <input type="text" name="estado">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>14º CEP</label>
-                    <input type="text" name="cep">
-                </div>
-                <div class="form-group">
-                    <label>15º TELEFONE</label>
-                    <input type="text" name="telefone">
-                </div>
-                <div class="form-group">
-                    <label>16º RG OU CPF</label>
-                    <input type="text" name="rg_cpf">
-                </div>
-            </div>
-        </fieldset>
-
-        <!-- Bloco 03 - Qualificação -->
-        <fieldset>
-            <legend>Bloco 03 - Qualificação</legend>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>17º PARTICIPA DE GRUPO JOVEM?</label>
-                    <input type="text" name="participa_grupo_jovem">
-                </div>
-                <div class="form-group">
-                    <label>18º ESTUDA ATUALMENTE?</label>
-                    <input type="text" name="estuda_atualmente">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>19º SE ESTUDA INFORME O NOME DA ESCOLA</label>
-                    <input type="text" name="nome_escola">
-                </div>
-                <div class="form-group">
-                    <label>20º INFORME A SÉRIE QUE ESTUDA</label>
-                    <input type="text" name="serie_estuda">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group full">
-                    <label>21º SE NÃO ESTUDA INFORME O GRAU DE ESCOLARIDADE</label>
-                    <input type="text" name="grau_escolaridade">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group full">
-                    <label>22º TRABALHA ATUALMENTE? ONDE?</label>
-                    <input type="text" name="trabalha_onde">
-                </div>
-            </div>
-        </fieldset>
-
-        <!-- Bloco 04 - Objetivo -->
-        <fieldset>
-            <legend>Bloco 04 - Objetivo</legend>
-            <div class="form-row">
-                <div class="form-group" style="flex: 3;">
-                    <label>23º INFORMA O CURSO OU ATIVIDADE QUE PRETENDE FAZER</label>
-                    <select name="curso_atividade" id="curso_atividade">
-                        <option value="">- SELECIONE -</option>
-                        <option value="INFORMÁTICA BÁSICA">INFORMÁTICA BÁSICA</option>
-                        <option value="MANUTENÇÃO DE COMPUTADORE">MANUTENÇÃO DE COMPUTADORE</option>
-                        <option value="OFFICE AVANÇADO">OFFICE AVANÇADO</option>
-                        <option value="PROGRAMAÇÃO DE SISTEMA">PROGRAMAÇÃO DE SISTEMA</option>
-                        <option value="CAPOEIRA">CAPOEIRA</option>
-                        <option value="JUDÔ">JUDÔ</option>
-                        <option value="INICIALIZAÇÃO NA COMPUTAÇÃO">INICIALIZAÇÃO NA COMPUTAÇÃO</option>
-                        <option value="NFORMÁTICA INTERMEDIARIA">NFORMÁTICA INTERMEDIARIA</option>
-                        <option value="TÉCNICO EM INFORMÁTICA">TÉCNICO EM INFORMÁTICA</option>
-                        <option value="WEB DESINGNAR">WEB DESINGNAR</option>
-                    </select>
-                </div>
-                <div class="form-group" style="flex: 1;">
-                    <label>24º PREFERÊNCIA POR TURNO</label>
-                    <select name="preferencia_turno" id="preferencia_turno">
-                        <option value="">- SELECIONE -</option>
-                        <option value="Manhã">Manhã</option>
-                        <option value="Noite">Noite</option>
-                    </select>
-                </div>
-            </div>
-        </fieldset>
-
-        <!-- Bloco 05 - Referências do Programa -->
-        <fieldset>
-            <legend>Bloco 05 - Referências do Programa</legend>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>25º NOME DO PROFESSOR</label>
-                    <select name="nome_professor" id="nome_professor">
-                        <option value="">- SELECIONE -</option>
-                        <option value="ALEXSANDRO ALEXANDRE">ALEXSANDRO ALEXANDRE</option>
-                        <option value="LUCINALDO CLEMENTE">LUCINALDO CLEMENTE</option>
-                        <option value="LEANDRO JONH">LEANDRO JONH</option>
-                        <option value="JONES NUNES">JONES NUNES</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>26º NOME DO COORDENADOR</label>
-                    <input type="text" name="nome_coordenador" value="BENONE HENRIQUE DE SOUSA">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>27º INÍCIO DAS AULAS</label>
-                    <input type="text" name="inicio_aulas">
-                </div>
-                <div class="form-group">
-                    <label>28º HORÁRIO DAS AULAS</label>
-                    <input type="text" name="horario_aulas">
-                </div>
-            </div>
-        </fieldset>
-
-        <div class="btn-container">
-            <button type="reset" class="btn-limpar">Limpar Dados</button>
-            <button type="submit" class="btn-salvar">Salvar Registro</button>
-            <button type="button" class="btn-imprimir" onclick="gerarComprovante()">Imprimir Comprovante (2 Vias)</button>
+<!-- TELA DE LOGIN -->
+<div id="loginScreen">
+    <h2>CADJOVEM - LOGIN</h2>
+    <form id="loginForm" onsubmit="realizarLogin(event)">
+        <div class="login-group">
+            <label>Usuário:</label>
+            <input type="text" id="usuario" required placeholder="Digite o usuário">
         </div>
+        <div class="login-group">
+            <label>Senha:</label>
+            <input type="password" id="senha" required placeholder="Digite a senha">
+        </div>
+        <button type="submit" class="btn-login">Entrar no Sistema</button>
     </form>
+</div>
+
+<!-- SISTEMA PRINCIPAL -->
+<div id="mainSystem">
+    <div class="container">
+        <h1>CADJOVEM - MATRÍCULA DE ALUNOS</h1>
+        
+        <form id="cadForm">
+            
+            <!-- Bloco 01 - Identificação -->
+            <fieldset>
+                <legend>Bloco 01 - Identificação</legend>
+                <div class="form-row">
+                    <div class="form-group" style="max-width: 100px;">
+                        <label>1º CÓDIGO</label>
+                        <input type="text" name="codigo" readonly value="1">
+                    </div>
+                    <div class="form-group" style="max-width: 150px;">
+                        <label>2º DATA DE INCLUSÃO</label>
+                        <input type="text" name="data_inclusao">
+                    </div>
+                    <div class="form-group full">
+                        <label>3º NOME DO ALUNO</label>
+                        <input type="text" name="nome_aluno" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>4º DATA DE NASCIMENTO</label>
+                        <input type="text" name="data_nascimento">
+                    </div>
+                    <div class="form-group">
+                        <label>5º SEXO</label>
+                        <input type="text" name="sexo">
+                    </div>
+                    <div class="form-group">
+                        <label>6º ESTADO CIVIL</label>
+                        <input type="text" name="estado_civil">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full">
+                        <label>7º NOME DO PAI</label>
+                        <input type="text" name="nome_pai">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full">
+                        <label>8º NOME DA MÃE</label>
+                        <input type="text" name="nome_mae">
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Bloco 02 - Endereço e Documento -->
+            <fieldset>
+                <legend>Bloco 02 - Endereço e Documento</legend>
+                <div class="form-row">
+                    <div class="form-group" style="flex: 4;">
+                        <label>9º ENDEREÇO</label>
+                        <input type="text" name="endereco">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>10º Nº</label>
+                        <input type="text" name="numero">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>11º BAIRRO</label>
+                        <input type="text" name="bairro">
+                    </div>
+                    <div class="form-group">
+                        <label>12º CIDADE</label>
+                        <input type="text" name="cidade">
+                    </div>
+                    <div class="form-group" style="max-width: 80px;">
+                        <label>13º ESTADO</label>
+                        <input type="text" name="estado">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>14º CEP</label>
+                        <input type="text" name="cep">
+                    </div>
+                    <div class="form-group">
+                        <label>15º TELEFONE</label>
+                        <input type="text" name="telefone">
+                    </div>
+                    <div class="form-group">
+                        <label>16º RG OU CPF</label>
+                        <input type="text" name="rg_cpf">
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Bloco 03 - Qualificação -->
+            <fieldset>
+                <legend>Bloco 03 - Qualificação</legend>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>17º PARTICIPA DE GRUPO JOVEM?</label>
+                        <input type="text" name="participa_grupo_jovem">
+                    </div>
+                    <div class="form-group">
+                        <label>18º ESTUDA ATUALMENTE?</label>
+                        <input type="text" name="estuda_atualmente">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>19º SE ESTUDA INFORME O NOME DA ESCOLA</label>
+                        <input type="text" name="nome_escola">
+                    </div>
+                    <div class="form-group">
+                        <label>20º INFORME A SÉRIE QUE ESTUDA</label>
+                        <input type="text" name="serie_estuda">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full">
+                        <label>21º SE NÃO ESTUDA INFORME O GRAU DE ESCOLARIDADE</label>
+                        <input type="text" name="grau_escolaridade">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full">
+                        <label>22º TRABALHA ATUALMENTE? ONDE?</label>
+                        <input type="text" name="trabalha_onde">
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Bloco 04 - Objetivo -->
+            <fieldset>
+                <legend>Bloco 04 - Objetivo</legend>
+                <div class="form-row">
+                    <div class="form-group" style="flex: 3;">
+                        <label>23º INFORMA O CURSO OU ATIVIDADE QUE PRETENDE FAZER</label>
+                        <select name="curso_atividade" id="curso_atividade">
+                            <option value="">- SELECIONE -</option>
+                            <option value="INFORMÁTICA BÁSICA">INFORMÁTICA BÁSICA</option>
+                            <option value="MANUTENÇÃO DE COMPUTADORE">MANUTENÇÃO DE COMPUTADORE</option>
+                            <option value="OFFICE AVANÇADO">OFFICE AVANÇADO</option>
+                            <option value="PROGRAMAÇÃO DE SISTEMA">PROGRAMAÇÃO DE SISTEMA</option>
+                            <option value="CAPOEIRA">CAPOEIRA</option>
+                            <option value="JUDÔ">JUDÔ</option>
+                            <option value="INICIALIZAÇÃO NA COMPUTAÇÃO">INICIALIZAÇÃO NA COMPUTAÇÃO</option>
+                            <option value="NFORMÁTICA INTERMEDIARIA">NFORMÁTICA INTERMEDIARIA</option>
+                            <option value="TÉCNICO EM INFORMÁTICA">TÉCNICO EM INFORMÁTICA</option>
+                            <option value="WEB DESINGNAR">WEB DESINGNAR</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>24º PREFERÊNCIA POR TURNO</label>
+                        <select name="preferencia_turno" id="preferencia_turno">
+                            <option value="">- SELECIONE -</option>
+                            <option value="Manhã">Manhã</option>
+                            <option value="Noite">Noite</option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Bloco 05 - Referências do Programa -->
+            <fieldset>
+                <legend>Bloco 05 - Referências do Programa</legend>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>25º NOME DO PROFESSOR</label>
+                        <select name="nome_professor" id="nome_professor">
+                            <option value="">- SELECIONE -</option>
+                            <option value="ALEXSANDRO ALEXANDRE">ALEXSANDRO ALEXANDRE</option>
+                            <option value="LUCINALDO CLEMENTE">LUCINALDO CLEMENTE</option>
+                            <option value="LEANDRO JONH">LEANDRO JONH</option>
+                            <option value="JONES NUNES">JONES NUNES</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>26º NOME DO COORDENADOR</label>
+                        <input type="text" name="nome_coordenador" value="BENONE HENRIQUE DE SOUSA">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>27º INÍCIO DAS AULAS</label>
+                        <input type="text" name="inicio_aulas">
+                    </div>
+                    <div class="form-group">
+                        <label>28º HORÁRIO DAS AULAS</label>
+                        <input type="text" name="horario_aulas">
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="btn-container">
+                <button type="reset" class="btn-limpar">Limpar Dados</button>
+                <button type="submit" class="btn-salvar">Salvar Registro</button>
+                <button type="button" class="btn-imprimir" onclick="gerarComprovante()">Imprimir Comprovante (2 Vias)</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <!-- Área de Impressão Otimizada (Meia Folha A4) -->
@@ -351,6 +388,21 @@
 </div>
 
 <script>
+    // Função simples de Login (Defina o usuário e senha desejados aqui)
+    function realizarLogin(e) {
+        e.preventDefault();
+        const user = document.getElementById('usuario').value;
+        const pass = document.getElementById('senha').value;
+
+        // Exemplo de credencial (você pode alterar para o usuário/senha que preferir)
+        if(user === "admin" && pass === "1234") {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainSystem').style.display = 'block';
+        } else {
+            alert("Usuário ou senha incorretos!");
+        }
+    }
+
     let registros = JSON.parse(localStorage.getItem('cadjovem_alunos')) || [];
 
     document.getElementById('cadForm').addEventListener('submit', function(e) {
