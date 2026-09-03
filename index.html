@@ -1,464 +1,410 @@
-import sqlite3
-import tempfile
-import os
-import platform
-import subprocess
-from tkinter import Tk, Toplevel, Label, Entry, Button, StringVar, messagebox, Frame, Scrollbar, Canvas, ttk
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>CADJOVEM - Matrícula de Alunos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #112240;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            background: #ffffff;
+            margin: 0 auto;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #1e3d59;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        fieldset {
+            border: 1px solid #1e3d59;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #fafafa;
+        }
+        legend {
+            background: #1e3d59;
+            color: white;
+            padding: 5px 10px;
+            font-size: 13px;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group.full {
+            flex: 100%;
+        }
+        label {
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 3px;
+            color: #444;
+        }
+        input, select {
+            padding: 7px;
+            font-size: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 13px;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            color: white;
+            margin: 0 5px;
+        }
+        .btn-salvar { background-color: #5cb85c; }
+        .btn-imprimir { background-color: #0275d8; }
+        .btn-limpar { background-color: #d9534f; }
+        
+        /* Estilo de Impressão (2 Vias em Meia Folha A4) */
+        @media print {
+            body { background: white; padding: 0; }
+            .container, .btn-container { display: none; }
+            .print-area { display: block !important; }
+        }
+        .print-area { display: none; }
+        .comprovante-via {
+            height: 48vh;
+            box-sizing: border-box;
+            padding: 15px;
+            border: 1px dashed #000;
+        }
+        .comprovante-via h3 { text-align: center; font-size: 13px; margin: 0 0 10px 0; }
+        .comprovante-via p { font-size: 11px; margin: 4px 0; }
+        .linha-corte {
+            border-bottom: 1px dashed #000;
+            text-align: center;
+            font-size: 10px;
+            margin: 10px 0;
+            padding-bottom: 2px;
+        }
+        .assinatura-box {
+            margin-top: 35px;
+            text-align: center;
+            font-size: 11px;
+        }
+        .linha-assinatura {
+            width: 50%;
+            border-top: 1px solid #000;
+            margin: 0 auto 3px auto;
+        }
+    </style>
+</head>
+<body>
 
-# --- BANCO DE DADOS ---
-def inicializar_banco():
-    conn = sqlite3.connect("cadjovem.db")
-    cursor = conn.cursor()
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS alunos (
-            codigo INTEGER PRIMARY KEY AUTOINCREMENT,
-            data_inclusao TEXT,
-            nome_aluno TEXT,
-            data_nascimento TEXT,
-            sexo TEXT,
-            estado_civil TEXT,
-            nome_pai TEXT,
-            nome_mae TEXT,
-            endereco TEXT,
-            numero TEXT,
-            bairro TEXT,
-            cidade TEXT,
-            estado TEXT,
-            cep TEXT,
-            telefone TEXT,
-            rg_cpf TEXT,
-            participa_grupo_jovem TEXT,
-            estuda_atualmente TEXT,
-            nome_escola TEXT,
-            serie_estuda TEXT,
-            grau_escolaridade TEXT,
-            trabalha_onde TEXT,
-            curso_atividade TEXT,
-            preferencia_turno TEXT,
-            nome_professor TEXT,
-            nome_coordenador TEXT,
-            inicio_aulas TEXT,
-            horario_aulas TEXT
-        )
-    """)
-    conn.commit()
-    conn.close()
-
-# --- TELA PRINCIPAL DO SISTEMA ---
-class CadJovemApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("CADJOVEM - MATRÍCULA DE ALUNOS")
-        self.root.geometry("1200x800")
-        self.root.configure(bg="#112240")
+<div class="container">
+    <h1>CADJOVEM - MATRÍCULA DE ALUNOS</h1>
+    
+    <form id="cadForm">
         
-        inicializar_banco()
-        
-        # --- TOPO: BUSCA E BOTÕES SUPERIORES ---
-        top_frame = Frame(root, bg="#112240", pady=10)
-        top_frame.pack(fill="x", padx=15)
-        
-        self.txt_busca = Entry(top_frame, font=("Arial", 11), width=25)
-        self.txt_busca.pack(side="left", padx=5)
-        self.txt_busca.insert(0, "BUSCAR ALUNO...")
-        
-        Button(top_frame, text="Buscar", bg="#0275d8", fg="white", font=("Arial", 9, "bold"), command=self.buscar_aluno).pack(side="left", padx=2)
-        Button(top_frame, text="Importar", bg="#f0ad4e", fg="white", font=("Arial", 9, "bold"), command=self.importar_dados).pack(side="left", padx=2)
-        Button(top_frame, text="Limpar Dados", bg="#d9534f", fg="white", font=("Arial", 9, "bold"), command=self.limpar_campos).pack(side="left", padx=2)
-        Button(top_frame, text="Mudar Senha", bg="#5bc0de", fg="white", font=("Arial", 9, "bold"), command=lambda: messagebox.showinfo("Info", "Função de mudar senha")).pack(side="left", padx=2)
-        Button(top_frame, text="Sair", bg="#333333", fg="white", font=("Arial", 9, "bold"), command=root.quit).pack(side="right", padx=5)
-
-        # --- ÁREA COM SCROLL PARA OS 5 BLOCOS ---
-        container = Frame(root, bg="#112240")
-        container.pack(fill="both", expand=True, padx=10, pady=5)
-        
-        self.canvas = Canvas(container, bg="#112240", highlightthickness=0)
-        scrollbar = Scrollbar(container, orient="vertical", command=self.canvas.yview)
-        self.scrollable_frame = Frame(self.canvas, bg="#ffffff", bd=2, relief="groove")
-        
-        self.scrollable_frame.bind(
-            "<Configure>",
-            lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-        )
-        
-        self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
-        self.canvas.configure(yscrollcommand=scrollbar.set)
-        
-        self.canvas.pack(side="left", fill="both", expand=True)
-        scrollbar.pack(side="right", fill="y")
-        
-        self.entries = {}
-        
-        # Função Auxiliar para Criar Blocos
-        def criar_bloco(titulo, campos_config):
-            lbl_bloco = Label(self.scrollable_frame, text=titulo, font=("Arial", 10, "bold"), bg="#1e3d59", fg="white", anchor="w", padx=10)
-            lbl_bloco.pack(fill="x", padx=10, pady=(10, 5))
-            
-            grid_frame = Frame(self.scrollable_frame, bg="#ffffff")
-            grid_frame.pack(fill="x", padx=15, pady=2)
-            
-            for r_idx, linha in enumerate(campos_config):
-                for c_idx, (label_text, key, tipo, largura) in enumerate(linha):
-                    f = Frame(grid_frame, bg="#ffffff")
-                    f.grid(row=r_idx, column=c_idx, sticky="nw", padx=5, pady=3)
-                    
-                    Label(f, text=label_text, font=("Arial", 8, "bold"), bg="#ffffff", fg="#333", anchor="w").pack(fill="x")
-                    
-                    if tipo == "entry":
-                        ent = Entry(f, font=("Arial", 9), width=largura)
-                        ent.pack(fill="x")
-                        self.entries[key] = ent
-                    elif tipo == "entry_disabled":
-                        ent = Entry(f, font=("Arial", 9), width=largura, state="disabled")
-                        ent.pack(fill="x")
-                        self.entries[key] = ent
-                    elif tipo == "combo_curso":
-                        cursos = [
-                            "INFORMÁTICA BÁSICA", "MANUTENÇÃO DE COMPUTADORE", "OFFICE AVANÇADO", 
-                            "PROGRAMAÇÃO DE SISTEMA", "CAPOEIRA", "JUDÔ", 
-                            "INICIALIZAÇÃO NA COMPUTAÇÃO", "NFORMÁTICA INTERMEDIARIA", 
-                            "TÉCNICO EM INFORMÁTICA", "WEB DESINGNAR"
-                        ]
-                        cb = ttk.Combobox(f, values=cursos, font=("Arial", 9), width=largura-2, state="readonly")
-                        cb.pack(fill="x")
-                        self.entries[key] = cb
-                    elif tipo == "combo_turno":
-                        cb = ttk.Combobox(f, values=["Manhã", "Noite"], font=("Arial", 9), width=largura-2, state="readonly")
-                        cb.pack(fill="x")
-                        self.entries[key] = cb
-                    elif tipo == "combo_professor":
-                        professores = ["ALEXSANDRO ALEXANDRE", "LUCINALDO CLEMENTE", "LEANDRO JONH", "JONES NUNES"]
-                        cb = ttk.Combobox(f, values=professores, font=("Arial", 9), width=largura-2, state="readonly")
-                        cb.pack(fill="x")
-                        self.entries[key] = cb
-
-        # --- BLOCOS 01 A 05 ---
-        criar_bloco("Bloco 01 - Identificação", [
-            [("CÓDIGO", "codigo", "entry_disabled", 15), ("DATA DE INCLUSÃO", "data_inclusao", "entry", 20)],
-            [("NOME DO ALUNO", "nome_aluno", "entry", 75)],
-            [("DATA DE NASCIMENTO", "data_nascimento", "entry", 20), ("SEXO", "sexo", "entry", 15), ("ESTADO CIVIL", "estado_civil", "entry", 25)],
-            [("NOME DO PAI", "nome_pai", "entry", 75)],
-            [("NOME DA MÃE", "nome_mae", "entry", 75)]
-        ])
-        
-        criar_bloco("Bloco 02 - Endereço e Documento", [
-            [("ENDEREÇO", "endereco", "entry", 55), ("Nº", "numero", "entry", 15)],
-            [("BAIRRO", "bairro", "entry", 35), ("CIDADE", "cidade", "entry", 25), ("ESTADO", "estado", "entry", 10)],
-            [("CEP", "cep", "entry", 20), ("TELEFONE", "telefone", "entry", 25), ("RG OU CPF", "rg_cpf", "entry", 25)]
-        ])
-        
-        criar_bloco("Bloco 03 - Qualificação", [
-            [("PARTICIPA DE GRUPO JOVEM?", "participa_grupo_jovem", "entry", 35), ("ESTUDA ATUALMENTE?", "estuda_atualmente", "entry", 35)],
-            [("SE ESTUDA INFORME O NOME DA ESCOLA", "nome_escola", "entry", 45), ("INFORME A SÉRIE QUE ESTUDA", "serie_estuda", "entry", 25)],
-            [("SE NÃO ESTUDA INFORME O GRAU DE ESCOLARIDADE", "grau_escolaridade", "entry", 45)],
-            [("TRABALHA ATUALMENTE? ONDE?", "trabalha_onde", "entry", 75)]
-        ])
-        
-        criar_bloco("Bloco 04 - Objetivo", [
-            [("CURSO OU ATIVIDADE QUE PRETENDE FAZER", "curso_atividade", "combo_curso", 50), ("PREFERÊNCIA POR TURNO", "preferencia_turno", "combo_turno", 25)]
-        ])
-        
-        criar_bloco("Bloco 05 - Referências do Programa", [
-            [("NOME DO PROFESSOR", "nome_professor", "combo_professor", 45), ("NOME DO COORDENADOR", "nome_coordenador", "entry", 45)],
-            [("INÍCIO DAS AULAS", "inicio_aulas", "entry", 25), ("HORÁRIO DAS AULAS", "horario_aulas", "entry", 25)]
-        ])
-        
-        # Pré-preenche o coordenador conforme solicitado nos prints
-        self.entries["nome_coordenador"].insert(0, "BENONE HENRIQUE DE SOUSA")
-
-        # --- PAINEL DE BOTÕES INFERIORES ---
-        bottom_panel = Frame(root, bg="#112240", pady=10)
-        bottom_panel.pack(fill="x")
-        
-        Button(bottom_panel, text="Relatório por Curso", bg="#f0ad4e", fg="white", font=("Arial", 10, "bold"), command=self.gerar_relatorio).pack(side="left", padx=20)
-        Button(bottom_panel, text="Imprimir Comprovante - 2 Vias", bg="#0275d8", fg="white", font=("Arial", 10, "bold"), command=self.imprimir_comprovante).pack(side="left", padx=20)
-        Button(bottom_panel, text="Limpar", bg="#d9534f", fg="white", font=("Arial", 10, "bold"), command=self.limpar_campos).pack(side="left", padx=20)
-        Button(bottom_panel, text="Salvar Registro", bg="#5cb85c", fg="white", font=("Arial", 10, "bold"), command=self.salvar_dados).pack(side="right", padx=20)
-
-        # --- TABELA DE REGISTROS SALVOS ---
-        table_frame = Frame(root, bg="#112240")
-        table_frame.pack(fill="both", expand=True, padx=15, pady=5)
-        
-        Label(table_frame, text="Registros Salvos", font=("Arial", 9, "bold"), bg="#112240", fg="white").pack(anchor="w")
-        
-        self.tree = ttk.Treeview(table_frame, columns=("codigo", "data", "nome", "telefone", "curso"), show="headings", height=4)
-        self.tree.heading("codigo", text="Código")
-        self.tree.heading("data", text="Data Inclusão")
-        self.tree.heading("nome", text="Nome do Aluno")
-        self.tree.heading("telefone", text="Telefone")
-        self.tree.heading("curso", text="Curso")
-        
-        self.tree.column("codigo", width=60)
-        self.tree.column("data", width=100)
-        self.tree.column("nome", width=350)
-        self.tree.column("telefone", width=120)
-        self.tree.column("curso", width=250)
-        
-        self.tree.pack(fill="both", expand=True)
-        self.tree.bind("<Double-1>", self.carregar_registro_selecionado)
-        
-        self.atualizar_tabela()
-
-    def limpar_campos(self):
-        for key, widget in self.entries.items():
-            if key == "codigo":
-                widget.config(state="normal")
-                widget.delete(0, 'end')
-                widget.config(state="disabled")
-            elif key == "nome_coordenador":
-                continue # Mantém o coordenador padrão
-            elif isinstance(widget, Entry):
-                widget.delete(0, 'end')
-            elif isinstance(widget, ttk.Combobox):
-                widget.set('')
-
-    def salvar_dados(self):
-        dados = []
-        keys = [
-            "data_inclusao", "nome_aluno", "data_nascimento", "sexo", "estado_civil",
-            "nome_pai", "nome_mae", "endereco", "numero", "bairro", "cidade", "estado",
-            "cep", "telefone", "rg_cpf", "participa_grupo_jovem", "estuda_atualmente",
-            "nome_escola", "serie_estuda", "grau_escolaridade", "trabalha_onde",
-            "curso_atividade", "preferencia_turno", "nome_professor", "nome_coordenador",
-            "inicio_aulas", "horario_aulas"
-        ]
-        for key in keys:
-            dados.append(self.entries[key].get())
-            
-        if not dados[1]:
-            messagebox.showwarning("Aviso", "O campo 'NOME DO ALUNO' é obrigatório!")
-            return
-            
-        conn = sqlite3.connect("cadjovem.db")
-        cursor = conn.cursor()
-        cursor.execute(f"""
-            INSERT INTO alunos ({','.join(keys)}) VALUES ({','.join(['?']*len(keys))})
-        """, tuple(dados))
-        conn.commit()
-        last_id = cursor.lastrowid
-        conn.close()
-        
-        self.entries["codigo"].config(state="normal")
-        self.entries["codigo"].delete(0, 'end')
-        self.entries["codigo"].insert(0, str(last_id))
-        self.entries["codigo"].config(state="disabled")
-        
-        messagebox.showinfo("Sucesso", "Matrícula salva com sucesso!")
-        self.atualizar_tabela()
-
-    def atualizar_tabela(self):
-        for item in self.tree.get_children():
-            self.tree.delete(item)
-        conn = sqlite3.connect("cadjovem.db")
-        cursor = conn.cursor()
-        cursor.execute("SELECT codigo, data_inclusao, nome_aluno, telefone, curso_atividade FROM alunos")
-        for row in cursor.fetchall():
-            self.tree.insert("", "end", values=row)
-        conn.close()
-
-    def buscar_aluno(self):
-        termo = self.txt_busca.get()
-        conn = sqlite3.connect("cadjovem.db")
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM alunos WHERE nome_aluno LIKE ?", ('%' + termo + '%',))
-        res = cursor.fetchone()
-        conn.close()
-        if res:
-            keys = list(self.entries.keys())
-            for i, val in enumerate(res):
-                k = keys[i]
-                w = self.entries[k]
-                if k == "codigo":
-                    w.config(state="normal")
-                    w.delete(0, 'end')
-                    w.insert(0, str(val))
-                    w.config(state="disabled")
-                elif isinstance(w, Entry):
-                    w.delete(0, 'end')
-                    w.insert(0, str(val) if val else "")
-                elif isinstance(w, ttk.Combobox):
-                    w.set(str(val) if val else "")
-            messagebox.showinfo("Busca", "Aluno encontrado e carregado!")
-        else:
-            messagebox.showwarning("Busca", "Nenhum aluno encontrado.")
-
-    def carregar_registro_selecionado(self, event):
-        selected_item = self.tree.selection()
-        if not selected_item:
-            return
-        item_vals = self.tree.item(selected_item)["values"]
-        codigo_aluno = item_vals[0]
-        
-        conn = sqlite3.connect("cadjovem.db")
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM alunos WHERE codigo = ?", (codigo_aluno,))
-        res = cursor.fetchone()
-        conn.close()
-        
-        if res:
-            keys = list(self.entries.keys())
-            for i, val in enumerate(res):
-                k = keys[i]
-                w = self.entries[k]
-                if k == "codigo":
-                    w.config(state="normal")
-                    w.delete(0, 'end')
-                    w.insert(0, str(val))
-                    w.config(state="disabled")
-                elif isinstance(w, Entry):
-                    w.delete(0, 'end')
-                    w.insert(0, str(val) if val else "")
-                elif isinstance(w, ttk.Combobox):
-                    w.set(str(val) if val else "")
-
-    def importar_dados(self):
-        messagebox.showinfo("Importar", "Selecione o arquivo TXT com a base de dados para importar os registros.")
-
-    def gerar_relatorio(self):
-        conn = sqlite3.connect("cadjovem.db")
-        cursor = conn.cursor()
-        cursor.execute("SELECT curso_atividade, COUNT(*) FROM alunos GROUP BY curso_atividade")
-        dados = cursor.fetchall()
-        conn.close()
-        
-        rel = "--- RELATÓRIO DE MATRÍCULAS POR CURSO ---\n\n"
-        for curso, qtd in dados:
-            rel += f"Curso: {curso or 'Não informado'} -> Total de Alunos: {qtd}\n"
-            
-        top = Toplevel(self.root)
-        top.title("Relatório por Curso")
-        top.geometry("500x400")
-        
-        lbl = Label(top, text=rel, font=("Courier", 10), justify="left", padx=10, pady=10)
-        lbl.pack(fill="both", expand=True)
-
-    def imprimir_comprovante(self):
-        nome_aluno = self.entries["nome_aluno"].get()
-        if not nome_aluno:
-            messagebox.showwarning("Aviso", "Selecione ou preencha um aluno para gerar o comprovante.")
-            return
-            
-        curso = self.entries["curso_atividade"].get()
-        turno = self.entries["preferencia_turno"].get()
-        professor = self.entries["nome_professor"].get()
-        coordenador = self.entries["nome_coordenador"].get()
-        inicio = self.entries["inicio_aulas"].get()
-        horario = self.entries["horario_aulas"].get()
-        
-        html_content = f"""
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="utf-8">
-            <style>
-                body {{ font-family: Arial, sans-serif; margin: 0; padding: 0; }}
-                .comprovante {{
-                    width: 100%;
-                    height: 44vh;
-                    box-sizing: border-box;
-                    padding: 15px;
-                    border: 1px dashed #444;
-                }}
-                h2 {{ text-align: center; font-size: 13px; margin: 0 0 8px 0; }}
-                p {{ font-size: 11px; margin: 3px 0; }}
-                .assinatura {{
-                    margin-top: 30px;
-                    text-align: center;
-                    font-size: 10px;
-                }}
-                .linha-assinatura {{
-                    width: 50%;
-                    border-top: 1px solid #000;
-                    margin: 0 auto 4px auto;
-                }}
-                .linha-corte {{
-                    border-bottom: 1px dashed #000;
-                    margin: 8px 0;
-                    text-align: center;
-                    font-size: 9px;
-                    color: #666;
-                }}
-            </style>
-        </head>
-        <body>
-            <div class="comprovante">
-                <h2>PROJETO CADJOVEM - COMPROVANTE DE MATRÍCULA (1ª Via: Controle de Inscrição)</h2>
-                <p><b>Aluno(a):</b> {nome_aluno}</p>
-                <p><b>Curso/Atividade:</b> {curso}</p>
-                <p><b>Turno:</b> {turno} | <b>Horário:</b> {horario} | <b>Início:</b> {inicio}</p>
-                <p><b>Professor:</b> {professor} | <b>Coordenador:</b> {coordenador}</p>
-                <div class="assinatura">
-                    <div class="linha-assinatura"></div>
-                    Assinatura do Aluno ou Responsável
+        <!-- Bloco 01 - Identificação -->
+        <fieldset>
+            <legend>Bloco 01 - Identificação</legend>
+            <div class="form-row">
+                <div class="form-group" style="max-width: 100px;">
+                    <label>1º CÓDIGO</label>
+                    <input type="text" name="codigo" readonly value="1">
+                </div>
+                <div class="form-group" style="max-width: 150px;">
+                    <label>2º DATA DE INCLUSÃO</label>
+                    <input type="text" name="data_inclusao">
+                </div>
+                <div class="form-group full">
+                    <label>3º NOME DO ALUNO</label>
+                    <input type="text" name="nome_aluno" required>
                 </div>
             </div>
-
-            <div class="linha-corte">&#9986; --------------------------------------- CORTE AQUI --------------------------------------- &#9986;</div>
-
-            <div class="comprovante">
-                <h2>PROJETO CADJOVEM - COMPROVANTE DE MATRÍCULA (2ª Via: Coordenador)</h2>
-                <p><b>Aluno(a):</b> {nome_aluno}</p>
-                <p><b>Curso/Atividade:</b> {curso}</p>
-                <p><b>Turno:</b> {turno} | <b>Horário:</b> {horario} | <b>Início:</b> {inicio}</p>
-                <p><b>Professor:</b> {professor} | <b>Coordenador:</b> {coordenador}</p>
-                <div class="assinatura">
-                    <div class="linha-assinatura"></div>
-                    Assinatura do Coordenador ({coordenador})
+            <div class="form-row">
+                <div class="form-group">
+                    <label>4º DATA DE NASCIMENTO</label>
+                    <input type="text" name="data_nascimento">
+                </div>
+                <div class="form-group">
+                    <label>5º SEXO</label>
+                    <input type="text" name="sexo">
+                </div>
+                <div class="form-group">
+                    <label>6º ESTADO CIVIL</label>
+                    <input type="text" name="estado_civil">
                 </div>
             </div>
-        </body>
-        </html>
-        """
-        
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".html", mode="w", encoding="utf-8") as f:
-            f.write(html_content)
-            temp_path = f.name
-            
-        try:
-            if platform.system() == "Windows":
-                os.startfile(temp_path)
-            elif platform.system() == "Darwin":
-                subprocess.run(["open", temp_path])
-            else:
-                subprocess.run(["xdg-open", temp_path])
-            messagebox.showinfo("Impressão", "Comprovante gerado com sucesso! Pressione CTRL+P no navegador para imprimir.")
-        except Exception as e:
-            messagebox.showerror("Erro", f"Erro ao abrir arquivo de impressão: {e}")
+            <div class="form-row">
+                <div class="form-group full">
+                    <label>7º NOME DO PAI</label>
+                    <input type="text" name="nome_pai">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group full">
+                    <label>8º NOME DA MÃE</label>
+                    <input type="text" name="nome_mae">
+                </div>
+            </div>
+        </fieldset>
 
+        <!-- Bloco 02 - Endereço e Documento -->
+        <fieldset>
+            <legend>Bloco 02 - Endereço e Documento</legend>
+            <div class="form-row">
+                <div class="form-group" style="flex: 4;">
+                    <label>9º ENDEREÇO</label>
+                    <input type="text" name="endereco">
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label>10º Nº</label>
+                    <input type="text" name="numero">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>11º BAIRRO</label>
+                    <input type="text" name="bairro">
+                </div>
+                <div class="form-group">
+                    <label>12º CIDADE</label>
+                    <input type="text" name="cidade">
+                </div>
+                <div class="form-group" style="max-width: 80px;">
+                    <label>13º ESTADO</label>
+                    <input type="text" name="estado">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>14º CEP</label>
+                    <input type="text" name="cep">
+                </div>
+                <div class="form-group">
+                    <label>15º TELEFONE</label>
+                    <input type="text" name="telefone">
+                </div>
+                <div class="form-group">
+                    <label>16º RG OU CPF</label>
+                    <input type="text" name="rg_cpf">
+                </div>
+            </div>
+        </fieldset>
 
-# --- TELA DE LOGIN ---
-class LoginApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("CADJOVEM - Login")
-        self.root.geometry("400x300")
-        self.root.configure(bg="#112240")
-        
-        frame = Frame(self.root, bg="white", padx=20, pady=20, bd=2, relief="groove")
-        frame.place(relx=0.5, rely=0.5, anchor="center", width=320, height=220)
-        
-        Label(frame, text="CADJOVEM", font=("Arial", 16, "bold"), bg="white", fg="#112240").pack(pady=(0, 15))
-        
-        self.user_entry = Entry(frame, font=("Arial", 11), width=25)
-        self.user_entry.pack(pady=5)
-        self.user_entry.insert(0, "cadjovem")
-        
-        self.pass_entry = Entry(frame, font=("Arial", 11), width=25, show="*")
-        self.pass_entry.pack(pady=5)
-        self.pass_entry.insert(0, "123456")
-        
-        Button(frame, text="Entrar", bg="#28a745", fg="white", font=("Arial", 10, "bold"), width=15, command=self.verificar_login).pack(pady=15)
+        <!-- Bloco 03 - Qualificação -->
+        <fieldset>
+            <legend>Bloco 03 - Qualificação</legend>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>17º PARTICIPA DE GRUPO JOVEM?</label>
+                    <input type="text" name="participa_grupo_jovem">
+                </div>
+                <div class="form-group">
+                    <label>18º ESTUDA ATUALMENTE?</label>
+                    <input type="text" name="estuda_atualmente">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>19º SE ESTUDA INFORME O NOME DA ESCOLA</label>
+                    <input type="text" name="nome_escola">
+                </div>
+                <div class="form-group">
+                    <label>20º INFORME A SÉRIE QUE ESTUDA</label>
+                    <input type="text" name="serie_estuda">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group full">
+                    <label>21º SE NÃO ESTUDA INFORME O GRAU DE ESCOLARIDADE</label>
+                    <input type="text" name="grau_escolaridade">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group full">
+                    <label>22º TRABALHA ATUALMENTE? ONDE?</label>
+                    <input type="text" name="trabalha_onde">
+                </div>
+            </div>
+        </fieldset>
 
-    def verificar_login:
-        pass # Para simplificar a abertura direta, ou verifique usuário e senha
-    def verificar_login(self):
-        # Abre a tela principal
-        self.root.destroy()
-        main_root = Tk()
-        CadJovemApp(main_root)
-        main_root.mainloop()
+        <!-- Bloco 04 - Objetivo -->
+        <fieldset>
+            <legend>Bloco 04 - Objetivo</legend>
+            <div class="form-row">
+                <div class="form-group" style="flex: 3;">
+                    <label>23º INFORMA O CURSO OU ATIVIDADE QUE PRETENDE FAZER</label>
+                    <select name="curso_atividade" id="curso_atividade">
+                        <option value="">- SELECIONE -</option>
+                        <option value="INFORMÁTICA BÁSICA">INFORMÁTICA BÁSICA</option>
+                        <option value="MANUTENÇÃO DE COMPUTADORE">MANUTENÇÃO DE COMPUTADORE</option>
+                        <option value="OFFICE AVANÇADO">OFFICE AVANÇADO</option>
+                        <option value="PROGRAMAÇÃO DE SISTEMA">PROGRAMAÇÃO DE SISTEMA</option>
+                        <option value="CAPOEIRA">CAPOEIRA</option>
+                        <option value="JUDÔ">JUDÔ</option>
+                        <option value="INICIALIZAÇÃO NA COMPUTAÇÃO">INICIALIZAÇÃO NA COMPUTAÇÃO</option>
+                        <option value="NFORMÁTICA INTERMEDIARIA">NFORMÁTICA INTERMEDIARIA</option>
+                        <option value="TÉCNICO EM INFORMÁTICA">TÉCNICO EM INFORMÁTICA</option>
+                        <option value="WEB DESINGNAR">WEB DESINGNAR</option>
+                    </select>
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label>24º PREFERÊNCIA POR TURNO</label>
+                    <select name="preferencia_turno" id="preferencia_turno">
+                        <option value="">- SELECIONE -</option>
+                        <option value="Manhã">Manhã</option>
+                        <option value="Noite">Noite</option>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
 
-if __name__ == "__main__":
-    root = Tk()
-    LoginApp(root)
-    root.mainloop()
+        <!-- Bloco 05 - Referências do Programa -->
+        <fieldset>
+            <legend>Bloco 05 - Referências do Programa</legend>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>25º NOME DO PROFESSOR</label>
+                    <select name="nome_professor" id="nome_professor">
+                        <option value="">- SELECIONE -</option>
+                        <option value="ALEXSANDRO ALEXANDRE">ALEXSANDRO ALEXANDRE</option>
+                        <option value="LUCINALDO CLEMENTE">LUCINALDO CLEMENTE</option>
+                        <option value="LEANDRO JONH">LEANDRO JONH</option>
+                        <option value="JONES NUNES">JONES NUNES</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>26º NOME DO COORDENADOR</label>
+                    <input type="text" name="nome_coordenador" value="BENONE HENRIQUE DE SOUSA">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>27º INÍCIO DAS AULAS</label>
+                    <input type="text" name="inicio_aulas">
+                </div>
+                <div class="form-group">
+                    <label>28º HORÁRIO DAS AULAS</label>
+                    <input type="text" name="horario_aulas">
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="btn-container">
+            <button type="reset" class="btn-limpar">Limpar Dados</button>
+            <button type="submit" class="btn-salvar">Salvar Registro</button>
+            <button type="button" class="btn-imprimir" onclick="gerarComprovante()">Imprimir Comprovante (2 Vias)</button>
+        </div>
+    </form>
+</div>
+
+<!-- Área de Impressão Otimizada (Meia Folha A4) -->
+<div class="print-area" id="printArea">
+    <div class="comprovante-via">
+        <h3>PROJETO CADJOVEM - COMPROVANTE DE MATRÍCULA (1ª Via: Controle de Inscrição)</h3>
+        <p><b>Aluno(a):</b> <span id="p_nome"></span></p>
+        <p><b>Curso/Atividade:</b> <span id="p_curso"></span></p>
+        <p><b>Turno:</b> <span id="p_turno"></span> | <b>Horário:</b> <span id="p_horario"></span> | <b>Início:</b> <span id="p_inicio"></span></p>
+        <p><b>Professor:</b> <span id="p_professor"></span> | <b>Coordenador:</b> <span id="p_coordenador"></span></p>
+        <div class="assinatura-box">
+            <div class="linha-assinatura"></div>
+            Assinatura do Aluno ou Responsável
+        </div>
+    </div>
+
+    <div class="linha-corte">&#9986; --------------------------------------- CORTE AQUI --------------------------------------- &#9986;</div>
+
+    <div class="comprovante-via">
+        <h3>PROJETO CADJOVEM - COMPROVANTE DE MATRÍCULA (2ª Via: Coordenador)</h3>
+        <p><b>Aluno(a):</b> <span id="p_nome2"></span></p>
+        <p><b>Curso/Atividade:</b> <span id="p_curso2"></span></p>
+        <p><b>Turno:</b> <span id="p_turno2"></span> | <b>Horário:</b> <span id="p_horario2"></span> | <b>Início:</b> <span id="p_inicio2"></span></p>
+        <p><b>Professor:</b> <span id="p_professor2"></span> | <b>Coordenador:</b> <span id="p_coordenador2"></span></p>
+        <div class="assinatura-box">
+            <div class="linha-assinatura"></div>
+            Assinatura do Coordenador (<span id="p_coord_nome"></span>)
+        </div>
+    </div>
+</div>
+
+<script>
+    let registros = JSON.parse(localStorage.getItem('cadjovem_alunos')) || [];
+
+    document.getElementById('cadForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const aluno = {};
+        formData.forEach((value, key) => { aluno[key] = value; });
+        
+        if(!aluno.nome_aluno) {
+            alert("O nome do aluno é obrigatório!");
+            return;
+        }
+
+        aluno.codigo = registros.length + 1;
+        registros.push(aluno);
+        
+        localStorage.setItem('cadjovem_alunos', JSON.stringify(registros));
+        
+        this.reset();
+        document.querySelector('[name="codigo"]').value = registros.length + 1;
+        document.querySelector('[name="nome_coordenador"]').value = "BENONE HENRIQUE DE SOUSA";
+        
+        alert("Matrícula salva com sucesso!");
+    });
+
+    function gerarComprovante() {
+        const nome = document.querySelector('[name="nome_aluno"]').value;
+        if(!nome) {
+            alert("Preencha o nome do aluno antes de imprimir o comprovante!");
+            return;
+        }
+        
+        document.getElementById('p_nome').innerText = nome;
+        document.getElementById('p_nome2').innerText = nome;
+        document.getElementById('p_curso').innerText = document.getElementById('curso_atividade').value;
+        document.getElementById('p_curso2').innerText = document.getElementById('curso_atividade').value;
+        document.getElementById('p_turno').innerText = document.getElementById('preferencia_turno').value;
+        document.getElementById('p_turno2').innerText = document.getElementById('preferencia_turno').value;
+        document.getElementById('p_horario').innerText = document.querySelector('[name="horario_aulas"]').value;
+        document.getElementById('p_horario2').innerText = document.querySelector('[name="horario_aulas"]').value;
+        document.getElementById('p_inicio').innerText = document.querySelector('[name="inicio_aulas"]').value;
+        document.getElementById('p_inicio2').innerText = document.querySelector('[name="inicio_aulas"]').value;
+        document.getElementById('p_professor').innerText = document.getElementById('nome_professor').value;
+        document.getElementById('p_professor2').innerText = document.getElementById('nome_professor').value;
+        
+        const coordenador = document.querySelector('[name="nome_coordenador"]').value;
+        document.getElementById('p_coordenador').innerText = coordenador;
+        document.getElementById('p_coordenador2').innerText = coordenador;
+        document.getElementById('p_coord_nome').innerText = coordenador;
+        
+        window.print();
+    }
+</script>
+
+</body>
+</html>
