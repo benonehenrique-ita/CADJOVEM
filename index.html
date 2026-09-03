@@ -197,7 +197,7 @@
         }
         .modal-content h3 { color: #1e3d59; margin-top: 0; }
 
-        /* Estilo de Impressão (Max 5.5cm por via) */
+        /* Estilo de Impressão */
         @media print {
             body { background: white; padding: 0; margin: 0; }
             #mainSystem, .btn-container, .btn-top-container, #loginScreen, #reportScreen, #passwordModal { display: none !important; }
@@ -403,7 +403,7 @@
                         <select name="curso_atividade" id="curso_atividade">
                             <option value="">- SELECIONE -</option>
                             <option value="INFORMÁTICA BÁSICA">INFORMÁTICA BÁSICA</option>
-                            <option value="MANUTENÇÃO DE COMPUTADORE">MANUTENÇÃO DE COMPUTADORE</option>
+                            <option value="MANUTENÇÃO DE COMPUTADORES">MANUTENÇÃO DE COMPUTADORES</option>
                             <option value="OFFICE AVANÇADO">OFFICE AVANÇADO</option>
                             <option value="PROGRAMAÇÃO DE SISTEMA">PROGRAMAÇÃO DE SISTEMA</option>
                             <option value="CAPOEIRA">CAPOEIRA</option>
@@ -473,7 +473,7 @@
                 <select id="filtroCurso" onchange="filtrarRelatorio()" style="padding: 6px; font-size: 11px;">
                     <option value="">TODOS OS CURSOS</option>
                     <option value="INFORMÁTICA BÁSICA">INFORMÁTICA BÁSICA</option>
-                    <option value="MANUTENÇÃO DE COMPUTADORE">MANUTENÇÃO DE COMPUTADORE</option>
+                    <option value="MANUTENÇÃO DE COMPUTADORES">MANUTENÇÃO DE COMPUTADORES</option>
                     <option value="OFFICE AVANÇADO">OFFICE AVANÇADO</option>
                     <option value="PROGRAMAÇÃO DE SISTEMA">PROGRAMAÇÃO DE SISTEMA</option>
                     <option value="CAPOEIRA">CAPOEIRA</option>
@@ -607,7 +607,12 @@
 
     function normalizarTexto(texto) {
         if (!texto) return "";
-        return texto.toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().trim();
+        return texto.toString()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(//g, "Ç") // Corrige eventuais falhas de cedilha corrompida
+            .toUpperCase()
+            .trim();
     }
 
     function tratarEnterBusca(e) {
@@ -766,8 +771,8 @@
             atualizarProximoCodigo();
             alert(`${registros.length} registros importados com sucesso!`);
         };
-        // Forçado UTF-8 para eliminar definitivamente o problema dos caracteres corrompidos ()
-        reader.readAsText(file, 'UTF-8');
+        // Força a leitura utilizando Windows-1252 / ISO-8859-1 para converter acentos corretamente do Excel
+        reader.readAsText(file, 'ISO-8859-1');
     }
 
     function gerarComprovante() {
