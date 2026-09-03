@@ -197,37 +197,39 @@
         }
         .modal-content h3 { color: #1e3d59; margin-top: 0; }
 
-        /* Estilo de Impressão */
+        /* Estilo de Impressão Ajustado (Máximo 5.5 cm por via - Meia folha A4 superior) */
         @media print {
-            body { background: white; padding: 0; }
+            body { background: white; padding: 0; margin: 0; }
             #mainSystem, .btn-container, .btn-top-container, #loginScreen, #reportScreen, #passwordModal { display: none !important; }
-            .print-area { display: block !important; }
+            .print-area { display: block !important; width: 100%; }
         }
         .print-area { display: none; }
         .comprovante-via {
-            height: 48vh;
+            height: 5.5cm;
+            max-height: 5.5cm;
             box-sizing: border-box;
-            padding: 15px;
+            padding: 8px 12px;
             border: 1px dashed #000;
+            overflow: hidden;
         }
-        .comprovante-via h3 { text-align: center; font-size: 13px; margin: 0 0 10px 0; }
-        .comprovante-via p { font-size: 11px; margin: 4px 0; }
+        .comprovante-via h3 { text-align: center; font-size: 11px; margin: 0 0 5px 0; }
+        .comprovante-via p { font-size: 10px; margin: 3px 0; }
         .linha-corte {
             border-bottom: 1px dashed #000;
             text-align: center;
-            font-size: 10px;
-            margin: 10px 0;
-            padding-bottom: 2px;
+            font-size: 9px;
+            margin: 4px 0;
+            padding-bottom: 1px;
         }
         .assinatura-box {
-            margin-top: 35px;
+            margin-top: 15px;
             text-align: center;
-            font-size: 11px;
+            font-size: 10px;
         }
         .linha-assinatura {
             width: 50%;
             border-top: 1px solid #000;
-            margin: 0 auto 3px auto;
+            margin: 0 auto 2px auto;
         }
     </style>
 </head>
@@ -530,14 +532,13 @@
     </div>
 </div>
 
-<!-- Área de Impressão Otimizada (Meia Folha A4) -->
+<!-- Área de Impressão Otimizada (Duas vias compactas na metade superior A4) -->
 <div class="print-area" id="printArea">
     <div class="comprovante-via">
         <h3>PROJETO CADJOVEM - COMPROVANTE DE MATRÍCULA (1ª Via: Controle de Inscrição)</h3>
         <p><b>Aluno(a):</b> <span id="p_nome"></span></p>
-        <p><b>Curso/Atividade:</b> <span id="p_curso"></span></p>
-        <p><b>Turno:</b> <span id="p_turno"></span> | <b>Horário:</b> <span id="p_horario"></span> | <b>Início:</b> <span id="p_inicio"></span></p>
-        <p><b>Professor:</b> <span id="p_professor"></span> | <b>Coordenador:</b> <span id="p_coordenador"></span></p>
+        <p><b>Curso/Atividade:</b> <span id="p_curso"></span> | <b>Turno:</b> <span id="p_turno"></span> | <b>Horário:</b> <span id="p_horario"></span></p>
+        <p><b>Início:</b> <span id="p_inicio"></span> | <b>Professor:</b> <span id="p_professor"></span> | <b>Coordenador:</b> <span id="p_coordenador"></span></p>
         <div class="assinatura-box">
             <div class="linha-assinatura"></div>
             Assinatura do Aluno ou Responsável
@@ -549,9 +550,8 @@
     <div class="comprovante-via">
         <h3>PROJETO CADJOVEM - COMPROVANTE DE MATRÍCULA (2ª Via: Coordenador)</h3>
         <p><b>Aluno(a):</b> <span id="p_nome2"></span></p>
-        <p><b>Curso/Atividade:</b> <span id="p_curso2"></span></p>
-        <p><b>Turno:</b> <span id="p_turno2"></span> | <b>Horário:</b> <span id="p_horario2"></span> | <b>Início:</b> <span id="p_inicio2"></span></p>
-        <p><b>Professor:</b> <span id="p_professor2"></span> | <b>Coordenador:</b> <span id="p_coordenador2"></span></p>
+        <p><b>Curso/Atividade:</b> <span id="p_curso2"></span> | <b>Turno:</b> <span id="p_turno2"></span> | <b>Horário:</b> <span id="p_horario2"></span></p>
+        <p><b>Início:</b> <span id="p_inicio2"></span> | <b>Professor:</b> <span id="p_professor2"></span> | <b>Coordenador:</b> <span id="p_coordenador2"></span></p>
         <div class="assinatura-box">
             <div class="linha-assinatura"></div>
             Assinatura do Coordenador (<span id="p_coord_nome"></span>)
@@ -693,7 +693,8 @@
         if(!cursoSelecionado) {
             renderizarTabelaRelatorio(registros);
         } else {
-            const filtrados = registros.filter(r => r.curso_atividade === cursoSelecionado);
+            const cursoNorm = normalizarTexto(cursoSelecionado);
+            const filtrados = registros.filter(r => r.curso_atividade && normalizarTexto(r.curso_atividade) === cursoNorm);
             renderizarTabelaRelatorio(filtrados);
         }
     }
@@ -728,6 +729,7 @@
         if (!file) return;
 
         const reader = new FileReader();
+        // Leitor configurado para decodificar corretamente acentuação (ISO-8859-1)
         reader.onload = function(e) {
             const conteudo = e.target.result;
             const linhas = conteudo.split('\n');
@@ -771,13 +773,12 @@
                 }
             });
 
-            // Substitui a base antiga pela nova importação limpa (garantindo os 1760 corretos)
             registros = novosRegistros;
             localStorage.setItem('cadjovem_alunos', JSON.stringify(registros));
             atualizarProximoCodigo();
-            alert(`${registros.length} registros importados com sucesso! A base foi atualizada.`);
+            alert(`${registros.length} registros importados com sucesso com codificação corrigida!`);
         };
-        reader.readAsText(file, 'UTF-8');
+        reader.readAsText(file, 'ISO-8859-1');
     }
 
     function gerarComprovante() {
@@ -789,16 +790,26 @@
         
         document.getElementById('p_nome').innerText = nome;
         document.getElementById('p_nome2').innerText = nome;
-        document.getElementById('p_curso').innerText = document.getElementById('curso_atividade').value;
-        document.getElementById('p_curso2').innerText = document.getElementById('curso_atividade').value;
-        document.getElementById('p_turno').innerText = document.getElementById('preferencia_turno').value;
-        document.getElementById('p_turno2').innerText = document.getElementById('preferencia_turno').value;
-        document.getElementById('p_horario').innerText = document.querySelector('[name="horario_aulas"]').value;
-        document.getElementById('p_horario2').innerText = document.querySelector('[name="horario_aulas"]').value;
-        document.getElementById('p_inicio').innerText = document.querySelector('[name="inicio_aulas"]').value;
-        document.getElementById('p_inicio2').innerText = document.querySelector('[name="inicio_aulas"]').value;
-        document.getElementById('p_professor').innerText = document.getElementById('nome_professor').value;
-        document.getElementById('p_professor2').innerText = document.getElementById('nome_professor').value;
+        
+        const curso = document.getElementById('curso_atividade').value;
+        document.getElementById('p_curso').innerText = curso;
+        document.getElementById('p_curso2').innerText = curso;
+        
+        const turno = document.getElementById('preferencia_turno').value;
+        document.getElementById('p_turno').innerText = turno;
+        document.getElementById('p_turno2').innerText = turno;
+        
+        const horario = document.querySelector('[name="horario_aulas"]').value;
+        document.getElementById('p_horario').innerText = horario;
+        document.getElementById('p_horario2').innerText = horario;
+        
+        const inicio = document.querySelector('[name="inicio_aulas"]').value;
+        document.getElementById('p_inicio').innerText = inicio;
+        document.getElementById('p_inicio2').innerText = inicio;
+        
+        const professor = document.getElementById('nome_professor').value;
+        document.getElementById('p_professor').innerText = professor;
+        document.getElementById('p_professor2').innerText = professor;
         
         const coordenador = document.querySelector('[name="nome_coordenador"]').value;
         document.getElementById('p_coordenador').innerText = coordenador;
