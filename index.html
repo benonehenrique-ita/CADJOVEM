@@ -266,7 +266,7 @@
                 <button type="button" class="btn-sair" onclick="sairSistema()">Sair</button>
             </div>
             <div class="search-box">
-                <input type="text" id="inputBuscaAluno" placeholder="Buscar por Nome do Aluno...">
+                <input type="text" id="inputBuscaAluno" placeholder="Buscar por Nome do Aluno..." onkeypress="tratarEnterBusca(event)">
                 <button type="button" class="btn-buscar" onclick="buscarAlunoPorNome()">Buscar</button>
             </div>
         </div>
@@ -616,14 +616,28 @@
         atualizarProximoCodigo();
     }
 
+    function normalizarTexto(texto) {
+        return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+    }
+
+    function tratarEnterBusca(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            buscarAlunoPorNome();
+        }
+    }
+
     function buscarAlunoPorNome() {
-        const termo = document.getElementById('inputBuscaAluno').value.trim().toLowerCase();
+        const termoDigitado = document.getElementById('inputBuscaAluno').value;
+        const termo = normalizarTexto(termoDigitado);
+        
         if(!termo) {
             alert("Digite o nome ou parte do nome do aluno para buscar.");
             return;
         }
 
-        const encontrado = registros.find(r => r.nome_aluno && r.nome_aluno.toLowerCase().includes(termo));
+        const encontrado = registros.find(r => r.nome_aluno && normalizarTexto(r.nome_aluno).includes(termo));
+        
         if(encontrado) {
             document.getElementById('input_codigo').value = encontrado.codigo || '';
             for (const key in encontrado) {
