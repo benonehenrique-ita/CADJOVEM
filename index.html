@@ -259,7 +259,7 @@
             <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
                 <button type="button" class="btn-novo" onclick="novoRegistro()">Novo Registro</button>
                 <label class="btn-import">
-                    Importar <input type="file" id="csvFile" accept=".csv" style="display: none;" onchange="importarCSV(event)">
+                    Importar <input type="file" id="csvFile" accept=".csv,.txt" style="display: none;" onchange="importarCSV(event)">
                 </label>
                 <button type="button" class="btn-relatorio" onclick="abrirRelatorio()">Relatório dos Cursos</button>
                 <button type="button" class="btn-senha" onclick="abrirModalSenha()">Nova Senha</button>
@@ -279,7 +279,7 @@
                 <div class="form-row">
                     <div class="form-group" style="max-width: 100px;">
                         <label>1º CÓDIGO</label>
-                        <input type="text" name="codigo" id="input_codigo" readonly value="1">
+                        <input type="text" name="codigo" id="input_codigo" readonly>
                     </div>
                     <div class="form-group" style="max-width: 150px;">
                         <label>2º DATA DE INCLUSÃO</label>
@@ -617,6 +617,7 @@
     }
 
     function normalizarTexto(texto) {
+        if (!texto) return "";
         return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
     }
 
@@ -730,31 +731,51 @@
         reader.onload = function(e) {
             const conteudo = e.target.result;
             const linhas = conteudo.split('\n');
-            let importados = 0;
+            let novosRegistros = [];
 
             linhas.forEach((linha, index) => {
                 if (index === 0 || !linha.trim()) return;
                 const colunas = linha.split(';');
                 if (colunas.length > 1) {
                     const aluno = {
-                        codigo: registros.length + 1,
-                        data_inclusao: colunas[0]?.replace(/"/g, '').trim(),
-                        nome_aluno: colunas[1]?.replace(/"/g, '').trim(),
-                        data_nascimento: colunas[2]?.replace(/"/g, '').trim(),
+                        codigo: colunas[0]?.replace(/"/g, '').trim() || (novosRegistros.length + 1),
+                        data_inclusao: colunas[1]?.replace(/"/g, '').trim() || '',
+                        nome_aluno: colunas[2]?.replace(/"/g, '').trim() || '',
+                        data_nascimento: colunas[3]?.replace(/"/g, '').trim() || '',
+                        sexo: colunas[4]?.replace(/"/g, '').trim() || '',
+                        estado_civil: colunas[5]?.replace(/"/g, '').trim() || '',
+                        nome_pai: colunas[6]?.replace(/"/g, '').trim() || '',
+                        nome_mae: colunas[7]?.replace(/"/g, '').trim() || '',
+                        endereco: colunas[8]?.replace(/"/g, '').trim() || '',
+                        numero: colunas[9]?.replace(/"/g, '').trim() || '',
+                        bairro: colunas[10]?.replace(/"/g, '').trim() || '',
+                        cidade: colunas[11]?.replace(/"/g, '').trim() || '',
+                        estado: colunas[12]?.replace(/"/g, '').trim() || '',
+                        cep: colunas[13]?.replace(/"/g, '').trim() || '',
                         telefone: colunas[14]?.replace(/"/g, '').trim() || '',
+                        rg_cpf: colunas[15]?.replace(/"/g, '').trim() || '',
+                        participa_grupo_jovem: colunas[16]?.replace(/"/g, '').trim() || '',
+                        estuda_atualmente: colunas[17]?.replace(/"/g, '').trim() || '',
+                        nome_escola: colunas[18]?.replace(/"/g, '').trim() || '',
+                        serie_estuda: colunas[19]?.replace(/"/g, '').trim() || '',
+                        grau_escolaridade: colunas[20]?.replace(/"/g, '').trim() || '',
+                        trabalha_onde: colunas[21]?.replace(/"/g, '').trim() || '',
                         curso_atividade: colunas[22]?.replace(/"/g, '').trim() || '',
                         preferencia_turno: colunas[23]?.replace(/"/g, '').trim() || '',
                         nome_professor: colunas[24]?.replace(/"/g, '').trim() || '',
-                        nome_coordenador: colunas[25]?.replace(/"/g, '').trim() || "BENONE HENRIQUE DE SOUSA"
+                        nome_coordenador: colunas[25]?.replace(/"/g, '').trim() || "BENONE HENRIQUE DE SOUSA",
+                        inicio_aulas: colunas[26]?.replace(/"/g, '').trim() || '',
+                        horario_aulas: colunas[27]?.replace(/"/g, '').trim() || ''
                     };
-                    registros.push(aluno);
-                    importados++;
+                    novosRegistros.push(aluno);
                 }
             });
 
+            // Substitui a base antiga pela nova importação limpa (garantindo os 1760 corretos)
+            registros = novosRegistros;
             localStorage.setItem('cadjovem_alunos', JSON.stringify(registros));
             atualizarProximoCodigo();
-            alert(`${importados} registros importados com sucesso da tabela CSV!`);
+            alert(`${registros.length} registros importados com sucesso! A base foi atualizada.`);
         };
         reader.readAsText(file, 'UTF-8');
     }
