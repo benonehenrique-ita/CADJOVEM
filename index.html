@@ -88,25 +88,93 @@
         .btn-container {
             text-align: center;
             margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
-        button {
-            padding: 10px 20px;
-            font-size: 13px;
+        button, label.btn-import {
+            padding: 10px 15px;
+            font-size: 12px;
             font-weight: bold;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             color: white;
-            margin: 0 5px;
+            display: inline-block;
         }
         .btn-salvar { background-color: #5cb85c; }
         .btn-imprimir { background-color: #0275d8; }
-        .btn-limpar { background-color: #d9534f; }
-        
-        /* Estilo de Impressão (2 Vias em Meia Folha A4) */
+        .btn-novo { background-color: #f0ad4e; color: #fff; }
+        .btn-import { background-color: #0275d8; }
+        .btn-relatorio { background-color: #6f42c1; }
+        .btn-senha { background-color: #d9534f; }
+        .btn-sair { background-color: #333; }
+
+        /* Tela de Relatório */
+        #reportScreen {
+            display: none;
+            max-width: 1000px;
+            background: #ffffff;
+            margin: 0 auto;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .counter-badge {
+            background-color: #1e3d59;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        table.report-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            margin-bottom: 20px;
+        }
+        table.report-table th, table.report-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        table.report-table th {
+            background-color: #1e3d59;
+            color: white;
+        }
+        table.report-table tr:nth-child(even) { background-color: #f9f9f9; }
+
+        /* Modal Nova Senha */
+        #passwordModal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            width: 350px;
+            text-align: center;
+        }
+        .modal-content h3 { color: #1e3d59; margin-top: 0; }
+
+        /* Estilo de Impressão */
         @media print {
             body { background: white; padding: 0; }
-            #mainSystem, .btn-container, #loginScreen { display: none; }
+            #mainSystem, .btn-container, #loginScreen, #reportScreen, #passwordModal { display: none !important; }
             .print-area { display: block !important; }
         }
         .print-area { display: none; }
@@ -168,7 +236,7 @@
                 <div class="form-row">
                     <div class="form-group" style="max-width: 100px;">
                         <label>1º CÓDIGO</label>
-                        <input type="text" name="codigo" readonly value="1">
+                        <input type="text" name="codigo" id="input_codigo" readonly value="1">
                     </div>
                     <div class="form-group" style="max-width: 150px;">
                         <label>2º DATA DE INCLUSÃO</label>
@@ -350,11 +418,60 @@
             </fieldset>
 
             <div class="btn-container">
-                <button type="reset" class="btn-limpar">Limpar Dados</button>
                 <button type="submit" class="btn-salvar">Salvar Registro</button>
-                <button type="button" class="btn-imprimir" onclick="gerarComprovante()">Imprimir Comprovante (2 Vias)</button>
+                <button type="button" class="btn-novo" onclick="novoRegistro()">Novo Registro</button>
+                <label class="btn-import">
+                    Importar <input type="file" id="csvFile" accept=".csv" style="display: none;" onchange="importarCSV(event)">
+                </label>
+                <button type="button" class="btn-relatorio" onclick="abrirRelatorio()">Relatório dos Cursos</button>
+                <button type="button" class="btn-imprimir" onclick="gerarComprovante()">Imprimir Registro</button>
+                <button type="button" class="btn-senha" onclick="abrirModalSenha()">Nova Senha</button>
+                <button type="button" class="btn-sair" onclick="sairSistema()">Sair</button>
             </div>
         </form>
+    </div>
+</div>
+
+<!-- TELA DE RELATÓRIO DOS CURSOS -->
+<div id="reportScreen">
+    <div class="report-header">
+        <h2>Relatório Geral de Alunos e Cursos</h2>
+        <div class="counter-badge" id="contadorRegistros">Total de Registros: 0</div>
+    </div>
+    <div style="overflow-x: auto; max-height: 400px;">
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome do Aluno</th>
+                    <th>Telefone</th>
+                    <th>Curso / Atividade</th>
+                    <th>Turno</th>
+                    <th>Professor</th>
+                </tr>
+            </thead>
+            <tbody id="reportTableBody">
+                <!-- Preenchido via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <div style="text-align: right; margin-top: 15px;">
+        <button type="button" class="btn-sair" onclick="fecharRelatorio()">Sair do Relatório</button>
+    </div>
+</div>
+
+<!-- MODAL DE NOVA SENHA -->
+<div id="passwordModal">
+    <div class="modal-content">
+        <h3>Alterar Senha de Acesso</h3>
+        <div class="login-group">
+            <label>Nova Senha:</label>
+            <input type="password" id="novaSenhaInput" placeholder="Digite a nova senha">
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button type="button" class="btn-salvar" style="flex: 1;" onclick="salvarNovaSenha()">Salvar</button>
+            <button type="button" class="btn-senha" style="flex: 1;" onclick="fecharModalSenha()">Cancelar</button>
+        </div>
     </div>
 </div>
 
@@ -388,22 +505,31 @@
 </div>
 
 <script>
-    // Função simples de Login (Defina o usuário e senha desejados aqui)
+    // Gerenciamento de Senha no localStorage
+    if (!localStorage.getItem('cadjovem_senha')) {
+        localStorage.setItem('cadjovem_senha', '1234');
+    }
+
     function realizarLogin(e) {
         e.preventDefault();
         const user = document.getElementById('usuario').value;
         const pass = document.getElementById('senha').value;
+        const senhaSalva = localStorage.getItem('cadjovem_senha');
 
-        // Exemplo de credencial (você pode alterar para o usuário/senha que preferir)
-        if(user === "admin" && pass === "1234") {
+        if(user === "admin" && pass === senhaSalva) {
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('mainSystem').style.display = 'block';
+            atualizarProximoCodigo();
         } else {
             alert("Usuário ou senha incorretos!");
         }
     }
 
     let registros = JSON.parse(localStorage.getItem('cadjovem_alunos')) || [];
+
+    function atualizarProximoCodigo() {
+        document.getElementById('input_codigo').value = registros.length + 1;
+    }
 
     document.getElementById('cadForm').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -422,12 +548,107 @@
         
         localStorage.setItem('cadjovem_alunos', JSON.stringify(registros));
         
-        this.reset();
-        document.querySelector('[name="codigo"]').value = registros.length + 1;
-        document.querySelector('[name="nome_coordenador"]').value = "BENONE HENRIQUE DE SOUSA";
-        
         alert("Matrícula salva com sucesso!");
+        novoRegistro();
     });
+
+    function novoRegistro() {
+        document.getElementById('cadForm').reset();
+        document.querySelector('[name="nome_coordenador"]').value = "BENONE HENRIQUE DE SOUSA";
+        atualizarProximoCodigo();
+    }
+
+    function sairSistema() {
+        document.getElementById('mainSystem').style.display = 'none';
+        document.getElementById('reportScreen').style.display = 'none';
+        document.getElementById('loginForm').reset();
+        document.getElementById('loginScreen').style.display = 'block';
+    }
+
+    function abrirModalSenha() {
+        document.getElementById('passwordModal').style.display = 'flex';
+    }
+
+    function fecharModalSenha() {
+        document.getElementById('passwordModal').style.display = 'none';
+        document.getElementById('novaSenhaInput').value = '';
+    }
+
+    function salvarNovaSenha() {
+        const novaSenha = document.getElementById('novaSenhaInput').value;
+        if(!novaSenha) {
+            alert("Digite uma senha válida!");
+            return;
+        }
+        localStorage.setItem('cadjovem_senha', novaSenha);
+        alert("Senha alterada com sucesso!");
+        fecharModalSenha();
+    }
+
+    function abrirRelatorio() {
+        document.getElementById('mainSystem').style.display = 'none';
+        document.getElementById('reportScreen').style.display = 'block';
+        
+        const tbody = document.getElementById('reportTableBody');
+        tbody.innerHTML = '';
+        
+        registros.forEach(aluno => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${aluno.codigo || ''}</td>
+                <td>${aluno.nome_aluno || ''}</td>
+                <td>${aluno.telefone || ''}</td>
+                <td>${aluno.curso_atividade || ''}</td>
+                <td>${aluno.preferencia_turno || ''}</td>
+                <td>${aluno.nome_professor || ''}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        document.getElementById('contadorRegistros').innerText = `Total de Registros: ${registros.length}`;
+    }
+
+    function fecharRelatorio() {
+        document.getElementById('reportScreen').style.display = 'none';
+        document.getElementById('mainSystem').style.display = 'block';
+    }
+
+    function importarCSV(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const conteudo = e.target.result;
+            const linhas = conteudo.split('\n');
+            let importados = 0;
+
+            linhas.forEach((linha, index) => {
+                if (index === 0 || !linha.trim()) return;
+                const colunas = linha.split(';');
+                if (colunas.length > 1) {
+                    const aluno = {
+                        codigo: registros.length + 1,
+                        data_inclusao: colunas[0]?.replace(/"/g, '').trim(),
+                        nome_aluno: colunas[1]?.replace(/"/g, '').trim(),
+                        data_nascimento: colunas[2]?.replace(/"/g, '').trim(),
+                        telefone: colunas[14]?.replace(/"/g, '').trim() || '',
+                        curso_atividade: colunas[22]?.replace(/"/g, '').trim() || '',
+                        preferencia_turno: colunas[23]?.replace(/"/g, '').trim() || '',
+                        nome_professor: colunas[24]?.replace(/"/g, '').trim() || '',
+                        nome_coordenador: colunas[25]?.replace(/"/g, '').trim() || "BENONE HENRIQUE DE SOUSA"
+                    };
+                    registros.push(aluno);
+                    importados++;
+                }
+            });
+
+            localStorage.setItem('cadjovem_alunos', JSON.stringify(registros));
+            atualizarProximoCodigo();
+            alert(`${importados} registros importados com sucesso da tabela CSV!`);
+        };
+        reader.readAsText(file, 'UTF-8');
+    }
 
     function gerarComprovante() {
         const nome = document.querySelector('[name="nome_aluno"]').value;
