@@ -415,7 +415,7 @@
                             <option value="INICIALIZAÇÃO NA COMPUTAÇÃO">INICIALIZAÇÃO NA COMPUTAÇÃO</option>
                             <option value="NFORMÁTICA INTERMEDIARIA">NFORMÁTICA INTERMEDIARIA</option>
                             <option value="TÉCNICO EM INFORMÁTICA">TÉCNICO EM INFORMÁTICA</option>
-                            <option value="WEB DESINGNAR">WEB DESINGNER</option>
+                            <option value="WEB DESIGNER">WEB DESIGNER</option>
                         </select>
                     </div>
                     <div class="form-group" style="flex: 1;">
@@ -460,7 +460,7 @@
                 </div>
             </fieldset>
 
-            <!-- Botões Inferiores Solicitados -->
+            <!-- Botões Inferiores -->
             <div class="btn-container">
                 <button type="submit" class="btn-salvar">Salvar Registro</button>
                 <button type="button" class="btn-imprimir" onclick="gerarComprovante()">Imprimir Registro</button>
@@ -487,7 +487,7 @@
                     <option value="INICIALIZAÇÃO NA COMPUTAÇÃO">INICIALIZAÇÃO NA COMPUTAÇÃO</option>
                     <option value="NFORMÁTICA INTERMEDIARIA">NFORMÁTICA INTERMEDIARIA</option>
                     <option value="TÉCNICO EM INFORMÁTICA">TÉCNICO EM INFORMÁTICA</option>
-                    <option value="WEB DESINGNAR">WEB DESINGNAR</option>
+                    <option value="WEB DESIGNER">WEB DESIGNER</option>
                 </select>
             </div>
             <div class="counter-badge" id="contadorRegistros">Total: 0</div>
@@ -593,17 +593,14 @@
             return;
         }
 
-        // Verifica se já existe pelo código atual ou se é novo
         const codigoAtual = parseInt(document.getElementById('input_codigo').value);
         const indexExistente = registros.findIndex(r => parseInt(r.codigo) === codigoAtual);
 
         if(indexExistente >= 0) {
-            // Atualiza registro existente
             aluno.codigo = codigoAtual;
             registros[indexExistente] = aluno;
             alert("Matrícula atualizada com sucesso!");
         } else {
-            // Novo registro
             aluno.codigo = registros.length + 1;
             registros.push(aluno);
             alert("Matrícula salva com sucesso!");
@@ -628,7 +625,6 @@
 
         const encontrado = registros.find(r => r.nome_aluno && r.nome_aluno.toLowerCase().includes(termo));
         if(encontrado) {
-            // Preenche o formulário com os dados do aluno encontrado
             document.getElementById('input_codigo').value = encontrado.codigo || '';
             for (const key in encontrado) {
                 const campo = document.querySelector(`[name="${key}"]`);
