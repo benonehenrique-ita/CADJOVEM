@@ -213,7 +213,7 @@
     <form id="loginForm" onsubmit="realizarLogin(event)">
         <div class="login-group">
             <label>Usuário:</label>
-            <input type="text" id="usuario" required placeholder="Digite o usuário (ex: cadjovem)">
+            <input type="text" id="usuario" required placeholder="Digite o usuário (ex: cadjovem)" value="cadjovem">
         </div>
         <div class="login-group">
             <label>Senha:</label>
@@ -505,22 +505,21 @@
 </div>
 
 <script>
-    if (!localStorage.getItem('cadjovem_senha')) {
-        localStorage.setItem('cadjovem_senha', '1234');
-    }
+    // Força a senha padrão correta solicitada (juventudes)
+    localStorage.setItem('cadjovem_senha', 'juventudes');
 
     function realizarLogin(e) {
         e.preventDefault();
-        const user = document.getElementById('usuario').value.trim();
+        const user = document.getElementById('usuario').value.trim().toLowerCase();
         const pass = document.getElementById('senha').value;
-        const senhaSalva = localStorage.getItem('cadjovem_senha');
+        const senhaSalva = localStorage.getItem('cadjovem_senha') || 'juventudes';
 
-        if(user !== "" && pass === senhaSalva) {
+        if(user === "cadjovem" && pass === senhaSalva) {
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('mainSystem').style.display = 'block';
             atualizarProximoCodigo();
         } else {
-            alert("Senha incorreta ou usuário em branco!");
+            alert("Usuário ou senha incorretos!");
         }
     }
 
@@ -561,6 +560,7 @@
         document.getElementById('mainSystem').style.display = 'none';
         document.getElementById('reportScreen').style.display = 'none';
         document.getElementById('loginForm').reset();
+        document.getElementById('usuario').value = 'cadjovem';
         document.getElementById('loginScreen').style.display = 'block';
     }
 
