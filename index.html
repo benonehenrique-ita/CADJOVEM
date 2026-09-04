@@ -245,9 +245,13 @@
         </div>
         <div class="login-group">
             <label>Senha:</label>
-            <input type="password" id="senha" required placeholder="Digite a senha">
+            <div style="display: flex; gap: 5px;">
+                <input type="password" id="senha" required placeholder="Digite a senha" style="flex: 1;">
+                <button type="button" onclick="toggleSenha()" style="padding: 5px 10px; font-size: 10px; background: #6c757d; cursor: pointer; border-radius: 4px; color: white; border: none;">👁️</button>
+            </div>
         </div>
         <button type="submit" class="btn-login">Entrar no Sistema</button>
+        <p style="font-size: 10px; color: #666; margin-top: 12px;">Senha padrão inicial: <b>juventudes</b></p>
     </form>
 </div>
 
@@ -550,10 +554,19 @@
 </div>
 
 <script>
+    function toggleSenha() {
+        const inputSenha = document.getElementById('senha');
+        if (inputSenha.type === "password") {
+            inputSenha.type = "text";
+        } else {
+            inputSenha.type = "password";
+        }
+    }
+
     function realizarLogin(e) {
         e.preventDefault();
         const user = document.getElementById('usuario').value.trim().toLowerCase();
-        const pass = document.getElementById('senha').value;
+        const pass = document.getElementById('senha').value.trim();
         const senhaAtual = localStorage.getItem('cadjovem_senha') || 'juventudes';
 
         if(user === "cadjovem" && pass === senhaAtual) {
@@ -561,7 +574,7 @@
             document.getElementById('mainSystem').style.display = 'block';
             atualizarProximoCodigo();
         } else {
-            alert("Usuário ou senha incorretos!");
+            alert("Usuário ou senha incorretos! A senha padrão é: juventudes");
         }
     }
 
@@ -610,7 +623,6 @@
         return texto.toString()
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
-            .replace(//g, "Ç") // Corrige eventuais falhas de cedilha corrompida
             .toUpperCase()
             .trim();
     }
@@ -651,6 +663,7 @@
         document.getElementById('mainSystem').style.display = 'none';
         document.getElementById('reportScreen').style.display = 'none';
         document.getElementById('loginForm').reset();
+        document.getElementById('senha').value = '';
         document.getElementById('usuario').value = 'cadjovem';
         document.getElementById('loginScreen').style.display = 'block';
     }
@@ -665,7 +678,7 @@
     }
 
     function salvarNovaSenha() {
-        const novaSenha = document.getElementById('novaSenhaInput').value;
+        const novaSenha = document.getElementById('novaSenhaInput').value.trim();
         if(!novaSenha) {
             alert("Digite uma senha válida!");
             return;
@@ -771,7 +784,6 @@
             atualizarProximoCodigo();
             alert(`${registros.length} registros importados com sucesso!`);
         };
-        // Força a leitura utilizando Windows-1252 / ISO-8859-1 para converter acentos corretamente do Excel
         reader.readAsText(file, 'ISO-8859-1');
     }
 
