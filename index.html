@@ -586,42 +586,82 @@ function importarCSV(event) {
             const conteudo = e.target.result;
             const linhas = conteudo.split(/\r?\n/);
             let novosRegistros = [];
+            let cabecalho = [];
 
             linhas.forEach((linha, index) => {
-                if (index === 0 || !linha.trim()) return;
-                const colunas = linha.split(';');
-                if (colunas.length > 1) {
-                    const aluno = {
-                        codigo: colunas[0]?.replace(/"/g, '').trim() || (novosRegistros.length + 1),
-                        data_inclusao: limparTextoCorrompido(colunas[1]?.replace(/"/g, '').trim() || ''),
-                        nome_aluno: limparTextoCorrompido(colunas[2]?.replace(/"/g, '').trim() || ''),
-                        data_nascimento: limparTextoCorrompido(colunas[3]?.replace(/"/g, '').trim() || ''),
-                        sexo: limparTextoCorrompido(colunas[4]?.replace(/"/g, '').trim() || ''),
-                        estado_civil: limparTextoCorrompido(colunas[5]?.replace(/"/g, '').trim() || ''),
-                        nome_pai: limparTextoCorrompido(colunas[6]?.replace(/"/g, '').trim() || ''),
-                        nome_mae: limparTextoCorrompido(colunas[7]?.replace(/"/g, '').trim() || ''),
-                        endereco: limparTextoCorrompido(colunas[8]?.replace(/"/g, '').trim() || ''),
-                        numero: limparTextoCorrompido(colunas[9]?.replace(/"/g, '').trim() || ''),
-                        bairro: limparTextoCorrompido(colunas[10]?.replace(/"/g, '').trim() || ''),
-                        cidade: limparTextoCorrompido(colunas[11]?.replace(/"/g, '').trim() || ''),
-                        estado: limparTextoCorrompido(colunas[12]?.replace(/"/g, '').trim() || ''),
-                        cep: limparTextoCorrompido(colunas[13]?.replace(/"/g, '').trim() || ''),
-                        telefone: limparTextoCorrompido(colunas[14]?.replace(/"/g, '').trim() || ''),
-                        rg_cpf: limparTextoCorrompido(colunas[15]?.replace(/"/g, '').trim() || ''),
-                        participa_grupo_jovem: limparTextoCorrompido(colunas[16]?.replace(/"/g, '').trim() || ''),
-                        estuda_atualmente: limparTextoCorrompido(colunas[17]?.replace(/"/g, '').trim() || ''),
-                        nome_escola: limparTextoCorrompido(colunas[18]?.replace(/"/g, '').trim() || ''),
-                        serie_estuda: limparTextoCorrompido(colunas[19]?.replace(/"/g, '').trim() || ''),
-                        grau_escolaridade: limparTextoCorrompido(colunas[20]?.replace(/"/g, '').trim() || ''),
-                        trabalha_onde: limparTextoCorrompido(colunas[21]?.replace(/"/g, '').trim() || ''),
-                        curso_atividade: limparTextoCorrompido(colunas[22]?.replace(/"/g, '').trim() || ''),
-                        preferencia_turno: limparTextoCorrompido(colunas[23]?.replace(/"/g, '').trim() || ''),
-                        nome_professor: limparTextoCorrompido(colunas[24]?.replace(/"/g, '').trim() || ''),
-                        nome_coordenador: limparTextoCorrompido(colunas[25]?.replace(/"/g, '').trim() || "BENONE HENRIQUE DE SOUSA"),
-                        inicio_aulas: limparTextoCorrompido(colunas[26]?.replace(/"/g, '').trim() || ''),
-                        horario_aulas: limparTextoCorrompido(colunas[27]?.replace(/"/g, '').trim() || '')
+                if (!linha.trim()) return;
+                
+                // Trata as colunas separadas por ponto e vírgula, limpando aspas
+                const colunas = linha.split(';').map(c => c.replace(/^"|"$/g, '').trim());
+
+                // Se for a primeira linha, assumimos que é o cabeçalho para mapear as posições dinamicamente
+                if (index === 0 || (colunas.some(c => c.toUpperCase().includes('NOME') || c.toUpperCase().includes('CURSO')) && novsRegistros === undefined)) {
+                    cabecalho = colunas.map(c => normalizarTexto(c));
+                    return;
+                }
+
+                if (colunas.length > 5) {
+                    // Função auxiliar para pegar a coluna pelo índice seguro ou procurar pelo nome no cabeçalho
+                    const getCol = (idx, termosBusca) => {
+                        if (colunas[idx] !== undefined && colunas[idx] !== "") return colunas[idx];
+                        if (cabecalho.length > 0) {
+                            const foundIdx = cabecalho.findIndex(h => termosBusca.some(t => h.includes(t)));
+                            if (foundIdx >= 0 && colunas[foundIdx]) return colunas[foundIdx];
+                        }
+                        return colunas[idx] || '';
                     };
 
+                    const aluno = {
+                        codigo: colunas[0] || (novosRegistros.length + 1),
+                        data_inclusao: limparTextoCorrompido(colunas[1] || ''),
+                        nome_aluno: limparTextoCorrompido(colunas[2] || ''),
+                        data_nascimento: limparTextoCorrompido(colunas[3] || ''),
+                        sexo: limparTextoCorrompido(colunas[4] || ''),
+                        estado_civil: limparTextoCorrompido(colunas[5] || ''),
+                        nome_pai: limparTextoCorrompido(colunas[6] || ''),
+                        nome_mae: limparTextoCorrompido(colunas[7] || ''),
+                        endereco: limparTextoCorrompido(colunas[8] || ''),
+                        numero: limparTextoCorrompido(colunas[9] || ''),
+                        bairro: limparTextoCorrompido(colunas[10] || ''),
+                        cidade: limparTextoCorrompido(colunas[11] || ''),
+                        estado: limparTextoCorrompido(colunas[12] || ''),
+                        cep: limparTextoCorrompido(colunas[13] || ''),
+                        telefone: limparTextoCorrompido(colunas[14] || ''),
+                        rg_cpf: limparTextoCorrompido(colunas[15] || ''),
+                        participa_grupo_jovem: limparTextoCorrompido(colunas[16] || ''),
+                        estuda_atualmente: limparTextoCorrompido(colunas[17] || ''),
+                        nome_escola: limparTextoCorrompido(colunas[18] || ''),
+                        serie_estuda: limparTextoCorrompido(colunas[19] || ''),
+                        grau_escolaridade: limparTextoCorrompido(colunas[20] || ''),
+                        trabalha_onde: limparTextoCorrompido(colunas[21] || ''),
+                        curso_atividade: limparTextoCorrompido(colunas[22] || ''),
+                        preferencia_turno: limparTextoCorrompido(colunas[23] || ''),
+                        nome_professor: limparTextoCorrompido(colunas[24] || ''),
+                        nome_coordenador: limparTextoCorrompido(colunas[25] || "BENONE HENRIQUE DE SOUSA"),
+                        inicio_aulas: limparTextoCorrompido(colunas[26] || ''),
+                        horario_aulas: limparTextoCorrompido(colunas[27] || '')
+                    };
+
+                    // Limpeza e correção universal de acentos corrompidos comuns em CSVs legados
+                    if (aluno.curso_atividade) {
+                        aluno.curso_atividade = aluno.curso_atividade
+                            .replace(/INFORM.TICA/gi, 'INFORMÁTICA')
+                            .replace(/INTERMEDIARIA/gi, 'INTERMEDIÁRIA')
+                            .replace(/MANUTENO/gi, 'MANUTENÇÃO')
+                            .replace(/MDIO/gi, 'MÉDIO');
+                    }
+
+                    novosRegistros.push(aluno);
+                }
+            });
+
+            registros = novosRegistros;
+            localStorage.setItem('cadjovem_alunos', JSON.stringify(registros));
+            atualizarProximoCodigo();
+            alert(`${registros.length} registros importados e corrigidos com sucesso!`);
+        };
+        reader.readAsText(file, 'ISO-8859-1');
+    }
                     // Normaliza os textos corrompidos mais comuns vindos de arquivos antigos do Excel/CSV
                     if (aluno.curso_atividade) {
                         aluno.curso_atividade = aluno.curso_atividade
