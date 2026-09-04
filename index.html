@@ -11,7 +11,6 @@
             padding: 20px;
             color: #333;
         }
-        /* Tela de Login */
         #loginScreen {
             max-width: 400px;
             background: #ffffff;
@@ -27,7 +26,6 @@
         .login-group input { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
         .btn-login { width: 100%; padding: 10px; background-color: #0275d8; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
 
-        /* Sistema Principal */
         #mainSystem { display: none; }
         .container {
             max-width: 1000px;
@@ -37,95 +35,19 @@
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
-        h1 {
-            text-align: center;
-            color: #1e3d59;
-            font-size: 22px;
-            margin-bottom: 20px;
-        }
-        fieldset {
-            border: 1px solid #1e3d59;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            padding: 15px;
-            background: #fafafa;
-        }
-        legend {
-            background: #1e3d59;
-            color: white;
-            padding: 5px 10px;
-            font-size: 13px;
-            font-weight: bold;
-            border-radius: 4px;
-        }
-        .form-row {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-        }
-        .form-group {
-            flex: 1;
-            min-width: 200px;
-            display: flex;
-            flex-direction: column;
-        }
-        .form-group.full {
-            flex: 100%;
-        }
-        label {
-            font-size: 11px;
-            font-weight: bold;
-            margin-bottom: 3px;
-            color: #444;
-        }
-        input, select {
-            padding: 7px;
-            font-size: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .btn-container {
-            text-align: center;
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .btn-top-container {
-            background: #eef2f7;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            border: 1px solid #d0d7de;
-        }
-        .search-box {
-            display: flex;
-            gap: 5px;
-            align-items: center;
-        }
-        .search-box input {
-            padding: 7px;
-            font-size: 12px;
-            width: 200px;
-        }
-        button, label.btn-import {
-            padding: 8px 12px;
-            font-size: 11px;
-            font-weight: bold;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            color: white;
-            display: inline-block;
-            text-align: center;
-        }
+        h1 { text-align: center; color: #1e3d59; font-size: 22px; margin-bottom: 20px; }
+        fieldset { border: 1px solid #1e3d59; border-radius: 5px; margin-bottom: 15px; padding: 15px; background: #fafafa; }
+        legend { background: #1e3d59; color: white; padding: 5px 10px; font-size: 13px; font-weight: bold; border-radius: 4px; }
+        .form-row { display: flex; gap: 15px; margin-bottom: 10px; flex-wrap: wrap; }
+        .form-group { flex: 1; min-width: 200px; display: flex; flex-direction: column; }
+        .form-group.full { flex: 100%; }
+        label { font-size: 11px; font-weight: bold; margin-bottom: 3px; color: #444; }
+        input, select { padding: 7px; font-size: 12px; border: 1px solid #ccc; border-radius: 4px; }
+        .btn-container { text-align: center; margin-top: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .btn-top-container { background: #eef2f7; padding: 15px; border-radius: 6px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border: 1px solid #d0d7de; }
+        .search-box { display: flex; gap: 5px; align-items: center; }
+        .search-box input { padding: 7px; font-size: 12px; width: 200px; }
+        button, label.btn-import { padding: 8px 12px; font-size: 11px; font-weight: bold; border: none; border-radius: 4px; cursor: pointer; color: white; display: inline-block; text-align: center; }
         .btn-salvar { background-color: #5cb85c; padding: 10px 20px; font-size: 12px; }
         .btn-imprimir { background-color: #0275d8; padding: 10px 20px; font-size: 12px; }
         .btn-novo { background-color: #f0ad4e; color: #fff; }
@@ -135,107 +57,34 @@
         .btn-sair { background-color: #333; }
         .btn-buscar { background-color: #0275d8; }
 
-        /* Tela de Relatório */
-        #reportScreen {
-            display: none;
-            max-width: 1000px;
-            background: #ffffff;
-            margin: 0 auto;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-        .report-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .counter-badge {
-            background-color: #1e3d59;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: bold;
-        }
-        table.report-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 11px;
-            margin-bottom: 20px;
-        }
-        table.report-table th, table.report-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        table.report-table th {
-            background-color: #1e3d59;
-            color: white;
-        }
+        #reportScreen { display: none; max-width: 1000px; background: #ffffff; margin: 0 auto; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .report-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .counter-badge { background-color: #1e3d59; color: white; padding: 8px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; }
+        table.report-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 20px; }
+        table.report-table th, table.report-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        table.report-table th { background-color: #1e3d59; color: white; }
         table.report-table tr:nth-child(even) { background-color: #f9f9f9; }
 
-        /* Modal Nova Senha */
-        #passwordModal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .modal-content {
-            background: #fff;
-            padding: 25px;
-            border-radius: 8px;
-            width: 350px;
-            text-align: center;
-        }
+        #passwordModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: #fff; padding: 25px; border-radius: 8px; width: 350px; text-align: center; }
         .modal-content h3 { color: #1e3d59; margin-top: 0; }
 
-        /* Estilo de Impressão */
         @media print {
             body { background: white; padding: 0; margin: 0; }
             #mainSystem, .btn-container, .btn-top-container, #loginScreen, #reportScreen, #passwordModal { display: none !important; }
             .print-area { display: block !important; width: 100%; }
         }
         .print-area { display: none; }
-        .comprovante-via {
-            height: 5.5cm;
-            max-height: 5.5cm;
-            box-sizing: border-box;
-            padding: 8px 12px;
-            border: 1px dashed #000;
-            overflow: hidden;
-        }
+        .comprovante-via { height: 5.5cm; max-height: 5.5cm; box-sizing: border-box; padding: 8px 12px; border: 1px dashed #000; overflow: hidden; }
         .comprovante-via h3 { text-align: center; font-size: 11px; margin: 0 0 5px 0; }
         .comprovante-via p { font-size: 10px; margin: 3px 0; }
-        .linha-corte {
-            border-bottom: 1px dashed #000;
-            text-align: center;
-            font-size: 9px;
-            margin: 4px 0;
-            padding-bottom: 1px;
-        }
-        .assinatura-box {
-            margin-top: 15px;
-            text-align: center;
-            font-size: 10px;
-        }
-        .linha-assinatura {
-            width: 50%;
-            border-top: 1px solid #000;
-            margin: 0 auto 2px auto;
-        }
+        .linha-corte { border-bottom: 1px dashed #000; text-align: center; font-size: 9px; margin: 4px 0; padding-bottom: 1px; }
+        .assinatura-box { margin-top: 15px; text-align: center; font-size: 10px; }
+        .linha-assinatura { width: 50%; border-top: 1px solid #000; margin: 0 auto 2px auto; }
     </style>
 </head>
 <body>
 
-<!-- TELA DE LOGIN -->
 <div id="loginScreen">
     <h2>CADJOVEM - LOGIN</h2>
     <div class="login-group">
@@ -252,7 +101,6 @@
     <button type="button" class="btn-login" onclick="realizarLogin()">Entrar no Sistema</button>
 </div>
 
-<!-- SISTEMA PRINCIPAL -->
 <div id="mainSystem">
     <div class="container">
         <h1>CADJOVEM - MATRÍCULA DE ALUNOS</h1>
@@ -464,7 +312,6 @@
     </div>
 </div>
 
-<!-- TELA DE RELATÓRIO -->
 <div id="reportScreen">
     <div class="report-header">
         <h2>Relatório Geral de Alunos e Cursos</h2>
@@ -508,7 +355,6 @@
     </div>
 </div>
 
-<!-- MODAL SENHA -->
 <div id="passwordModal">
     <div class="modal-content">
         <h3>Alterar Senha de Acesso</h3>
@@ -523,7 +369,6 @@
     </div>
 </div>
 
-<!-- IMPRESSÃO -->
 <div class="print-area" id="printArea">
     <div class="comprovante-via">
         <h3>PROJETO CADJOVEM - COMPROVANTE DE MATRÍCULA (1ª Via: Controle de Inscrição)</h3>
@@ -616,9 +461,7 @@
 
     function limparTextoCorrompido(texto) {
         if (!texto) return "";
-        return texto.toString()
-            .replace(//g, "A")
-            .trim();
+        return texto.toString().trim();
     }
 
     function normalizarTexto(texto) {
