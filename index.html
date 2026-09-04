@@ -701,7 +701,9 @@
             renderizarTabelaRelatorio(registros);
         } else {
             const cursoNorm = normalizarTexto(cursoSelecionado);
-            const filtrados = registros.filter(r => r.curso_atividade && normalizarTexto(r.curso_atividade).includes(cursoNorm));
+            const filtrados = registros.filter(r => {
+                return r.curso_atividade && normalizarTexto(r.curso_atividade) === cursoNorm;
+            });
             renderizarTabelaRelatorio(filtrados);
         }
     }
@@ -737,8 +739,12 @@
 
         const reader = new FileReader();
         reader.onload = function(e) {
-            const conteudo = e.target.result;
-            const linhas = conteudo.split('\n');
+            // Força a decodificação com TextDecoder usando windows-1252 para evitar caracteres corrompidos (ç, ã, º, etc.)
+            const buffer = e.target.result;
+            const decoder = new TextDecoder('windows-1252');
+            const conteudo = decoder.decode(buffer);
+            
+            const linhas = conteudo.split(/\r?\n/);
             let novosRegistros = [];
 
             linhas.forEach((linha, index) => {
@@ -782,9 +788,9 @@
             registros = novosRegistros;
             localStorage.setItem('cadjovem_alunos', JSON.stringify(registros));
             atualizarProximoCodigo();
-            alert(`${registros.length} registros importados com sucesso!`);
+            alert(`${registros.length} registros importados e corrigidos com sucesso!`);
         };
-        reader.readAsText(file, 'ISO-8859-1');
+        reader.readAsArrayBuffer(file);
     }
 
     function gerarComprovante() {
