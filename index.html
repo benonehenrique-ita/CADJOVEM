@@ -69,18 +69,20 @@
         .modal-content { background: #fff; padding: 25px; border-radius: 8px; width: 350px; text-align: center; }
         .modal-content h3 { color: #1e3d59; margin-top: 0; }
 
+        /* Estilização otimizada para Impressão (A4 exato, vias separadas e assinaturas embaixo) */
         @media print {
             body { background: white; padding: 0; margin: 0; }
             #mainSystem, .btn-container, .btn-top-container, #loginScreen, #reportScreen, #passwordModal { display: none !important; }
-            .print-area { display: block !important; width: 100%; }
+            .print-area { display: flex !important; flex-direction: column; justify-content: space-between; width: 100vw; height: 100vh; box-sizing: border-box; padding: 10px 20px; margin: 0; }
         }
         .print-area { display: none; }
-        .comprovante-via { height: 5.5cm; max-height: 5.5cm; box-sizing: border-box; padding: 8px 12px; border: 1px dashed #000; overflow: hidden; }
-        .comprovante-via h3 { text-align: center; font-size: 11px; margin: 0 0 5px 0; }
-        .comprovante-via p { font-size: 10px; margin: 3px 0; }
-        .linha-corte { border-bottom: 1px dashed #000; text-align: center; font-size: 9px; margin: 4px 0; padding-bottom: 1px; }
-        .assinatura-box { margin-top: 15px; text-align: center; font-size: 10px; }
-        .linha-assinatura { width: 50%; border-top: 1px solid #000; margin: 0 auto 2px auto; }
+        .comprovante-via { height: 46%; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; padding: 10px 15px; border: 1px dashed #000; }
+        .comprovante-via h3 { text-align: center; font-size: 12px; margin: 0 0 8px 0; color: #000; }
+        .comprovante-conteudo { flex: 1; }
+        .comprovante-via p { font-size: 11px; margin: 5px 0; }
+        .linha-corte { text-align: center; font-size: 9px; margin: 5px 0; border-bottom: 1px dashed #000; padding-bottom: 2px; }
+        .assinatura-box { text-align: center; font-size: 11px; margin-top: auto; padding-bottom: 5px; }
+        .linha-assinatura { width: 55%; border-top: 1px solid #000; margin: 0 auto 3px auto; }
     </style>
 </head>
 <body>
@@ -372,9 +374,11 @@
 <div class="print-area" id="printArea">
     <div class="comprovante-via">
         <h3>PROJETO CADJOVEM - COMPROVANTE DE MATRÍCULA (1ª Via: Controle de Inscrição)</h3>
-        <p><b>Aluno(a):</b> <span id="p_nome"></span></p>
-        <p><b>Curso/Atividade:</b> <span id="p_curso"></span> | <b>Turno:</b> <span id="p_turno"></span> | <b>Horário:</b> <span id="p_horario"></span></p>
-        <p><b>Início:</b> <span id="p_inicio"></span> | <b>Professor:</b> <span id="p_professor"></span> | <b>Coordenador:</b> <span id="p_coordenador"></span></p>
+        <div class="comprovante-conteudo">
+            <p><b>Aluno(a):</b> <span id="p_nome"></span></p>
+            <p><b>Curso/Atividade:</b> <span id="p_curso"></span> | <b>Turno:</b> <span id="p_turno"></span> | <b>Horário:</b> <span id="p_horario"></span></p>
+            <p><b>Início:</b> <span id="p_inicio"></span> | <b>Professor:</b> <span id="p_professor"></span> | <b>Coordenador:</b> <span id="p_coordenador"></span></p>
+        </div>
         <div class="assinatura-box">
             <div class="linha-assinatura"></div>
             Assinatura do Aluno ou Responsável
@@ -385,9 +389,11 @@
 
     <div class="comprovante-via">
         <h3>PROJETO CADJOVEM - COMPROVANTE DE MATRÍCULA (2ª Via: Coordenador)</h3>
-        <p><b>Aluno(a):</b> <span id="p_nome2"></span></p>
-        <p><b>Curso/Atividade:</b> <span id="p_curso2"></span> | <b>Turno:</b> <span id="p_turno2"></span> | <b>Horário:</b> <span id="p_horario2"></span></p>
-        <p><b>Início:</b> <span id="p_inicio2"></span> | <b>Professor:</b> <span id="p_professor2"></span> | <b>Coordenador:</b> <span id="p_coordenador2"></span></p>
+        <div class="comprovante-conteudo">
+            <p><b>Aluno(a):</b> <span id="p_nome2"></span></p>
+            <p><b>Curso/Atividade:</b> <span id="p_curso2"></span> | <b>Turno:</b> <span id="p_turno2"></span> | <b>Horário:</b> <span id="p_horario2"></span></p>
+            <p><b>Início:</b> <span id="p_inicio2"></span> | <b>Professor:</b> <span id="p_professor2"></span> | <b>Coordenador:</b> <span id="p_coordenador2"></span></p>
+        </div>
         <div class="assinatura-box">
             <div class="linha-assinatura"></div>
             Assinatura do Coordenador (<span id="p_coord_nome"></span>)
@@ -398,11 +404,7 @@
 <script>
     function toggleSenhaLogin() {
         const inputSenha = document.getElementById('senhaLogin');
-        if (inputSenha.type === "password") {
-            inputSenha.type = "text";
-        } else {
-            inputSenha.type = "password";
-        }
+        inputSenha.type = inputSenha.type === "password" ? "text" : "password";
     }
 
     function realizarLogin() {
@@ -462,7 +464,12 @@
 
     function limparTextoCorrompido(texto) {
         if (!texto) return "";
-        return texto.toString().trim();
+        return texto.toString()
+            .replace(//g, 'Ç')
+            .replace(/INFORM\.TICA/gi, 'INFORMÁTICA')
+            .replace(/MANUTENO/gi, 'MANUTENÇÃO')
+            .replace(/INTERMEDIARIA/gi, 'INTERMEDIARIA')
+            .trim();
     }
 
     function normalizarTexto(texto) {
@@ -566,7 +573,7 @@
                 <td>${limparTextoCorrompido(aluno.nome_aluno || '')}</td>
                 <td>${aluno.telefone || ''}</td>
                 <td>${limparTextoCorrompido(aluno.curso_atividade || '')}</td>
-                <td>${aluno.preferencia_turno || ''}</td>
+                <td>${limparTextoCorrompido(aluno.preferencia_turno || '')}</td>
                 <td>${limparTextoCorrompido(aluno.nome_professor || '')}</td>
             `;
             tbody.appendChild(tr);
@@ -589,66 +596,95 @@
             const conteudo = e.target.result;
             const linhas = conteudo.split(/\r?\n/);
             let novosRegistros = [];
-            let cabecalho = [];
+            let mapaColunas = {};
 
             linhas.forEach((linha, index) => {
                 if (!linha.trim()) return;
-                
                 const colunas = linha.split(';').map(c => c.replace(/^"|"$/g, '').trim());
 
-                if (index === 0 || (colunas.some(c => c.toUpperCase().includes('NOME') || c.toUpperCase().includes('CURSO')) && novosRegistros.length === 0)) {
-                    cabecalho = colunas.map(c => normalizarTexto(c));
+                // Mapeia os índices dinamicamente através da linha de cabeçalho
+                if (index === 0 || (colunas.some(c => normalizarTexto(c).includes('NOME') || normalizarTexto(c).includes('CURSO')) && Object.keys(mapaColunas).length === 0)) {
+                    colunas.forEach((col, idx) => {
+                        const txt = normalizarTexto(col);
+                        if (txt.includes('CODIGO')) mapaColunas.codigo = idx;
+                        else if (txt.includes('DATA') && txt.includes('INCLUSAO')) mapaColunas.data_inclusao = idx;
+                        else if (txt.includes('NOME') && txt.includes('ALUNO')) mapaColunas.nome_aluno = idx;
+                        else if (txt.includes('NASCIMENTO')) mapaColunas.data_nascimento = idx;
+                        else if (txt.includes('SEXO')) mapaColunas.sexo = idx;
+                        else if (txt.includes('CIVIL')) mapaColunas.estado_civil = idx;
+                        else if (txt.includes('PAI')) mapaColunas.nome_pai = idx;
+                        else if (txt.includes('MAE')) mapaColunas.nome_mae = idx;
+                        else if (txt.includes('ENDERECO')) mapaColunas.endereco = idx;
+                        else if (txt === 'N' || txt.includes('NUMERO')) mapaColunas.numero = idx;
+                        else if (txt.includes('BAIRRO')) mapaColunas.bairro = idx;
+                        else if (txt.includes('CIDADE')) mapaColunas.cidade = idx;
+                        else if (txt.includes('ESTADO')) mapaColunas.estado = idx;
+                        else if (txt.includes('CEP')) mapaColunas.cep = idx;
+                        else if (txt.includes('TELEFONE')) mapaColunas.telefone = idx;
+                        else if (txt.includes('RG') || txt.includes('CPF')) mapaColunas.rg_cpf = idx;
+                        else if (txt.includes('GRUPO') && txt.includes('JOVEM')) mapaColunas.participa_grupo_jovem = idx;
+                        else if (txt.includes('ESTUDA')) mapaColunas.estuda_atualmente = idx;
+                        else if (txt.includes('ESCOLA')) mapaColunas.nome_escola = idx;
+                        else if (txt.includes('SERIE')) mapaColunas.serie_estuda = idx;
+                        else if (txt.includes('ESCOLARIDADE')) mapaColunas.grau_escolaridade = idx;
+                        else if (txt.includes('TRABALHA')) mapaColunas.trabalha_onde = idx;
+                        else if (txt.includes('CURSO') || txt.includes('ATIVIDADE')) mapaColunas.curso_atividade = idx;
+                        else if (txt.includes('TURNO')) mapaColunas.preferencia_turno = idx;
+                        else if (txt.includes('PROFESSOR')) mapaColunas.nome_professor = idx;
+                        else if (txt.includes('COORDENADOR')) mapaColunas.nome_coordenador = idx;
+                        else if (txt.includes('INICIO')) mapaColunas.inicio_aulas = idx;
+                        else if (txt.includes('HORARIO')) mapaColunas.horario_aulas = idx;
+                    });
                     return;
                 }
 
-                if (colunas.length > 5) {
-                    const aluno = {
-                        codigo: colunas[0] || (novosRegistros.length + 1),
-                        data_inclusao: limparTextoCorrompido(colunas[1] || ''),
-                        nome_aluno: limparTextoCorrompido(colunas[2] || ''),
-                        data_nascimento: limparTextoCorrompido(colunas[3] || ''),
-                        sexo: limparTextoCorrompido(colunas[4] || ''),
-                        estado_civil: limparTextoCorrompido(colunas[5] || ''),
-                        nome_pai: limparTextoCorrompido(colunas[6] || ''),
-                        nome_mae: limparTextoCorrompido(colunas[7] || ''),
-                        endereco: limparTextoCorrompido(colunas[8] || ''),
-                        numero: limparTextoCorrompido(colunas[9] || ''),
-                        bairro: limparTextoCorrompido(colunas[10] || ''),
-                        cidade: limparTextoCorrompido(colunas[11] || ''),
-                        estado: limparTextoCorrompido(colunas[12] || ''),
-                        cep: limparTextoCorrompido(colunas[13] || ''),
-                        telefone: limparTextoCorrompido(colunas[14] || ''),
-                        rg_cpf: limparTextoCorrompido(colunas[15] || ''),
-                        participa_grupo_jovem: limparTextoCorrompido(colunas[16] || ''),
-                        estuda_atualmente: limparTextoCorrompido(colunas[17] || ''),
-                        nome_escola: limparTextoCorrompido(colunas[18] || ''),
-                        serie_estuda: limparTextoCorrompido(colunas[19] || ''),
-                        grau_escolaridade: limparTextoCorrompido(colunas[20] || ''),
-                        trabalha_onde: limparTextoCorrompido(colunas[21] || ''),
-                        curso_atividade: limparTextoCorrompido(colunas[22] || ''),
-                        preferencia_turno: limparTextoCorrompido(colunas[23] || ''),
-                        nome_professor: limparTextoCorrompido(colunas[24] || ''),
-                        nome_coordenador: limparTextoCorrompido(colunas[25] || "BENONE HENRIQUE DE SOUSA"),
-                        inicio_aulas: limparTextoCorrompido(colunas[26] || ''),
-                        horario_aulas: limparTextoCorrompido(colunas[27] || '')
+                if (colunas.length > 3) {
+                    const getVal = (chave, fallbackIdx) => {
+                        const idx = mapaColunas[chave] !== undefined ? mapaColunas[chave] : fallbackIdx;
+                        return limparTextoCorrompido(colunas[idx] || '');
                     };
 
-                    if (aluno.curso_atividade) {
-                        aluno.curso_atividade = aluno.curso_atividade
-                            .replace(/INFORM.TICA/gi, 'INFORMÁTICA')
-                            .replace(/INTERMEDIARIA/gi, 'INTERMEDIÁRIA')
-                            .replace(/MANUTENO/gi, 'MANUTENÇÃO')
-                            .replace(/MDIO/gi, 'MÉDIO');
-                    }
+                    const aluno = {
+                        codigo: getVal('codigo', 0) || (novosRegistros.length + 1),
+                        data_inclusao: getVal('data_inclusao', 1),
+                        nome_aluno: getVal('nome_aluno', 2),
+                        data_nascimento: getVal('data_nascimento', 3),
+                        sexo: getVal('sexo', 4),
+                        estado_civil: getVal('estado_civil', 5),
+                        nome_pai: getVal('nome_pai', 6),
+                        nome_mae: getVal('nome_mae', 7),
+                        endereco: getVal('endereco', 8),
+                        numero: getVal('numero', 9),
+                        bairro: getVal('bairro', 10),
+                        cidade: getVal('cidade', 11),
+                        estado: getVal('estado', 12),
+                        cep: getVal('cep', 13),
+                        telefone: getVal('telefone', 14),
+                        rg_cpf: getVal('rg_cpf', 15),
+                        participa_grupo_jovem: getVal('participa_grupo_jovem', 16),
+                        estuda_atualmente: getVal('estuda_atualmente', 17),
+                        nome_escola: getVal('nome_escola', 18),
+                        serie_estuda: getVal('serie_estuda', 19),
+                        grau_escolaridade: getVal('grau_escolaridade', 20),
+                        trabalha_onde: getVal('trabalha_onde', 21),
+                        curso_atividade: getVal('curso_atividade', 22),
+                        preferencia_turno: getVal('preferencia_turno', 23),
+                        nome_professor: getVal('nome_professor', 24),
+                        nome_coordenador: getVal('nome_coordenador', 25) || "BENONE HENRIQUE DE SOUSA",
+                        inicio_aulas: getVal('inicio_aulas', 26),
+                        horario_aulas: getVal('horario_aulas', 27)
+                    };
 
-                    novosRegistros.push(aluno);
+                    if (aluno.nome_aluno) {
+                        novosRegistros.push(aluno);
+                    }
                 }
             });
 
             registros = novosRegistros;
             localStorage.setItem('cadjovem_alunos', JSON.stringify(registros));
             atualizarProximoCodigo();
-            alert(`${registros.length} registros importados e corrigidos com sucesso!`);
+            alert(`${registros.length} registros importados com sucesso e perfeitamente mapeados!`);
         };
         reader.readAsText(file, 'ISO-8859-1');
     }
