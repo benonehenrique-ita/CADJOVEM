@@ -238,20 +238,18 @@
 <!-- TELA DE LOGIN -->
 <div id="loginScreen">
     <h2>CADJOVEM - LOGIN</h2>
-    <form id="loginForm" onsubmit="realizarLogin(event)">
-        <div class="login-group">
-            <label>Usuário:</label>
-            <input type="text" id="usuario" required value="cadjovem">
+    <div class="login-group">
+        <label>Usuário:</label>
+        <input type="text" id="usuario" value="cadjovem">
+    </div>
+    <div class="login-group">
+        <label>Senha:</label>
+        <div style="display: flex; gap: 5px;">
+            <input type="password" id="senhaLogin" placeholder="Digite a senha" style="flex: 1;" value="juventudes">
+            <button type="button" onclick="toggleSenhaLogin()" style="padding: 5px 10px; font-size: 10px; background: #6c757d; cursor: pointer; border-radius: 4px; color: white; border: none;">👁️</button>
         </div>
-        <div class="login-group">
-            <label>Senha:</label>
-            <div style="display: flex; gap: 5px;">
-                <input type="password" id="senha" required placeholder="Digite a senha" style="flex: 1;">
-                <button type="button" onclick="toggleSenha()" style="padding: 5px 10px; font-size: 10px; background: #6c757d; cursor: pointer; border-radius: 4px; color: white; border: none;">👁️</button>
-            </div>
-        </div>
-        <button type="submit" class="btn-login">Entrar no Sistema</button>
-    </form>
+    </div>
+    <button type="button" class="btn-login" onclick="realizarLogin()">Entrar no Sistema</button>
 </div>
 
 <!-- SISTEMA PRINCIPAL -->
@@ -553,8 +551,8 @@
 </div>
 
 <script>
-    function toggleSenha() {
-        const inputSenha = document.getElementById('senha');
+    function toggleSenhaLogin() {
+        const inputSenha = document.getElementById('senhaLogin');
         if (inputSenha.type === "password") {
             inputSenha.type = "text";
         } else {
@@ -562,10 +560,9 @@
         }
     }
 
-    function realizarLogin(e) {
-        e.preventDefault();
+    function realizarLogin() {
         const user = document.getElementById('usuario').value.trim().toLowerCase();
-        const pass = document.getElementById('senha').value.trim();
+        const pass = document.getElementById('senhaLogin').value.trim();
         const senhaAtual = localStorage.getItem('cadjovem_senha') || 'juventudes';
 
         if(user === "cadjovem" && pass === senhaAtual) {
@@ -620,7 +617,7 @@
     function limparTextoCorrompido(texto) {
         if (!texto) return "";
         return texto.toString()
-            .replace(//g, "A") // Corrige falhas comuns de conversão de acentos do CSV antigo
+            .replace(//g, "A")
             .trim();
     }
 
@@ -668,8 +665,7 @@
     function sairSistema() {
         document.getElementById('mainSystem').style.display = 'none';
         document.getElementById('reportScreen').style.display = 'none';
-        document.getElementById('loginForm').reset();
-        document.getElementById('senha').value = '';
+        document.getElementById('senhaLogin').value = 'juventudes';
         document.getElementById('usuario').value = 'cadjovem';
         document.getElementById('loginScreen').style.display = 'block';
     }
@@ -792,7 +788,6 @@
             atualizarProximoCodigo();
             alert(`${registros.length} registros importados com sucesso!`);
         };
-        // Força a leitura correta do arquivo CSV em ISO-8859-1 para evitar quebra de acentos
         reader.readAsText(file, 'ISO-8859-1');
     }
 
