@@ -619,12 +619,14 @@
 
     function limparTextoCorrompido(texto) {
         if (!texto) return "";
-        return texto.toString().trim();
+        return texto.toString()
+            .replace(//g, "A") // Corrige falhas comuns de conversão de acentos do CSV antigo
+            .trim();
     }
 
     function normalizarTexto(texto) {
         if (!texto) return "";
-        return limparTextoCorrompido(texto)
+        return texto.toString()
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
             .toUpperCase()
@@ -790,6 +792,7 @@
             atualizarProximoCodigo();
             alert(`${registros.length} registros importados com sucesso!`);
         };
+        // Força a leitura correta do arquivo CSV em ISO-8859-1 para evitar quebra de acentos
         reader.readAsText(file, 'ISO-8859-1');
     }
 
