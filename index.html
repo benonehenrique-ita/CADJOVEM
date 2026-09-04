@@ -577,8 +577,7 @@
         document.getElementById('reportScreen').style.display = 'none';
         document.getElementById('mainSystem').style.display = 'block';
     }
-
-    function importarCSV(event) {
+function importarCSV(event) {
         const file = event.target.files[0];
         if (!file) return;
 
@@ -622,6 +621,19 @@
                         inicio_aulas: limparTextoCorrompido(colunas[26]?.replace(/"/g, '').trim() || ''),
                         horario_aulas: limparTextoCorrompido(colunas[27]?.replace(/"/g, '').trim() || '')
                     };
+
+                    // Normaliza os textos corrompidos mais comuns vindos de arquivos antigos do Excel/CSV
+                    if (aluno.curso_atividade) {
+                        aluno.curso_atividade = aluno.curso_atividade
+                            .replace(/INFORM.TICA/gi, 'INFORMÁTICA')
+                            .replace(/INTERMEDIARIA/gi, 'INTERMEDIÁRIA')
+                            .replace(/MANUTENO/gi, 'MANUTENÇÃO')
+                            .replace(/MDIO/gi, 'MÉDIO');
+                    }
+                    if (aluno.serie_estuda) {
+                        aluno.serie_estuda = aluno.serie_estuda.replace(/MDIO/gi, 'MÉDIO');
+                    }
+
                     novosRegistros.push(aluno);
                 }
             });
@@ -631,6 +643,7 @@
             atualizarProximoCodigo();
             alert(`${registros.length} registros importados com sucesso!`);
         };
+        // Lê explicitamente no formato padrão do Windows para evitar corromper acentos
         reader.readAsText(file, 'ISO-8859-1');
     }
 
