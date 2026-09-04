@@ -89,12 +89,12 @@
     <h2>CADJOVEM - LOGIN</h2>
     <div class="login-group">
         <label>Usuário:</label>
-        <input type="text" id="usuario" value="cadjovem">
+        <input type="text" id="usuario" value="cadjovem" autocomplete="username">
     </div>
     <div class="login-group">
         <label>Senha:</label>
         <div style="display: flex; gap: 5px;">
-            <input type="password" id="senhaLogin" placeholder="Digite a senha" style="flex: 1;" value="juventudes">
+            <input type="password" id="senhaLogin" placeholder="Digite a senha" value="juventudes" autocomplete="new-password" style="flex: 1;">
             <button type="button" onclick="toggleSenhaLogin()" style="padding: 5px 10px; font-size: 10px; background: #6c757d; cursor: pointer; border-radius: 4px; color: white; border: none;">👁️</button>
         </div>
     </div>
@@ -411,6 +411,7 @@
         const senhaAtual = localStorage.getItem('cadjovem_senha') || 'juventudes';
 
         if(user === "cadjovem" && pass === senhaAtual) {
+            document.getElementById('senhaLogin').value = '';
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('mainSystem').style.display = 'block';
             atualizarProximoCodigo();
@@ -547,7 +548,8 @@
         } else {
             const cursoNorm = normalizarTexto(cursoSelecionado);
             const filtrados = registros.filter(r => {
-                return r.curso_atividade && normalizarTexto(r.curso_atividade).includes(cursoNorm);
+                if (!r.curso_atividade) return false;
+                return normalizarTexto(r.curso_atividade).includes(cursoNorm);
             });
             renderizarTabelaRelatorio(filtrados);
         }
@@ -577,7 +579,8 @@
         document.getElementById('reportScreen').style.display = 'none';
         document.getElementById('mainSystem').style.display = 'block';
     }
-function importarCSV(event) {
+
+    function importarCSV(event) {
         const file = event.target.files[0];
         if (!file) return;
 
@@ -591,26 +594,14 @@ function importarCSV(event) {
             linhas.forEach((linha, index) => {
                 if (!linha.trim()) return;
                 
-                // Trata as colunas separadas por ponto e vírgula, limpando aspas
                 const colunas = linha.split(';').map(c => c.replace(/^"|"$/g, '').trim());
 
-                // Se for a primeira linha, assumimos que é o cabeçalho para mapear as posições dinamicamente
-                if (index === 0 || (colunas.some(c => c.toUpperCase().includes('NOME') || c.toUpperCase().includes('CURSO')) && novsRegistros === undefined)) {
+                if (index === 0 || (colunas.some(c => c.toUpperCase().includes('NOME') || c.toUpperCase().includes('CURSO')) && novosRegistros.length === 0)) {
                     cabecalho = colunas.map(c => normalizarTexto(c));
                     return;
                 }
 
                 if (colunas.length > 5) {
-                    // Função auxiliar para pegar a coluna pelo índice seguro ou procurar pelo nome no cabeçalho
-                    const getCol = (idx, termosBusca) => {
-                        if (colunas[idx] !== undefined && colunas[idx] !== "") return colunas[idx];
-                        if (cabecalho.length > 0) {
-                            const foundIdx = cabecalho.findIndex(h => termosBusca.some(t => h.includes(t)));
-                            if (foundIdx >= 0 && colunas[foundIdx]) return colunas[foundIdx];
-                        }
-                        return colunas[idx] || '';
-                    };
-
                     const aluno = {
                         codigo: colunas[0] || (novosRegistros.length + 1),
                         data_inclusao: limparTextoCorrompido(colunas[1] || ''),
@@ -642,7 +633,6 @@ function importarCSV(event) {
                         horario_aulas: limparTextoCorrompido(colunas[27] || '')
                     };
 
-                    // Limpeza e correção universal de acentos corrompidos comuns em CSVs legados
                     if (aluno.curso_atividade) {
                         aluno.curso_atividade = aluno.curso_atividade
                             .replace(/INFORM.TICA/gi, 'INFORMÁTICA')
@@ -660,30 +650,6 @@ function importarCSV(event) {
             atualizarProximoCodigo();
             alert(`${registros.length} registros importados e corrigidos com sucesso!`);
         };
-        reader.readAsText(file, 'ISO-8859-1');
-    }
-                    // Normaliza os textos corrompidos mais comuns vindos de arquivos antigos do Excel/CSV
-                    if (aluno.curso_atividade) {
-                        aluno.curso_atividade = aluno.curso_atividade
-                            .replace(/INFORM.TICA/gi, 'INFORMÁTICA')
-                            .replace(/INTERMEDIARIA/gi, 'INTERMEDIÁRIA')
-                            .replace(/MANUTENO/gi, 'MANUTENÇÃO')
-                            .replace(/MDIO/gi, 'MÉDIO');
-                    }
-                    if (aluno.serie_estuda) {
-                        aluno.serie_estuda = aluno.serie_estuda.replace(/MDIO/gi, 'MÉDIO');
-                    }
-
-                    novosRegistros.push(aluno);
-                }
-            });
-
-            registros = novosRegistros;
-            localStorage.setItem('cadjovem_alunos', JSON.stringify(registros));
-            atualizarProximoCodigo();
-            alert(`${registros.length} registros importados com sucesso!`);
-        };
-        // Lê explicitamente no formato padrão do Windows para evitar corromper acentos
         reader.readAsText(file, 'ISO-8859-1');
     }
 
