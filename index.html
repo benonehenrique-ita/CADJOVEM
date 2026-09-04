@@ -877,6 +877,7 @@ const ALIASES_CURSOS = {
     "PROGRAMAÇÃO DE SISTEMA": "PROGRAMAÇÃO DE SISTEMA"
 };
 
+const COORDENADOR_PADRAO = 'BENONE HENRIQUE DE SOUSA';
 let alunosSalvos = JSON.parse(localStorage.getItem('alunos_db')) || [];
 
 // Compatibilidade com a chave usada em versões anteriores.
@@ -896,7 +897,6 @@ alunosSalvos = alunosSalvos.map(a => {
 });
 try { localStorage.setItem('alunos_db', JSON.stringify(alunosSalvos)); } catch (_) {}
 let senhaSistema = localStorage.getItem('sistema_senha') || 'juventudes';
-const COORDENADOR_PADRAO = 'BENONE HENRIQUE DE SOUSA';
 
 function esc(valor) {
     return String(valor ?? '')
