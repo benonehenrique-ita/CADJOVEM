@@ -359,6 +359,10 @@ tr:nth-child(even) {
     font-size: 16px;
 }
 
+.report-close-button {
+    margin-left: auto;
+}
+
 
 .relatorio-curso-titulo {
     margin-top: 3px;
@@ -480,22 +484,22 @@ tr:nth-child(even) {
 
     body.print-comprovante #comprovantePrint {
         display: block !important; position: static !important; width: 200mm !important;
-        height: 126mm !important; max-height: 126mm !important; margin: 0 auto !important;
-        padding: 0 !important; background: #fff !important; overflow: hidden !important;
+        height: 125mm !important; max-height: 125mm !important; margin: 0 auto !important;
+        padding: 0 !important; background: #fff !important; overflow: visible !important;
         page-break-after: avoid !important; break-after: avoid-page !important;
     }
 
     body.print-comprovante #comprovantePrint * { visibility: visible !important; }
 
     body.print-comprovante .comprovante-wrapper-total {
-        width: 200mm !important; height: 126mm !important; display: flex !important;
+        width: 200mm !important; height: 125mm !important; display: flex !important;
         flex-direction: column !important; gap: 1mm !important;
     }
 
     body.print-comprovante .comprovante {
-        width: 200mm !important; height: 60mm !important; min-height: 60mm !important;
-        max-height: 60mm !important; flex: 0 0 60mm !important; padding: 2mm 3mm !important;
-        overflow: hidden !important; page-break-inside: avoid !important; break-inside: avoid !important;
+        width: 200mm !important; height: 59mm !important; min-height: 59mm !important;
+        max-height: 59mm !important; flex: 0 0 59mm !important; padding: 2mm 3mm !important;
+        overflow: visible !important; page-break-inside: avoid !important; break-inside: avoid !important;
     }
 
     body.print-comprovante .corte-linha {
@@ -799,6 +803,7 @@ tr:nth-child(even) {
                 <select id="filtroCursoRelatorio" onchange="renderizarRelatorio()"></select></div>
                 <span id="totalRelatorio" style="background:#1e3a5f;color:#fff;padding:6px 10px;border-radius:15px;font-size:11px;font-weight:bold;">Total: 0</span>
             </div>
+            <button type="button" class="btn btn-clear no-print report-close-button" onclick="fecharModalRelatorio()">Sair</button>
         </div>
         <table>
             <thead>
@@ -849,6 +854,26 @@ tr:nth-child(even) {
 <div id="comprovantePrint"></div>
 
 <script>
+const armazenamento = {
+    memoria: {},
+    ler(chave, valorPadrao = null) {
+        try {
+            const valor = window.localStorage.getItem(chave);
+            return valor === null ? valorPadrao : valor;
+        } catch (_) {
+            return Object.prototype.hasOwnProperty.call(this.memoria, chave) ? this.memoria[chave] : valorPadrao;
+        }
+    },
+    gravar(chave, valor) {
+        this.memoria[chave] = String(valor);
+        try { window.localStorage.setItem(chave, String(valor)); } catch (_) {}
+    },
+    remover(chave) {
+        delete this.memoria[chave];
+        try { window.localStorage.removeItem(chave); } catch (_) {}
+    }
+};
+
 const LISTA_CURSOS_OFICIAIS = [
     "INFORMÁTICA BÁSICA",
     "MANUTENÇÃO DE COMPUTADORES",
@@ -883,12 +908,13 @@ const ALIASES_CURSOS = {
 };
 
 const COORDENADOR_PADRAO = 'BENONE HENRIQUE DE SOUSA';
-let alunosSalvos = JSON.parse(localStorage.getItem('alunos_db')) || [];
+let alunosSalvos = [];
+try { alunosSalvos = JSON.parse(armazenamento.ler('alunos_db', '[]')) || []; } catch (_) { alunosSalvos = []; }
 
 // Compatibilidade com a chave usada em versões anteriores.
 if (!alunosSalvos.length) {
     try {
-        const antigos = JSON.parse(localStorage.getItem('cadjovem_alunos')) || [];
+        const antigos = JSON.parse(armazenamento.ler('cadjovem_alunos', '[]')) || [];
         if (Array.isArray(antigos)) alunosSalvos = antigos;
     } catch (_) {}
 }
@@ -900,8 +926,8 @@ alunosSalvos = alunosSalvos.map(a => {
     if (!b.coordenador) b.coordenador = COORDENADOR_PADRAO;
     return b;
 });
-try { localStorage.setItem('alunos_db', JSON.stringify(alunosSalvos)); } catch (_) {}
-let senhaSistema = localStorage.getItem('sistema_senha') || 'juventudes';
+armazenamento.gravar('alunos_db', JSON.stringify(alunosSalvos));
+let senhaSistema = armazenamento.ler('sistema_senha', 'juventudes');
 
 function esc(valor) {
     return String(valor ?? '')
@@ -924,10 +950,10 @@ function formatarDataBR(dataIso) {
 function realizarLogin() {
     const senhaDigitada = document.getElementById('loginSenha').value;
 
-    if (!localStorage.getItem('sistema_senha')) {
-        localStorage.setItem('sistema_senha', 'juventudes');
+    if (!armazenamento.ler('sistema_senha')) {
+        armazenamento.gravar('sistema_senha', 'juventudes');
     }
-    senhaSistema = localStorage.getItem('sistema_senha');
+    senhaSistema = armazenamento.ler('sistema_senha', 'juventudes');
 
     const usuario = (document.getElementById('loginUsuario').value || '').trim().toLowerCase();
 
@@ -1013,7 +1039,7 @@ function salvarRegistro(event) {
         alunosSalvos.push(alunoObj);
     }
 
-    localStorage.setItem('alunos_db', JSON.stringify(alunosSalvos));
+    armazenamento.gravar('alunos_db', JSON.stringify(alunosSalvos));
     atualizarTabelaRegistros();
     atualizarDatalistBusca();
     alert('Registro salvo com sucesso!');
@@ -1110,7 +1136,7 @@ function carregarAlunoNoFormulario(codigo) {
 
 function limparBancoDados() {
     if (confirm('Deseja realmente apagar todos os registros salvos?')) {
-        localStorage.removeItem('alunos_db');
+        armazenamento.remover('alunos_db');
         alunosSalvos = [];
         atualizarTabelaRegistros();
         atualizarDatalistBusca();
@@ -1136,7 +1162,7 @@ function salvarNovaSenha() {
     if (admSenha === senhaSistema) {
         if (novaSenha.trim() !== '') {
             senhaSistema = novaSenha;
-            localStorage.setItem('sistema_senha', senhaSistema);
+            armazenamento.gravar('sistema_senha', senhaSistema);
             alert('Senha alterada com sucesso!');
             fecharModalSenha();
         } else {
@@ -1640,7 +1666,7 @@ function processarArquivoCSV(input) {
             }
         });
 
-        localStorage.setItem('alunos_db', JSON.stringify(alunosSalvos));
+        armazenamento.gravar('alunos_db', JSON.stringify(alunosSalvos));
         atualizarTabelaRegistros();
         atualizarDatalistBusca();
 
