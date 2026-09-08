@@ -853,7 +853,12 @@ tr:nth-child(even) {
 
 <div id="comprovantePrint"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const SUPABASE_URL = 'https://ftanfpcvigpypsvjfqoc.supabase.co';
+const SUPABASE_PUBLIC_KEY = 'sb_publishable_WLTjUS9AuJYd6OSnnPS1zA_4YODvags';
+const clienteSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY);
+
 const armazenamento = {
     memoria: {},
     ler(chave, valorPadrao = null) {
@@ -947,7 +952,51 @@ function formatarDataBR(dataIso) {
     return dataIso;
 }
 
-function realizarLogin() {
+async function carregarAlunosOnline() {
+    const { data, error } = await clienteSupabase
+        .from('alunos')
+        .select('codigo, dados')
+        .order('codigo');
+
+    if (error) {
+        console.warn('Não foi possível carregar os dados online:', error.message);
+        return false;
+    }
+
+    const dadosOnline = (data || []).map(registro => registro.dados).filter(Boolean);
+    if (!dadosOnline.length && alunosSalvos.length) {
+        await Promise.all(alunosSalvos.map(salvarAlunoOnline));
+    } else {
+        alunosSalvos = dadosOnline;
+    }
+    armazenamento.gravar('alunos_db', JSON.stringify(alunosSalvos));
+    return true;
+}
+
+async function salvarAlunoOnline(aluno) {
+    const { error } = await clienteSupabase.from('alunos').upsert({
+        codigo: String(aluno.codigo),
+        dados: aluno,
+        atualizado_em: new Date().toISOString()
+    });
+
+    if (error) {
+        console.warn('Não foi possível salvar os dados online:', error.message);
+        return false;
+    }
+    return true;
+}
+
+async function removerAlunosOnline() {
+    const { error } = await clienteSupabase.from('alunos').delete().neq('codigo', '');
+    if (error) {
+        console.warn('Não foi possível limpar os dados online:', error.message);
+        return false;
+    }
+    return true;
+}
+
+async function realizarLogin() {
     const senhaDigitada = document.getElementById('loginSenha').value;
 
     if (!armazenamento.ler('sistema_senha')) {
@@ -960,6 +1009,7 @@ function realizarLogin() {
     if (usuario === 'cadjovem' && senhaDigitada === senhaSistema) {
         document.getElementById('loginOverlay').style.display = 'none';
         document.getElementById('mainContainer').style.display = 'block';
+        await carregarAlunosOnline();
         atualizarTabelaRegistros();
         atualizarDatalistBusca();
         preencherDataAtual();
@@ -995,7 +1045,7 @@ function gerarCodigoUnico() {
     return 'CAD-' + Date.now().toString().slice(-6);
 }
 
-function salvarRegistro(event) {
+async function salvarRegistro(event) {
     event.preventDefault();
     let codigo = document.getElementById('codigo').value;
     const turnosSelecionados = Array.from(document.querySelectorAll('input[name="turno"]:checked')).map(el => el.value).join(', ');
@@ -1040,9 +1090,10 @@ function salvarRegistro(event) {
     }
 
     armazenamento.gravar('alunos_db', JSON.stringify(alunosSalvos));
+    const salvoOnline = await salvarAlunoOnline(alunoObj);
     atualizarTabelaRegistros();
     atualizarDatalistBusca();
-    alert('Registro salvo com sucesso!');
+    alert(salvoOnline ? 'Registro salvo com sucesso!' : 'Registro salvo apenas neste dispositivo. Verifique a conexão com o Supabase.');
     limparFormulario();
 }
 
@@ -1134,14 +1185,15 @@ function carregarAlunoNoFormulario(codigo) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function limparBancoDados() {
+async function limparBancoDados() {
     if (confirm('Deseja realmente apagar todos os registros salvos?')) {
+        const removidoOnline = await removerAlunosOnline();
         armazenamento.remover('alunos_db');
         alunosSalvos = [];
         atualizarTabelaRegistros();
         atualizarDatalistBusca();
         limparFormulario();
-        alert('Banco de dados limpo com sucesso.');
+        alert(removidoOnline ? 'Banco de dados limpo com sucesso.' : 'Dados locais limpos, mas não foi possível limpar o banco online.');
     }
 }
 
@@ -1593,8 +1645,7 @@ function salvarAlunoImportado(colunas) {
     };
 
     const idx = alunosSalvos.findIndex(a =>
-        (codigo && String(a.codigo) === String(codigo)) ||
-        (a.nome_aluno && chaveCurso(a.nome_aluno) === chaveCurso(nome))
+        codigo && String(a.codigo) === String(codigo)
     );
 
     if (idx >= 0) alunosSalvos[idx] = { ...alunosSalvos[idx], ...aluno };
@@ -1617,7 +1668,7 @@ function processarArquivoCSV(input) {
 
     const reader = new FileReader();
 
-    reader.onload = function(e) {
+    reader.onload = async function(e) {
         const bytes = new Uint8Array(e.target.result);
         let conteudo = '';
 
@@ -1667,6 +1718,7 @@ function processarArquivoCSV(input) {
         });
 
         armazenamento.gravar('alunos_db', JSON.stringify(alunosSalvos));
+        await Promise.all(alunosSalvos.map(salvarAlunoOnline));
         atualizarTabelaRegistros();
         atualizarDatalistBusca();
 
