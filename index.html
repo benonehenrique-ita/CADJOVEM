@@ -449,12 +449,16 @@ tr:nth-child(even) {
 .comp-turnos i { display: inline-flex; width: 3.4mm; height: 3.4mm; align-items: center; justify-content: center; border: 1px solid #000; font-style: normal; font-size: 6pt; }
 
 .comp-assinaturas {
-    display: flex; justify-content: center; margin-top: auto; padding-top: 1mm; flex: 0 0 7mm;
+    display: flex; justify-content: center; margin-top: auto; padding-top: 1mm; flex: 0 0 12mm;
 }
-.assinatura { width: 90mm; text-align: center; }
-.linha-assinatura { border-top: 1px solid #000; margin-bottom: .9mm; }
-.assinatura strong, .assinatura span { display: block; font-size: 5.7pt; }
-.assinatura span { margin-top: .5mm; }
+.assinatura {
+    width: 110mm; height: 11mm; border: 1px solid #000; padding: 1.5mm 2mm;
+    display: flex; align-items: flex-end; gap: 2mm;
+}
+.assinatura strong { width: 38mm; font-size: 5.7pt; text-align: left; }
+.assinatura-area { flex: 1; text-align: center; }
+.linha-assinatura { border-top: 1px solid #000; margin-bottom: .7mm; }
+.assinatura span { display: block; font-size: 5.7pt; }
 .corte-linha { width: 100%; border-top: 1px dashed #000; text-align: center; font-size: 6pt; line-height: 1; color: #000; }
 /* ================= RESPONSIVO ================= */
 
@@ -1354,9 +1358,11 @@ function gerarHTMLViaComprovante(aluno, viaTitulo, assinaturaTexto, assinaturaNo
 
             <div class="comp-assinaturas">
                 <div class="assinatura">
-                    <div class="linha-assinatura"></div>
                     ${assinaturaNome ? `<strong>${esc(assinaturaNome)}</strong>` : ''}
-                    <span>${esc(assinaturaTexto)}</span>
+                    <div class="assinatura-area">
+                        <div class="linha-assinatura"></div>
+                        <span>${esc(assinaturaTexto)}</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1406,9 +1412,9 @@ function imprimirComprovante() {
     const containerPrint = document.getElementById('comprovantePrint');
     containerPrint.innerHTML = `
         <div class="comprovante-wrapper-total">
-            ${gerarHTMLViaComprovante(aluno, 'VIA DA INSTITUIÇÃO', 'Assinatura do Aluno ou Responsável', aluno.nome_aluno)}
+            ${gerarHTMLViaComprovante(aluno, 'VIA DA INSTITUIÇÃO', 'Assinatura do Coordenador', aluno.coordenador || COORDENADOR_PADRAO)}
             <div class="corte-linha"><span>CORTE AQUI</span></div>
-            ${gerarHTMLViaComprovante(aluno, 'VIA DO ALUNO', 'Assinatura do Aluno ou Responsável')}
+            ${gerarHTMLViaComprovante(aluno, 'VIA DO ALUNO', 'Assinatura do Aluno ou Responsável', aluno.nome_aluno)}
         </div>
     `;
 
