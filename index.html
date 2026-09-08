@@ -379,8 +379,8 @@ tr:nth-child(even) {
 
 .comprovante {
     width: 100%;
-    height: 55mm;
-    max-height: 55mm;
+    height: 62mm;
+    max-height: 62mm;
     border: 1px solid #000;
     padding: 2mm 3mm;
     background: #fff;
@@ -449,16 +449,13 @@ tr:nth-child(even) {
 .comp-turnos i { display: inline-flex; width: 3.4mm; height: 3.4mm; align-items: center; justify-content: center; border: 1px solid #000; font-style: normal; font-size: 6pt; }
 
 .comp-assinaturas {
-    display: flex; justify-content: center; margin-top: auto; padding-top: 1mm; flex: 0 0 12mm;
+    display: flex; justify-content: center; margin-top: auto; padding-top: 1mm; flex: 0 0 10mm;
 }
 .assinatura {
-    width: 110mm; height: 11mm; border: 1px solid #000; padding: 1.5mm 2mm;
-    display: flex; align-items: flex-end; gap: 2mm;
+    width: 180mm; min-height: 9mm; border: 1px solid #000; padding: 2mm 3mm;
+    display: flex; align-items: center; justify-content: flex-start; font-size: 6.2pt;
 }
-.assinatura strong { width: 38mm; font-size: 5.7pt; text-align: left; }
-.assinatura-area { flex: 1; text-align: center; }
-.linha-assinatura { border-top: 1px solid #000; margin-bottom: .7mm; }
-.assinatura span { display: block; font-size: 5.7pt; }
+.assinatura strong { font-size: 6.2pt; font-weight: bold; text-align: left; }
 .corte-linha { width: 100%; border-top: 1px dashed #000; text-align: center; font-size: 6pt; line-height: 1; color: #000; }
 /* ================= RESPONSIVO ================= */
 
@@ -483,7 +480,7 @@ tr:nth-child(even) {
 
     body.print-comprovante #comprovantePrint {
         display: block !important; position: static !important; width: 200mm !important;
-        height: 116mm !important; max-height: 116mm !important; margin: 0 auto !important;
+        height: 130mm !important; max-height: 130mm !important; margin: 0 auto !important;
         padding: 0 !important; background: #fff !important; overflow: hidden !important;
         page-break-after: avoid !important; break-after: avoid-page !important;
     }
@@ -491,13 +488,13 @@ tr:nth-child(even) {
     body.print-comprovante #comprovantePrint * { visibility: visible !important; }
 
     body.print-comprovante .comprovante-wrapper-total {
-        width: 200mm !important; height: 116mm !important; display: flex !important;
+        width: 200mm !important; height: 130mm !important; display: flex !important;
         flex-direction: column !important; gap: 1mm !important;
     }
 
     body.print-comprovante .comprovante {
-        width: 200mm !important; height: 55mm !important; min-height: 55mm !important;
-        max-height: 55mm !important; flex: 0 0 55mm !important; padding: 2mm 3mm !important;
+        width: 200mm !important; height: 62mm !important; min-height: 62mm !important;
+        max-height: 62mm !important; flex: 0 0 62mm !important; padding: 2mm 3mm !important;
         overflow: hidden !important; page-break-inside: avoid !important; break-inside: avoid !important;
     }
 
@@ -1290,7 +1287,7 @@ function obterTurnos(aluno) {
     };
 }
 
-function gerarHTMLViaComprovante(aluno, viaTitulo, assinaturaTexto, assinaturaNome = '') {
+function gerarHTMLViaComprovante(aluno, viaTitulo, assinaturaTexto, assinaturaNome = '', mostrarCoordenador = false) {
     const turnos = obterTurnos(aluno);
 
     return `
@@ -1352,17 +1349,15 @@ function gerarHTMLViaComprovante(aluno, viaTitulo, assinaturaTexto, assinaturaNo
                 <div class="comp-campo flex-2"><b>HORÁRIO:</b><span>${esc(aluno.horario_aulas || '')}</span></div>
             </div>
 
-            <div class="comp-linha">
-                <div class="comp-campo flex-1"><b>COORDENADOR DO PROGRAMA:</b><span>${esc(aluno.coordenador || COORDENADOR_PADRAO)}</span></div>
-            </div>
+            ${mostrarCoordenador ? `
+                <div class="comp-linha">
+                    <div class="comp-campo flex-1"><b>COORDENADOR DO PROGRAMA:</b><span>${esc(aluno.coordenador || COORDENADOR_PADRAO)}</span></div>
+                </div>
+            ` : ''}
 
             <div class="comp-assinaturas">
                 <div class="assinatura">
-                    ${assinaturaNome ? `<strong>${esc(assinaturaNome)}</strong>` : ''}
-                    <div class="assinatura-area">
-                        <div class="linha-assinatura"></div>
-                        <span>${esc(assinaturaTexto)}</span>
-                    </div>
+                    <strong>${esc(assinaturaNome)} (Assinatura)</strong>
                 </div>
             </div>
         </section>
@@ -1412,9 +1407,9 @@ function imprimirComprovante() {
     const containerPrint = document.getElementById('comprovantePrint');
     containerPrint.innerHTML = `
         <div class="comprovante-wrapper-total">
-            ${gerarHTMLViaComprovante(aluno, 'VIA DA INSTITUIÇÃO', 'Assinatura do Coordenador', aluno.coordenador || COORDENADOR_PADRAO)}
+            ${gerarHTMLViaComprovante(aluno, '1º VIA DA INSTITUIÇÃO', 'Assinatura do Coordenador', aluno.coordenador || COORDENADOR_PADRAO, true)}
             <div class="corte-linha"><span>CORTE AQUI</span></div>
-            ${gerarHTMLViaComprovante(aluno, 'VIA DO ALUNO', 'Assinatura do Aluno ou Responsável', aluno.nome_aluno)}
+            ${gerarHTMLViaComprovante(aluno, '2º VIA DO ALUNO', 'Assinatura do Aluno ou Responsável', aluno.nome_aluno, false)}
         </div>
     `;
 
