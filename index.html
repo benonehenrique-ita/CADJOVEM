@@ -379,8 +379,8 @@ tr:nth-child(even) {
 
 .comprovante {
     width: 100%;
-    height: 62mm;
-    max-height: 62mm;
+    height: 60mm;
+    max-height: 60mm;
     border: 1px solid #000;
     padding: 2mm 3mm;
     background: #fff;
@@ -480,7 +480,7 @@ tr:nth-child(even) {
 
     body.print-comprovante #comprovantePrint {
         display: block !important; position: static !important; width: 200mm !important;
-        height: 130mm !important; max-height: 130mm !important; margin: 0 auto !important;
+        height: 126mm !important; max-height: 126mm !important; margin: 0 auto !important;
         padding: 0 !important; background: #fff !important; overflow: hidden !important;
         page-break-after: avoid !important; break-after: avoid-page !important;
     }
@@ -488,13 +488,13 @@ tr:nth-child(even) {
     body.print-comprovante #comprovantePrint * { visibility: visible !important; }
 
     body.print-comprovante .comprovante-wrapper-total {
-        width: 200mm !important; height: 130mm !important; display: flex !important;
+        width: 200mm !important; height: 126mm !important; display: flex !important;
         flex-direction: column !important; gap: 1mm !important;
     }
 
     body.print-comprovante .comprovante {
-        width: 200mm !important; height: 62mm !important; min-height: 62mm !important;
-        max-height: 62mm !important; flex: 0 0 62mm !important; padding: 2mm 3mm !important;
+        width: 200mm !important; height: 60mm !important; min-height: 60mm !important;
+        max-height: 60mm !important; flex: 0 0 60mm !important; padding: 2mm 3mm !important;
         overflow: hidden !important; page-break-inside: avoid !important; break-inside: avoid !important;
     }
 
@@ -766,6 +766,7 @@ tr:nth-child(even) {
             <button type="button" class="btn btn-comprovante" onclick="imprimirComprovante()">Imprimir Comprovante - 2 Vias</button>
             <button type="button" class="btn btn-clear" onclick="limparFormulario()">Limpar</button>
             <button type="submit" class="btn btn-submit">Salvar Registro</button>
+            <button type="button" class="btn btn-logout" onclick="realizarLogout()">Sair</button>
         </div>
     </form>
 
