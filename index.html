@@ -451,9 +451,10 @@ tr:nth-child(even) {
 .comp-assinaturas {
     display: flex; justify-content: center; margin-top: auto; padding-top: 1mm; flex: 0 0 7mm;
 }
-.assinatura { width: 62mm; text-align: center; }
-.linha-assinatura { border-top: 1px solid #000; margin-bottom: .7mm; }
-.assinatura strong { font-size: 5.7pt; }
+.assinatura { width: 90mm; text-align: center; }
+.linha-assinatura { border-top: 1px solid #000; margin-bottom: .9mm; }
+.assinatura strong, .assinatura span { display: block; font-size: 5.7pt; }
+.assinatura span { margin-top: .5mm; }
 .corte-linha { width: 100%; border-top: 1px dashed #000; text-align: center; font-size: 6pt; line-height: 1; color: #000; }
 /* ================= RESPONSIVO ================= */
 
@@ -546,6 +547,9 @@ tr:nth-child(even) {
     </div>
 
     <form id="formMatricula" onsubmit="salvarRegistro(event)">
+        <div class="form-buttons">
+            <button type="button" class="btn btn-report" onclick="abrirModalRelatorio()">Relatório por Curso</button>
+        </div>
         <div class="block">
             <div class="block-title">Bloco 01 - Identificação</div>
             <div class="row">
@@ -758,7 +762,6 @@ tr:nth-child(even) {
         </div>
 
         <div class="form-buttons">
-            <button type="button" class="btn btn-report" onclick="abrirModalRelatorio()">Relatório por Curso</button>
             <button type="button" class="btn btn-comprovante" onclick="imprimirComprovante()">Imprimir Comprovante - 2 Vias</button>
             <button type="button" class="btn btn-clear" onclick="limparFormulario()">Limpar</button>
             <button type="submit" class="btn btn-submit">Salvar Registro</button>
@@ -1038,7 +1041,7 @@ function atualizarDatalistBusca() {
     datalist.innerHTML = '';
     alunosSalvos.forEach(aluno => {
         const option = document.createElement('option');
-        option.value = aluno.nome_aluno;
+        option.value = `${aluno.nome_aluno} - ${normalizarCurso(aluno.curso)} [${aluno.codigo}]`;
         datalist.appendChild(option);
     });
 }
@@ -1046,9 +1049,18 @@ function atualizarDatalistBusca() {
 function executarBuscaAluno() {
     const termo = document.getElementById('inputBusca').value.toUpperCase().trim();
     if (!termo) return;
-    const aluno = alunosSalvos.find(a => (a.nome_aluno && a.nome_aluno.toUpperCase().includes(termo)) || String(a.codigo || '').toUpperCase() === termo);
+
+    const codigoInformado = termo.match(/\[([^\]]+)\]\s*$/)?.[1]?.trim();
+    const alunoPorCodigo = codigoInformado
+        ? alunosSalvos.find(a => String(a.codigo || '').toUpperCase() === codigoInformado)
+        : alunosSalvos.find(a => String(a.codigo || '').toUpperCase() === termo);
+    const alunosPorNome = alunosSalvos.filter(a => a.nome_aluno && a.nome_aluno.toUpperCase() === termo);
+    const aluno = alunoPorCodigo || (alunosPorNome.length === 1 ? alunosPorNome[0] : null);
+
     if (aluno) {
         carregarAlunoNoFormulario(aluno.codigo);
+    } else if (alunosPorNome.length > 1) {
+        alert('Há mais de um aluno com este nome. Selecione no campo de busca a opção que contém o curso e o código.');
     } else {
         alert('Aluno não encontrado!');
     }
@@ -1274,7 +1286,7 @@ function obterTurnos(aluno) {
     };
 }
 
-function gerarHTMLViaComprovante(aluno, viaTitulo, assinaturaTexto) {
+function gerarHTMLViaComprovante(aluno, viaTitulo, assinaturaTexto, assinaturaNome = '') {
     const turnos = obterTurnos(aluno);
 
     return `
@@ -1343,7 +1355,8 @@ function gerarHTMLViaComprovante(aluno, viaTitulo, assinaturaTexto) {
             <div class="comp-assinaturas">
                 <div class="assinatura">
                     <div class="linha-assinatura"></div>
-                    <strong>${esc(assinaturaTexto)}</strong>
+                    ${assinaturaNome ? `<strong>${esc(assinaturaNome)}</strong>` : ''}
+                    <span>${esc(assinaturaTexto)}</span>
                 </div>
             </div>
         </section>
@@ -1393,7 +1406,7 @@ function imprimirComprovante() {
     const containerPrint = document.getElementById('comprovantePrint');
     containerPrint.innerHTML = `
         <div class="comprovante-wrapper-total">
-            ${gerarHTMLViaComprovante(aluno, 'VIA DA INSTITUIÇÃO', 'Assinatura do Coordenador')}
+            ${gerarHTMLViaComprovante(aluno, 'VIA DA INSTITUIÇÃO', 'Assinatura do Aluno ou Responsável', aluno.nome_aluno)}
             <div class="corte-linha"><span>CORTE AQUI</span></div>
             ${gerarHTMLViaComprovante(aluno, 'VIA DO ALUNO', 'Assinatura do Aluno ou Responsável')}
         </div>
